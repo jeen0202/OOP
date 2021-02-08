@@ -25,6 +25,6 @@ class PersonPlus extends Person{
         return (this.sum())/3;
     }
 }
-let go = new PersonPlus('go',15,15,15);
+let go = new PersonPlus('go',10,20,30);
 console.log('go.sum() : ',go.sum());
 console.log('go.avg() : ',go.avg());
