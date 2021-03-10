@@ -35,6 +35,7 @@ int main()
     int size = 5;
     Stack s1(size);
     int i;
+    cout << "Stack Start!!" << endl;
     while(cin >> i){
         if(s1.getIdx() >size){
         cout << "Stack FULL!" << endl;
