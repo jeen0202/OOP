@@ -41,8 +41,12 @@ void outputRectangle(Rectangle RectangleObject);
 int main()
 {
 	Rectangle rect1;
-
-	rect1.calculateArea(20,30);
+	int width, height = 0;
+	cout << "직사각형의 폭 입력 : " ;
+	cin >> width;
+	cout << "직사각형의 길이 입력 : " ;
+	cin >> height;	
+	rect1.calculateArea(width,height);
 
 	outputRectangle(rect1);
 
