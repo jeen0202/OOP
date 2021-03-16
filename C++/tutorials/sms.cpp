@@ -218,21 +218,15 @@ void product :: list_of_item(void)
     cout <<"***********************************************************" << endl;
     while (file.read((char *) this, sizeof(product)))
     {
-        delay(20) ;
         found = 1 ;
-        gotoxy(5,row) ;
-        cout <<itemcode ;
-        gotoxy(14,row) ;
-        cout <<itemname ;
-        gotoxy(37,row) ;
-        cout <<itemcost ;
-        gotoxy(51,row) ;
-        cout <<itemprice ;
+        cout <<itemcode << endl;
+        cout <<itemname << endl;
+        cout <<itemcost << endl;
+        cout <<itemprice << endl;
         if ( row == 22 )
         {
             row = 5 ;
-            gotoxy(1,25) ;
-            cout <<"Press any key to continue..." ;
+            cout <<"Press any key to continue..." ;            
             getche() ;
             clrscr() ;
             gotoxy(30,2) ;
