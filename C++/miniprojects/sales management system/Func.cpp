@@ -1,19 +1,6 @@
 #include <iostream>
 using namespace std;
-
-class Product;
-class Account;
-class Menu
-{
-    private :
-    void edit_menu();
-    static char ch;   
-
-    public :
-        void main_menu();
-        static void setCh(char);
-
-};
+#include "Class.h";
 
 void Menu::setCh(char ch_)
 {
@@ -74,7 +61,7 @@ void Menu:: edit_menu()
                 break;
             case '2' :
                 Product p;
-                p.mofidy_item();
+                p.modify_item();
                 break;
             case '3' :
                 Product p;
