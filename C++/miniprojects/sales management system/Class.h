@@ -1,4 +1,7 @@
+#include <iostream>
 #include <string>
+#include <cstring>
+using namespace std;
 class Product
 {
     private :
@@ -29,19 +32,19 @@ class Account
         string name;
     public :
         void bill_list();
-        void prepare_bill();
+        void prepare_bill(int);
         int last_billno();
-        void add_bill(int, int i_itemcode, string t_itemname, float t_qty, float t_cose);
+        void add_bill(int, int i_itemcode, string t_itemname, float t_qty, float t_cost, float t_price);
 };
 class Menu
 {
     private :
         void edit_menu();
-        static char ch;   
+          
 
     public :
         void main_menu();
-        static void setCh(char);
+        
 
 };
 
