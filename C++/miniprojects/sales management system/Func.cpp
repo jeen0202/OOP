@@ -32,7 +32,7 @@ int getKey(int is_echo =0)
     return ch;
 
 }
-void clrscr(){ system("CLS"); }
+void clrscr(){ system("clear"); }
 
 #define gotoxy(x,y) wmove(stdscr,y-1,x-1)
 
@@ -55,26 +55,29 @@ void Menu::main_menu()
         cout <<"4: BILLS REPORT" << endl;       
         cout <<"0: QUIT" << endl;       
         cout <<"Enter Your Choice : ";
-        cin >> ch;
-        switch(ch){
-            case '1' :
-                {Product p;
-                p.purchase();
-                }
-            case '2' :
-               { Product p;
+        ch = getKey();
+        if (ch == '1')
+            {
+                Product p ;
+                p.purchase() ;
+            }
+        else if (ch == '2')
+            {
+                Product p ;
                 p.list_of_item() ;
-                }
-            case '3' :
-               { edit_menu() ;}
-            case '4' :
-               { Account a;
-                a.bill_list();}
-            case '0' :
-                break;
+            }
+        else if (ch == '3')
+            edit_menu() ;
+        else if (ch == '4')
+            {
+                Account a ;
+                a.bill_list();
+            }
+        else if (ch == '0')
+            break ;
         }
     }
-}
+
 using namespace std;
 void Menu:: edit_menu()
 {
@@ -89,31 +92,34 @@ void Menu:: edit_menu()
         cout <<"3: DELETE PRODUCTS" << endl;
         cout <<"0: EXIT" << endl;
         cout <<"Enter Choice : ";
-        cin >>ch;
-        switch(ch)
+        ch = getKey();
+        if (ch == '1')
         {
-            case '1' :
-                {Product p ;
-                p.add_item();
-                break;}
-            case '2' :
-               { Product p;
-                p.modify_item();
-                break;}
-            case '3' :
-                {Product p;
-                p.delete_item();
-                break;}
-            case '0' :
-                break;
-        }               
+            Product p ;
+            p.add_item() ;
+            break ;
+        }
+        else if (ch == '2')
+        {
+            Product p ;
+            p.modify_item() ;
+            break ;
+        }
+        else if (ch == '3')
+        {
+            Product p ;
+            p.delete_item() ;
+            break ;
+        }
+        else if (ch == '0')
+            break ;               
     }
 }
 
 int Product::last_code()
 {
     fstream file;
-    file.open("PRODUCT.DAT", ios::in);
+    file.open("PRODUCT.txt", ios::in);
     file.seekg(0,ios::beg);
     int t=0;
     while(file.read((char*)this, sizeof(Product)))
@@ -123,8 +129,9 @@ int Product::last_code()
 }
 void Product :: list_of_item()
 {
+    clrscr();
     fstream file;
-    file.open("PRODUCT.DAT" , ios::in);
+    file.open("PRODUCT.txt" , ios::in);
     file.seekg(0);
     int row=6, found = 0;
     cout << "LIST OF ITEMS" << endl;
@@ -142,7 +149,7 @@ void Product :: list_of_item()
         {
             row = 5;
             cout << "Press any key to continue...";
-            getKey(0);
+            getKey();
             clrscr();
             cout <<"LIST OF ITEMS" << endl;
             cout <<"ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
@@ -155,7 +162,7 @@ void Product :: list_of_item()
     {
         cout << "\7Records not found" <<endl;
     }
-    cout <<"PRess any key to continue..." ;
+    cout <<"Press any key to continue..." ;
     getKey(0);
     file.close();
 }
@@ -226,7 +233,7 @@ void Product:: add_item()
         {
             clrscr();
             cout << "Do you want to save this record (y/n) : " ;
-            cin >> ch;
+            ch = getKey();
             ch = toupper(ch);
             if(ch =='0')
             return;        
@@ -234,8 +241,8 @@ void Product:: add_item()
         if(ch =='Y')
         {
             itemcode = tcode;
-            fstream file;
-            file.open("PRODUCT.DAT",ios::out | ios::app);
+            ofstream file;
+            file.open("PRODUCT.txt",ios::out | ios::app);
             file.write((char*) this, sizeof(Product)) ;
             file.close() ;
             tcode++ ;
@@ -243,7 +250,7 @@ void Product:: add_item()
         do{
             clrscr();
             cout << "Do you wnat to add more records (y/n) :  ";
-            cin >> ch;
+            ch = getKey();
             ch = toupper(ch);
             if(ch=='0')
             return ;
@@ -256,7 +263,7 @@ void Product:: add_item()
 void Product :: display_record(int tcode)
 {
     fstream file;
-    file.open("PRODUCT.DAT", ios::in) ;
+    file.open("PRODUCT.txt", ios::in) ;
     file.seekg(0,ios::beg);
     while( file.read((char *) this, sizeof(Product)))
     {
@@ -275,7 +282,7 @@ void Product :: display_record(int tcode)
 int Product :: item_found(int tcode)
 {
     fstream file ;
-    file.open("PRODUCT.DAT", ios::in) ;
+    file.open("PRODUCT.txt", ios::in) ;
     file.seekg(0,ios::beg);
     int found=0;
     while (file.read((char *) this, sizeof(Product)))
@@ -293,7 +300,7 @@ int Product :: item_found(int tcode)
 int Product::recordno(int tcode)
 {
     fstream file ;
-    file.open("PRODUCT.DAT", ios::in) ;
+    file.open("PRODUCT.txt", ios::in) ;
     file.seekg(0,ios::beg);
     int found=0;
     while(file.read((char *) this, sizeof(Product)))
@@ -309,9 +316,9 @@ int Product::recordno(int tcode)
 void Product :: delete_record(int tcode)
 {
     fstream file ;
-    file.open("PRODUCT.DAT", ios::in) ;
+    file.open("PRODUCT.txt", ios::in) ;
     fstream temp ;
-    temp.open("temp.dat", ios::out) ;
+    temp.open("temp.txt", ios::out) ;
     file.seekg(0,ios::beg) ;
     while ( !file.eof() )
     {
@@ -323,8 +330,8 @@ void Product :: delete_record(int tcode)
     }
     file.close() ;
     temp.close() ;
-    file.open("PRODUCT.DAT", ios::out) ;
-    temp.open("temp.dat", ios::in) ;
+    file.open("PRODUCT.txt", ios::out) ;
+    temp.open("temp.txt", ios::in) ;
     temp.seekg(0,ios::beg) ;
     while ( !temp.eof() )
     {
@@ -395,7 +402,7 @@ void Product :: modify_record(int tcode)
     do
     {        
         cout << "Change(y/n) : " ;
-        cin >> ch;
+        ch = getKey();
         ch = toupper(ch);
         if(ch=='0')
             return;
@@ -421,7 +428,7 @@ void Product :: modify_record(int tcode)
     do
     {
         cout << "Change (y/n) : " ;
-        cin >> ch;
+        ch = getKey();
         ch = toupper(ch);
         if(ch=='0')
             return;        
@@ -447,7 +454,7 @@ void Product :: modify_record(int tcode)
     do
     {
         cout << "Change (y/n) : " ;
-        cin >> ch;
+        ch = getKey();
         ch = toupper(ch);
         if(ch== '0')
             return;
@@ -473,7 +480,7 @@ void Product :: modify_record(int tcode)
     do
     {
         cout <<"Change (y/n) : " ;
-        cin >> ch;
+        ch = getKey();
         ch = toupper(ch);
         if(ch =='0')
             return;
@@ -500,7 +507,7 @@ void Product :: modify_record(int tcode)
     {
         clrscr();
         cout << "Do you want to save this record (y/n) : " ;
-        cin >> ch;
+        ch = getKey();
         ch = toupper(ch);
         if (ch == '0')
             return;
@@ -513,7 +520,7 @@ void Product :: modify_record(int tcode)
         cout << itemprice;
         getKey();
         fstream file ;
-        file.open("PRODUCT.DAT", ios::out | ios::ate);
+        file.open("PRODUCT.txt", ios::out | ios::ate);
         int  location;
         location = (recno-1) * sizeof(Product);
         file.seekp(location);
@@ -560,7 +567,7 @@ void Product:: modify_item()
     do
     {
         cout << "Do you want to Modify this record (y/n) : ";
-        cin >> ch;
+        ch = getKey();
         ch = toupper(ch);
     } while (ch !='N' && ch != 'Y');
     if(ch=='N')
@@ -574,7 +581,7 @@ void Product :: sort(void)
     Product arr[100];
     Product temp;
     fstream file;
-    file.open("PRODUCT.DAT" , ios::in);
+    file.open("PRODUCT.txt" , ios::in);
     file.seekg(0,ios::beg);
     while(file.read((char*) &arr[i], sizeof(Product)))
         i++;
@@ -591,7 +598,7 @@ void Product :: sort(void)
                 arr[j+1] = temp;
             }
         }
-        file.open("PRODUCT.DAT", ios::out);
+        file.open("PRODUCT.txt", ios::out);
         for(i=0;i<size;i++)
             file.write((char *) &arr[i], sizeof(Product));
         file.close();
@@ -624,7 +631,7 @@ void Product :: purchase()
         clrscr();
         cout << "Press <ENTER> to see the list" << endl;
         cout << "Enter Item Code of the item to be Purchase : " ;
-        cin >> t_code;
+        getline(cin,t_code);
         t = stoi(t_code);
         tcode = t;
         if(t_code[0] == '0')
@@ -690,7 +697,7 @@ void Product :: purchase()
         {
             purchased = 1;
             fstream file;
-            file.open("PRODUCT.DAT" , ios::in);
+            file.open("PRODUCT.txt" , ios::in);
             file.seekg(0,ios::beg);
             while(file.read((char*) this, sizeof(Product)))
             {
@@ -711,7 +718,7 @@ void Product :: purchase()
         do
         {
             cout << "Do you want to purchase more (y/n) : " ;
-            cin >> ch;
+            ch = getKey();
             ch = toupper(ch);
         } while (ch!='N' && ch!='Y');
         
@@ -722,7 +729,7 @@ void Product :: purchase()
 int Account :: last_billno()
 {
     fstream file;
-    file.open("BILL.DAT", ios::in);
+    file.open("BILL.txt", ios::in);
     file.seekg(0,ios::beg);
     int t = 0;
     while (file.read((char *) this, sizeof(Account)))
@@ -746,7 +753,7 @@ void Account :: add_bill(int t_billno, int t_itemcode, string t_itemname, float 
     quantity = t_qty;
     billno = t_billno;
     fstream file;
-    file.open("BILL.DAT", ios::out | ios:: app) ;
+    file.open("BILL.txt", ios::out | ios:: app) ;
     file.write((char*) this, sizeof(Account));
     file.close();
 }
@@ -769,7 +776,7 @@ void Account :: prepare_bill(int t_billno)
     cout << "------------------------------------------------------------" << endl;
     int row = 11;
     fstream file;
-    file.open("BILL.DAT", ios::in);
+    file.open("BILL.txt", ios::in);
     file.seekg(0);
     while(file.read((char*) this, sizeof(Account)))
     {
@@ -792,7 +799,7 @@ void Account :: bill_list()
 {
     clrscr();
     fstream file;
-    file.open("BILL.DAT", ios::in);
+    file.open("BILL.txt", ios::in);
     file.seekg(0);
     int row=5, found=0,pageno=1,prev_billno=0,flag=0;
     float total=0.0, total_bill = 0.0;
