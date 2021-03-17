@@ -718,3 +718,128 @@ void Product :: purchase()
     } while (ch =='Y');
     a.prepare_bill(t_billno);
 }
+
+int Account :: last_billno()
+{
+    fstream file;
+    file.open("BILL.DAT", ios::in);
+    file.seekg(0,ios::beg);
+    int t = 0;
+    while (file.read((char *) this, sizeof(Account)))
+        t = billno;
+    file.close();
+    return t;
+}
+
+void Account :: add_bill(int t_billno, int t_itemcode, string t_itemname, float t_qty, float t_cost, float t_price)
+{
+    struct tm current_tm;
+    time_t current_time = time(nullptr);
+    localtime_r(&current_time, &current_tm);
+    int dd = current_tm.tm_mday;
+    int mm = current_tm.tm_mon +1;
+    int yy = current_tm.tm_year + 2000;
+    code = t_itemcode;
+    name = t_itemname;
+    cost = t_cost;
+    price = t_price;
+    quantity = t_qty;
+    billno = t_billno;
+    fstream file;
+    file.open("BILL.DAT", ios::out | ios:: app) ;
+    file.write((char*) this, sizeof(Account));
+    file.close();
+}
+
+void Account :: prepare_bill(int t_billno)
+{
+    clrscr();
+    struct tm current_tm;
+    time_t current_time = time(nullptr);
+    localtime_r(&current_time, &current_tm);
+    int dd = current_tm.tm_mday;
+    int mm = current_tm.tm_mon +1;
+    int yy = current_tm.tm_year + 2000;
+    float total =0.0, total_bill = 0.0;
+    cout <<"CUSTOMER BILL " << endl;
+    cout <<"Date : " << dd <<"/" << mm << "/" << yy<< endl;
+    cout <<"ITEMS PURCHASED" << endl;
+    cout << "+++++++++++++++"  << endl;
+    cout <<"Item code Item name Cost Price Qty Total" << endl;
+    cout << "------------------------------------------------------------" << endl;
+    int row = 11;
+    fstream file;
+    file.open("BILL.DAT", ios::in);
+    file.seekg(0);
+    while(file.read((char*) this, sizeof(Account)))
+    {
+        if(billno == t_billno)
+        {   
+            total = quantity * price ;
+            total_bill = total_bill + total;
+            cout << "BILL NO. #" << billno << endl;
+            cout << "===============" << endl;
+            cout << code << "\t" << name << "\t" << cost << "\t" << price << "\t" << quantity << "\t" << total << "\t" << total_bill << endl;
+            row++;
+        }
+    }
+    file.close();
+    cout << "TOTAL BILL : Rs." << total_bill <<" /=" ;
+    getKey();
+}
+
+void Account :: bill_list()
+{
+    clrscr();
+    fstream file;
+    file.open("BILL.DAT", ios::in);
+    file.seekg(0);
+    int row=5, found=0,pageno=1,prev_billno=0,flag=0;
+    float total=0.0, total_bill = 0.0;
+    cout << "LIST OF BILLS" << endl;
+    cout << "Billno. Date Item Code Item name Cost Pri Qty Total" << endl;
+    cout <<"===========================================================================" << endl;
+    while(file.read((char *) this, sizeof(Account)))
+    {
+        row++;
+        found=1;
+        if(prev_billno != billno)
+        {
+            if(flag)
+            {
+                cout << "TOTAL BILL : Rs."<<total_bill<<"/=" << endl;
+                total_bill = 0.0;
+                row++;
+            }
+            cout << billno <<endl;
+        }
+        flag = 1;
+        cout << dd << "/" << mm << "/" << yy << endl;
+        total = quantity * price;
+        total_bill +=total;
+        cout << code << "\t" << name << "\t" << cost << "\t" << price << "\t" << quantity << "\t" << total << endl;
+        if(row>=23)
+        {
+            row = 5;
+            cout <<"Page no. : " << pageno;
+            pageno++;
+            cout << "Press any key to continue...";
+            getKey();
+            clrscr();
+            cout << "LIST OF BILLS" << endl;
+            cout <<"Billno. Date Item Code Item name Cost Price Qty Total" << endl;
+            cout <<"===========================================================================" << endl;
+        }
+        prev_billno = billno;
+    }
+    row++;
+    cout << "TOTAL BILL : Rs." << total_bill << "/=" << endl;
+    if(!found)
+    {
+        cout << "\7Records not found";
+    }
+    cout <<"Page no. : " << pageno << endl;
+    cout << "Press any key to continue...";
+    getKey();
+    file.close();
+}
