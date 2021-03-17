@@ -1,15 +1,14 @@
 #include <string>
-using namespace std;
 class Product
 {
     private :
         int last_code();
-        void delete_recode(int);
-        void mofiry_record(int);
-        void display_recode(int);
+        void delete_record(int);
+        void modify_record(int);
+        void display_record(int);
         int item_found(int);
         int recordno(int);
-        void sort(void);
+        void sort();
 
         int itemcode ;
         string itemname;
@@ -18,7 +17,7 @@ class Product
         void add_item();
         void delete_item();
         void modify_item();
-        void lost_of_item();
+        void list_of_item();
         void purchase();
 };
 class Account
@@ -32,13 +31,13 @@ class Account
         void bill_list();
         void prepare_bill();
         int last_billno();
-        void add_bill(int, int i_itemcode, string t_itemname, float t_qty, float t_cose)
+        void add_bill(int, int i_itemcode, string t_itemname, float t_qty, float t_cose);
 };
 class Menu
 {
     private :
-    void edit_menu();
-    static char ch;   
+        void edit_menu();
+        static char ch;   
 
     public :
         void main_menu();
