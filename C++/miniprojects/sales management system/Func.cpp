@@ -40,11 +40,11 @@ char ch;
 using namespace std;
 void Menu::main_menu()
 {
-    clrscr();
+    
     char ch;
     while(1)
     {
-        
+        clrscr();
         cout<<"*************************************************************"<<endl;
         cout<<"*************************************************************"<<endl;
         cout <<"S A L E S M A N A G E M E N T" << endl;        
@@ -73,7 +73,7 @@ void Menu::main_menu()
                 Account a ;
                 a.bill_list();
             }
-        else if (ch == '0')
+        else if (ch == '0')            
             break ;
         }
     }
@@ -81,6 +81,7 @@ void Menu::main_menu()
 using namespace std;
 void Menu:: edit_menu()
 {
+    clrscr();
     while(1)
     {
         cout<<"*************************************************************"<<endl;
@@ -848,5 +849,6 @@ void Account :: bill_list()
     cout <<"Page no. : " << pageno << endl;
     cout << "Press any key to continue...";
     getKey();
+    clrscr();
     file.close();
 }
