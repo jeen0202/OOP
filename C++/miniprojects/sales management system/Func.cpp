@@ -34,7 +34,7 @@ int getKey(int is_echo =0)
 }
 void clrscr(){ system("clear"); }
 
-#define gotoxy(x,y) wmove(stdscr,y-1,x-1)
+//#define gotoxy(x,y) wmove(stdscr,y-1,x-1)
 
 char ch;
 using namespace std;
