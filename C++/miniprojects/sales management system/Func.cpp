@@ -131,7 +131,7 @@ int Product::last_code()
 }
 void Product :: list_of_item()
 {
-    clrscr();
+    //clrscr();
     fstream file;
     file.open("PRODUCT.txt" , ios::in);
     file.seekg(0);
@@ -152,7 +152,7 @@ void Product :: list_of_item()
             row = 5;
             cout << "Press any key to continue...";
             getKey();
-            clrscr();
+            //clrscr();
             cout <<"LIST OF ITEMS" << endl;
             cout <<"ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
             cout <<"***********************************************************" << endl;
@@ -178,7 +178,7 @@ void Product:: add_item()
     tcode++;
     do
     {
-        clrscr();
+        //clrscr();
         cout << "<0>=Exit" << endl;        
         cout << "Item Code : " << endl;
         cout << "Item Name : " << endl;
