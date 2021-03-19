@@ -132,12 +132,11 @@ int Product::last_code()
 }
 void Product :: list_of_item()
 {   
-    // cout << "LIST OF ITEMS" << endl;
-    // cout << "ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
-    // cout << "***********************************************************" << endl;
-    // string filePath = "PRODUCT.txt";
-    // ifstream openFile;
-    // openFile.open(filePath);
+    cout << "LIST OF ITEMS" << endl;
+    cout << "ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
+    cout << "***********************************************************" << endl;    
+     ifstream openFile;
+     openFile.open("PRODUCT.txt");
     // if(openFile.is_open()){
     //     string line;
     //     while(openFile.eof()){
@@ -274,12 +273,12 @@ void Product:: add_item()
             ofstream writeFile;
             cout << "Data => " << this->itemcode << " " << this->itemname << " " << this->itemcost << " " << this->itemprice << endl;
             writeFile.open("PRODUCT.txt");   
-            if(writeFile.is_open())
+            if(!writeFile.is_open())
             {
                 cout << "file open error" << endl;
                 exit(1);
             }         
-            writeFile << this << endl;
+            writeFile << this->itemcode << " " << this->itemname << " " << this->itemcost << " " << this->itemprice << endl;
             writeFile.close() ;
             tcode++ ;
         }
