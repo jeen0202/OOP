@@ -63,6 +63,7 @@ void Menu::main_menu()
             }
         else if (ch == '2')
             {
+                clrscr();
                 Product p ;
                 p.list_of_item() ;
             }
@@ -130,66 +131,81 @@ int Product::last_code()
     return t;
 }
 void Product :: list_of_item()
-{
+{   
+    // cout << "LIST OF ITEMS" << endl;
+    // cout << "ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
+    // cout << "***********************************************************" << endl;
+    // string filePath = "PRODUCT.txt";
+    // ifstream openFile;
+    // openFile.open(filePath);
+    // if(openFile.is_open()){
+    //     string line;
+    //     while(openFile.eof()){
+    //         openFile.getline(openFile, str);
+    //         cout << line << endl;
+    //     }
+    //     openFile.close();
+    // }
     //clrscr();
-    fstream file;
-    file.open("PRODUCT.txt" , ios::in);
-    file.seekg(0);
-    int row=6, found = 0;
-    cout << "LIST OF ITEMS" << endl;
-    cout << "ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
-    cout << "***********************************************************" << endl;
-    while(file.read((char*) this, sizeof(Product)))
-    {
-        found=1;
-        cout << itemcode << endl;
-        cout << itemname << endl;
-        cout << itemcost << endl;
-        cout << itemprice << endl;
+    // fstream file;
+    // file.open("PRODUCT.txt" , ios::in);
+    // file.seekg(0);
+    // int row=6, found = 0;
+    // cout << "LIST OF ITEMS" << endl;
+    // cout << "ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
+    // cout << "***********************************************************" << endl;
+    // while(file.read((char*) this, sizeof(Product)))
+    // {
+    //     found=1;
+    //     cout << itemcode << endl;
+    //     cout << itemname << endl;
+    //     cout << itemcost << endl;
+    //     cout << itemprice << endl;
         
-        if( row ==22)
-        {
-            row = 5;
-            cout << "Press any key to continue...";
-            getKey();
-            //clrscr();
-            cout <<"LIST OF ITEMS" << endl;
-            cout <<"ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
-            cout <<"***********************************************************" << endl;
-        }
-        else
-            row++;
-    }
-    if (!found)
-    {
-        cout << "\7Records not found" <<endl;
-    }
-    cout <<"Press any key to continue..." ;
-    getKey(0);
-    file.close();
+    //     if( row ==22)
+    //     {
+    //         row = 5;
+    //         cout << "Press any key to continue...";
+    //         getKey();
+    //         //clrscr();
+    //         cout <<"LIST OF ITEMS" << endl;
+    //         cout <<"ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
+    //         cout <<"***********************************************************" << endl;
+    //     }
+    //     else
+    //         row++;
+    // }
+    // if (!found)
+    // {
+    //     cout << "\7Records not found" <<endl;
+    // }
+    // cout <<"Press any key to continue..." ;
+    // getKey(0);
+    // file.close();
 }
 
 void Product:: add_item()
 {
     int tcode,valid;
     char ch;
-    string t_itemcost, t_itemprice;
+    string t_itemcost, t_itemprice, t_itemname;
     tcode = last_code();
     tcode++;
     do
     {
-        //clrscr();
-        cout << "<0>=Exit" << endl;        
-        cout << "Item Code : " << endl;
+        clrscr();
+        cout << "<0>=Exit" << endl;
         cout << "Item Name : " << endl;
         cout << "Item Cost : " << endl;
         cout << "Item Price : " << endl;
         do
         {
             valid =1;
-            cout <<"ENTER ITEM NAME TO ADD IN THE MENU" << endl;
-            cout <<"Item Name : " ; cin >> itemname;
-            transform(itemname.begin(), itemname.end(), itemname.begin(), ::toupper); // 대문자로 변환
+            cout <<"ENTER ITEM NAME TO ADD IN THE MENU" << endl;            
+            cout <<"Item Name : " ;
+            cin >> t_itemname;
+            transform(t_itemname.begin(), t_itemname.end(), t_itemname.begin(), ::toupper); // 대문자로 변환
+            itemname = t_itemname;
             if (itemname.at(0) == '0')
                 return ;
             if ((itemname.size()<1) || (itemname.size()>20))
@@ -197,12 +213,16 @@ void Product:: add_item()
                 valid = 0;
                 cout << "\7 Range = 1..20";
                 getKey(0);
-            }
+            }  
         } while (!valid);
         do
         {
             clrscr();
             valid = 1;
+            cout << "<0>=Exit" << endl;
+            cout << "Item Name : "<< itemname << endl;
+            cout << "Item Cost : " << endl;
+            cout << "Item Price : " << endl;
             cout <<"ENTER ITEM COST TO ADD IN THE MENU" << endl; ;
             cout << "Item Cost : "; cin >> t_itemcost ;
             itemcost = stof(t_itemcost);
@@ -219,6 +239,10 @@ void Product:: add_item()
         {
             valid =1;
             clrscr();
+            cout << "<0>=Exit" << endl;
+            cout << "Item Name : "<< itemname << endl;
+            cout << "Item Cost : " << itemcost<<endl;
+            cout << "Item Price : " << endl;
             cout << "ENTER ITEM PRICE TO ADD IN THE MENU" << endl; ;
             cout << "Item Price : " ; cin >>t_itemprice;
             itemprice  = stof(t_itemprice);
@@ -234,6 +258,10 @@ void Product:: add_item()
         do
         {
             clrscr();
+            cout << "<0>=Exit" << endl;
+            cout << "Item Name : "<< itemname << endl;
+            cout << "Item Cost : " << itemcost<<endl;
+            cout << "Item Price : " <<itemprice<< endl;            
             cout << "Do you want to save this record (y/n) : " ;
             ch = getKey();
             ch = toupper(ch);
@@ -243,21 +271,28 @@ void Product:: add_item()
         if(ch =='Y')
         {
             itemcode = tcode;
-            ofstream file;
-            file.open("PRODUCT.txt",ios::out | ios::app);
-            file.write((char*) this, sizeof(Product)) ;
-            file.close() ;
+            ofstream writeFile;
+            cout << "Data => " << this->itemcode << " " << this->itemname << " " << this->itemcost << " " << this->itemprice << endl;
+            writeFile.open("PRODUCT.txt");   
+            if(writeFile.is_open())
+            {
+                cout << "file open error" << endl;
+                exit(1);
+            }         
+            writeFile << this << endl;
+            writeFile.close() ;
             tcode++ ;
         }
         do{
             clrscr();
-            cout << "Do you wnat to add more records (y/n) :  ";
+            cout << "Do you want to add more records (y/n) :  ";
             ch = getKey();
             ch = toupper(ch);
             if(ch=='0')
             return ;
         }
-        while( ch!='N' && ch!='Y');    
+        while( ch!='N' && ch!='Y');
+        
     } 
     while (ch == 'Y');
     
@@ -506,10 +541,9 @@ void Product :: modify_record(int tcode)
         }
     }
     do
-    {
-        clrscr();
+    {        
         cout << "Do you want to save this record (y/n) : " ;
-        ch = getKey();
+        cin >> ch;
         ch = toupper(ch);
         if (ch == '0')
             return;
