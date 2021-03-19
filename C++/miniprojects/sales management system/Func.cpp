@@ -136,7 +136,7 @@ void Product :: list_of_item()
     cout << "ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
     cout << "***********************************************************" << endl;    
      ifstream openFile;
-     openFile.open("PRODUCT.txt");
+     openFile.open("PRODUCT.txt", ios::in);
     // if(openFile.is_open()){
     //     string line;
     //     while(openFile.eof()){
@@ -270,9 +270,9 @@ void Product:: add_item()
         if(ch =='Y')
         {
             itemcode = tcode;
-            ofstream writeFile;
+            fstream writeFile;
             cout << "Data => " << this->itemcode << " " << this->itemname << " " << this->itemcost << " " << this->itemprice << endl;
-            writeFile.open("PRODUCT.txt");   
+            writeFile.open("PRODUCT.txt", ios::app);   
             if(!writeFile.is_open())
             {
                 cout << "file open error" << endl;
