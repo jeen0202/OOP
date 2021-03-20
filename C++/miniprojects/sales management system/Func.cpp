@@ -121,14 +121,29 @@ void Menu:: edit_menu()
 
 int Product::last_code()
 {
-    fstream file;
+    ifstream file;
     file.open("PRODUCT.txt", ios::in);
-    file.seekg(0,ios::beg);
-    int t=0;
-    while(file.read((char*)this, sizeof(Product)))
-        t = itemcode;
+   // file.seekg(0,ifstream::end);
+    string l_line;
+    char c;
+    int t = 0;
+    do
+    {   
+        c = file.get();
+        if(c == '\n'){     
+        getline(file, l_line);
+        t++;
+        }
+    }while(c!=EOF);
+    cout << "l_line => " << l_line << endl;    
+    const streamoff len = file.tellg();      
     file.close();
-    return t;
+    cout << "t => " << t << endl;
+    return t+1;
+    // while(file.read((char*)this, sizeof(Product)))
+    //     t = itemcode;
+    // file.close();
+    // return t;    
 }
 void Product :: list_of_item()
 {   
@@ -137,15 +152,19 @@ void Product :: list_of_item()
     cout << "***********************************************************" << endl;    
      ifstream openFile;
      openFile.open("PRODUCT.txt", ios::in);
-    // if(openFile.is_open()){
-    //     string line;
-    //     while(openFile.eof()){
-    //         openFile.getline(openFile, str);
-    //         cout << line << endl;
-    //     }
-    //     openFile.close();
-    // }
-    //clrscr();
+    if(openFile.is_open()){
+        string line;
+        while(!openFile.eof()){
+            getline(openFile, line);
+            cout << line << endl;
+        }
+        openFile.close();
+    }    
+    cout <<"Press any key to continue..." ;
+    getKey(0);
+    openFile.close();
+    /* c언어를 사용한 file read 방식 */
+    // clrscr();
     // fstream file;
     // file.open("PRODUCT.txt" , ios::in);
     // file.seekg(0);
@@ -161,26 +180,23 @@ void Product :: list_of_item()
     //     cout << itemcost << endl;
     //     cout << itemprice << endl;
         
-    //     if( row ==22)
-    //     {
-    //         row = 5;
-    //         cout << "Press any key to continue...";
-    //         getKey();
-    //         //clrscr();
-    //         cout <<"LIST OF ITEMS" << endl;
-    //         cout <<"ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
-    //         cout <<"***********************************************************" << endl;
-    //     }
-    //     else
-    //         row++;
+    //     // if( row ==22)
+    //     // {
+    //     //     row = 5;
+    //     //     cout << "Press any key to continue...";
+    //     //     getKey();
+    //     //     //clrscr();
+    //     //     cout <<"LIST OF ITEMS" << endl;
+    //     //     cout <<"ITEM CODE ITEM NAME ITEM COST ITEM PRICE" << endl;
+    //     //     cout <<"***********************************************************" << endl;
+    //     // }
+    //     // else
+    //     //     row++;
     // }
     // if (!found)
     // {
     //     cout << "\7Records not found" <<endl;
     // }
-    // cout <<"Press any key to continue..." ;
-    // getKey(0);
-    // file.close();
 }
 
 void Product:: add_item()
@@ -192,7 +208,7 @@ void Product:: add_item()
     tcode++;
     do
     {
-        clrscr();
+        //clrscr();
         cout << "<0>=Exit" << endl;
         cout << "Item Name : " << endl;
         cout << "Item Cost : " << endl;
@@ -202,7 +218,7 @@ void Product:: add_item()
             valid =1;
             cout <<"ENTER ITEM NAME TO ADD IN THE MENU" << endl;            
             cout <<"Item Name : " ;
-            cin >> t_itemname;
+            cin >> t_itemname;            
             transform(t_itemname.begin(), t_itemname.end(), t_itemname.begin(), ::toupper); // 대문자로 변환
             itemname = t_itemname;
             if (itemname.at(0) == '0')
