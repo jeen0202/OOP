@@ -335,17 +335,18 @@ int Product :: item_found(int tcode)
 {
     ifstream file ;
     file.open("PRODUCT.txt", ios::in) ;
-    file.seekg(0,ios::beg);
-    int found=0;
-    if(file.is_open()){
-        while(!file.eof()){
-            if((int)file.get()==tcode)
-            {
-                found++;
-                break;
-            }
+   // file.seekg(0,ios::beg);
+    int check, found=0;
+    char c;    
+    do{
+        c = file.get();
+        check = c- 48;
+        if(check==tcode)
+        {
+            found++;
+            break;
         }
-    }
+    }while(c!=EOF);
     file.close();
     cout << "found " << found << endl;
     cout <<"Press any key to continue..." ;
