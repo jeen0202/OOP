@@ -333,20 +333,32 @@ void Product :: display_record(int tcode)
 
 int Product :: item_found(int tcode)
 {
-    fstream file ;
+    ifstream file ;
     file.open("PRODUCT.txt", ios::in) ;
     file.seekg(0,ios::beg);
     int found=0;
-    while (file.read((char *) this, sizeof(Product)))
-    {
-        if (itemcode == tcode)
-        {
-            found ++;
-            break;
+    if(file.is_open()){
+        while(!file.eof()){
+            if((int)file.get()==tcode)
+            {
+                found++;
+                break;
+            }
         }
     }
     file.close();
+    cout << "found " << found << endl;
+    cout <<"Press any key to continue..." ;
+    getKey(0);
     return found;
+    // while (file.read((char *) this, sizeof(Product)))
+    // {
+    //     if (itemcode == tcode)
+    //     {
+    //         found ++;
+    //         break;
+    //     }
+    // }    
 }
 
 int Product::recordno(int tcode)
@@ -682,9 +694,10 @@ void Product :: purchase()
         clrscr();
         cout << "Press <ENTER> to see the list" << endl;
         cout << "Enter Item Code of the item to be Purchase : " ;
-        getline(cin,t_code);
+        cin >> t_code;
         t = stoi(t_code);
         tcode = t;
+        cout << "tcode =>" << tcode << endl;;
         if(t_code[0] == '0')
         {
             if(purchased)
@@ -695,7 +708,7 @@ void Product :: purchase()
         {
             list_of_item();
             cout << "Press <ENTER> to Exit" << endl;
-            cout << "Enter Item Code of the item to be Purcase : " ;
+            cout << "Enter Item Code of the item to be Purchase : " ;
             cin >> t_code;
             t = stoi(t_code);
             tcode = t;
@@ -706,7 +719,7 @@ void Product :: purchase()
                     return;
             }
         }
-        clrscr();
+        //clrscr();
         if(!item_found(tcode))
         {
             cout << "\7Item Code not found";
@@ -721,7 +734,7 @@ void Product :: purchase()
         {
             valid = 1;
             clrscr();
-            cout << "ENTER QUANTITY TO BE PURCHASE IN Kg."  << endl;
+            cout << "ENTER QUANTITY TO BE PURCHASE In Kg."  << endl;
             cout << "Quantity : " ;
             cin >> t_quantity;
             qty = t_quantity;
