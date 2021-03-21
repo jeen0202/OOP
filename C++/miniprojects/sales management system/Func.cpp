@@ -314,20 +314,35 @@ void Product:: add_item()
 }
 void Product :: display_record(int tcode)
 {
-    fstream file;
+    ifstream file;
     file.open("PRODUCT.txt", ios::in) ;
-    file.seekg(0,ios::beg);
-    while( file.read((char *) this, sizeof(Product)))
+    char c ;
+    string line;
+    int check;
+    //file.seekg(0,ios::beg);
+    do
     {
-        if (itemcode == tcode)
+        c = file.get();
+        check = c - 48;
+        if(check == tcode)
         {
-            cout << "Item Code : " << itemcode << endl;
-            cout << "Item Name : " << itemname << endl;
-            cout << "Item Cost : " << itemcost << endl;
-            cout << "Item Price " << itemprice ;
-            break;
+            getline(file,line);
+            
         }
-    }
+    } while (c!=EOF);
+    
+    // while( file.read((char *) this, sizeof(Product)))
+    // {
+    //     if (itemcode == tcode)
+    //     {
+    //         cout << "Item Code : " << itemcode << endl;
+    //         cout << "Item Name : " << itemname << endl;
+    //         cout << "Item Cost : " << itemcost << endl;
+    //         cout << "Item Price " << itemprice ;
+    //         break;
+    //     }
+    // }
+    cout << line << endl;
     file.close();
 }
 
@@ -348,8 +363,8 @@ int Product :: item_found(int tcode)
         }
     }while(c!=EOF);
     file.close();
-    cout << "found " << found << endl;
-    cout <<"Press any key to continue..." ;
+    // cout << "found " << found << endl;
+    // cout <<"Press any key to continue..." ;
     getKey(0);
     return found;
     // while (file.read((char *) this, sizeof(Product)))
@@ -720,7 +735,7 @@ void Product :: purchase()
                     return;
             }
         }
-        //clrscr();
+        clrscr();
         if(!item_found(tcode))
         {
             cout << "\7Item Code not found";
@@ -729,12 +744,12 @@ void Product :: purchase()
                 a.prepare_bill(t_billno);
                 return ;
         }
-        cout <<"Date : " << dd << "/" << mm << "/" << yy ;
+        cout <<"Date : " << yy << "/" << mm << "/" << dd << endl;
         display_record(tcode);
         do
         {
             valid = 1;
-            clrscr();
+            //clrscr();
             cout << "ENTER QUANTITY TO BE PURCHASE In Kg."  << endl;
             cout << "Quantity : " ;
             cin >> t_quantity;
@@ -754,7 +769,7 @@ void Product :: purchase()
         } while (!valid);
         do
         {
-            cout << "DO you wnat to cancle this purchase (y/n) : " ;
+            cout << "DO you want to cancle this purchase (y/n) : " ;
             cin >>ch;
             ch = toupper(ch);
         } while (ch!='N' && ch!= 'Y');
@@ -780,12 +795,13 @@ void Product :: purchase()
             }
             file.close();
         }
-        do
-        {
+         do
+         {  
+            clrscr();   
+            ch = getKey();        
             cout << "Do you want to purchase more (y/n) : " ;
-            ch = getKey();
             ch = toupper(ch);
-        } while (ch!='N' && ch!='Y');
+         } while (ch!='N' && ch!='Y');
         
     } while (ch =='Y');
     a.prepare_bill(t_billno);
