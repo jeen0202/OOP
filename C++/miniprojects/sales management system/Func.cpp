@@ -860,12 +860,6 @@ void Account :: add_bill(int t_billno, int t_itemcode, string t_itemname, float 
     int dd = current_tm.tm_mday;
     int mm = current_tm.tm_mon +1;
     int yy = current_tm.tm_year + 2000;
-    code = t_itemcode;
-    name = t_itemname;
-    cost = t_cost;
-    price = t_price;
-    quantity = t_qty;
-    billno = t_billno;
     ofstream file;
     cout << "--check--" << endl;
     file.open("BILL.txt", ios::out | ios:: app) ;
@@ -873,7 +867,7 @@ void Account :: add_bill(int t_billno, int t_itemcode, string t_itemname, float 
         cout << "Bill file open error" << endl;
         exit(1);
     }else{
-        file << this << endl;
+        file << t_itemcode << " " << t_itemname << " " << t_cost << " " << t_price << " " << t_qty << " " << t_billno << endl;
     }   
     file.close();
 }
