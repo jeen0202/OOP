@@ -5,11 +5,15 @@
 #include <stdio.h>
 #include <string>
 #include <curses.h>
+#include <sstream>
+#include <vector> // split
 #include <algorithm> // upper
 #include <termios.h>
 
 using namespace std;
 #include "Class.h"
+
+vector<string> split(string str, char delimeter);
 int getKey(int is_echo =0)
 {
     int ch;
@@ -789,15 +793,18 @@ void Product :: purchase()
             do
             {
                 getline(file,line);
-                cout << line << endl;
-                start = stoi(line.substr(0,1));
-                cout << "Start => " << start << endl;
+                cout << "line => " << line << endl;
+                start = stoi(split(line, ' ')[0]);
+                // for(int j = 0; j<split(line, ' ').size();j++){
+                //     cout << split(line, ' ')[j] << endl;
+                // }
+                //start = stoi(line.substr(0,1));                
                 if(start == tcode)
                 {
                     t_itemcode = start;
-                    t_itemname = itemname;
-                    t_cost = itemcost;
-                    t_price = itemprice;
+                    t_itemname = split(line, ' ')[1];
+                    t_cost = stof(split(line, ' ')[2]);
+                    t_price = stof(split(line, ' ')[3]);
                     t_qty = qty;
                     a.add_bill(t_billno,t_itemcode,t_itemname,t_qty,t_cost,t_price);
                     i++;
@@ -962,4 +969,14 @@ void Account :: bill_list()
     getKey();
     clrscr();
     file.close();
+}
+
+vector<string> split(string str, char delimeter) {
+    vector<string> internal;
+    stringstream ss(str);
+    string temp;
+    while(getline(ss,temp,delimeter)){
+        internal.push_back(temp);
+    }
+    return internal;
 }
