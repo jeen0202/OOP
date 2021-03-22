@@ -132,18 +132,14 @@ int Product::last_code()
     char c;
     int t = 0;
     do
-    {   
-        c = file.get();
-        if(c == '\n'){     
+    {           
         getline(file, l_line);
-        t++;
-        }
-    }while(c!=EOF);
-    cout << "l_line => " << l_line << endl;    
-    const streamoff len = file.tellg();      
+        t=stoi(l_line.substr(0,1));
+        
+    }while(file.peek()!=EOF);
     file.close();
     cout << "t => " << t << endl;
-    return t+1;
+    return t;
     // while(file.read((char*)this, sizeof(Product)))
     //     t = itemcode;
     // file.close();
@@ -842,12 +838,17 @@ void Product :: purchase()
 int Account :: last_billno()
 {
     ifstream file;
-    file.open("BILL.txt", ios::in);
-    file.seekg(0,ios::beg);
+    file.open("BILL.txt", ios::in);    
+    //file.seekg(0,ios::beg);
+    string l_line;    
     int t = 0;
-    while (file.read((char *) this, sizeof(Account)))
-        t = billno;
-    file.close();
+    do
+    {           
+        getline(file, l_line);
+        t=stoi(l_line.substr(0,1));
+        
+    }while(file.peek()!=EOF);
+
     return t;
 }
 
