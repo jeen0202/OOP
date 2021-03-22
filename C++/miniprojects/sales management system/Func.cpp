@@ -776,28 +776,53 @@ void Product :: purchase()
         if(ch=='N')
         {
             purchased = 1;
-            fstream file;
+            string line, l_end;
+            int start, end;
+            ifstream file;
             file.open("PRODUCT.txt" , ios::in);
-            file.seekg(0,ios::beg);
-            while(file.read((char*) this, sizeof(Product)))
+            //file.seekg(0,ios::beg);
+            if(!file.is_open())
             {
-                if(itemcode == tcode)
+                cout << "file open error" << endl;
+                exit(1);
+            }
+            do
+            {
+                getline(file,line);
+                cout << line << endl;
+                start = stoi(line.substr(0,1));
+                cout << "Start => " << start << endl;
+                if(start == tcode)
                 {
-                    t_itemcode = itemcode;
+                    t_itemcode = start;
                     t_itemname = itemname;
                     t_cost = itemcost;
                     t_price = itemprice;
                     t_qty = qty;
                     a.add_bill(t_billno,t_itemcode,t_itemname,t_qty,t_cost,t_price);
                     i++;
-                    break;
                 }
-            }
+            } while (file.peek()!=EOF);
+            
+            // while(file.read((char*) this, sizeof(Product)))
+            // {
+            //     if(itemcode == tcode)
+            //     {
+            //         t_itemcode = itemcode;
+            //         t_itemname = itemname;
+            //         t_cost = itemcost;
+            //         t_price = itemprice;
+            //         t_qty = qty;
+            //         a.add_bill(t_billno,t_itemcode,t_itemname,t_qty,t_cost,t_price);
+            //         i++;
+            //         break;
+            //     }
+            // }
             file.close();
         }
          do
          {  
-            clrscr();   
+            //clrscr();   
             ch = getKey();        
             cout << "Do you want to purchase more (y/n) : " ;
             ch = toupper(ch);
@@ -809,7 +834,7 @@ void Product :: purchase()
 
 int Account :: last_billno()
 {
-    fstream file;
+    ifstream file;
     file.open("BILL.txt", ios::in);
     file.seekg(0,ios::beg);
     int t = 0;
@@ -833,9 +858,15 @@ void Account :: add_bill(int t_billno, int t_itemcode, string t_itemname, float 
     price = t_price;
     quantity = t_qty;
     billno = t_billno;
-    fstream file;
+    ofstream file;
+    cout << "--check--" << endl;
     file.open("BILL.txt", ios::out | ios:: app) ;
-    file.write((char*) this, sizeof(Account));
+    if(!file.is_open()){
+        cout << "Bill file open error" << endl;
+        exit(1);
+    }else{
+        file << this << endl;
+    }   
     file.close();
 }
 
