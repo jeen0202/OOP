@@ -882,28 +882,50 @@ void Account :: prepare_bill(int t_billno)
     int mm = current_tm.tm_mon +1;
     int yy = current_tm.tm_year + 2000;
     float total =0.0, total_bill = 0.0;
+    vector<string> bill;
     cout <<"CUSTOMER BILL " << endl;
     cout <<"Date : " << dd <<"/" << mm << "/" << yy<< endl;
     cout <<"ITEMS PURCHASED" << endl;
     cout << "+++++++++++++++"  << endl;
     cout <<"Item code Item name Cost Price Qty Total" << endl;
     cout << "------------------------------------------------------------" << endl;
-    int row = 11;
-    fstream file;
+    
+    ifstream file;
     file.open("BILL.txt", ios::in);
-    file.seekg(0);
-    while(file.read((char*) this, sizeof(Account)))
-    {
-        if(billno == t_billno)
-        {   
-            total = quantity * price ;
-            total_bill = total_bill + total;
-            cout << "BILL NO. #" << billno << endl;
-            cout << "===============" << endl;
-            cout << code << "\t" << name << "\t" << cost << "\t" << price << "\t" << quantity << "\t" << total << "\t" << total_bill << endl;
-            row++;
-        }
+    string line;
+    //file.seekg(0);
+    if(!file.is_open()){
+        cout << "Bill file open error" << endl;
+        exit(1);
+    }else{
+        do
+        {
+            getline(file, line);
+            bill= split(line,' ');
+            if( stoi(bill[5])== t_billno){
+                total = stof(bill[3]) * stof(bill[4]);
+                total_bill += total;
+                cout << "BILL NO. #" << billno << endl;
+                cout << "===============" << endl;
+                cout << bill[0] << "\t" << bill[1] << "\t" << bill[2] << "\t" << bill[3] << "\t" << bill[4] << "\t" << total << "\t" << total_bill << endl;
+
+            }
+            
+        } while (file.peek()!=EOF);
+        
     }
+    // while(file.read((char*) this, sizeof(Account)))
+    // {
+    //     if(billno == t_billno)
+    //     {   
+    //         total = quantity * price ;
+    //         total_bill = total_bill + total;
+    //         cout << "BILL NO. #" << billno << endl;
+    //         cout << "===============" << endl;
+    //         cout << code << "\t" << name << "\t" << cost << "\t" << price << "\t" << quantity << "\t" << total << "\t" << total_bill << endl;
+    //         row++;
+    //     }
+    // }
     file.close();
     cout << "TOTAL BILL : Rs." << total_bill <<" /=" ;
     getKey();
