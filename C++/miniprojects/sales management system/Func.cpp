@@ -687,25 +687,25 @@ void Product :: sort(void)
                 }
             }
     }
-    while(file.read((char*) &arr[i], sizeof(Product)))
-        i++;
-    int size ;
-    size = i;
-    file.close();
-    for(i=1;i<size;i++)
-        for(j=0; j<size-i; j++)
-        {
-            if (arr[j].itemcode > arr[j+1].itemcode)
-            {
-                temp = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1] = temp;
-            }
-        }
-        file.open("PRODUCT.txt", ios::out);
-        for(i=0;i<size;i++)
-            file.write((char *) &arr[i], sizeof(Product));
-        file.close();
+    // while(file.read((char*) &arr[i], sizeof(Product)))
+    //     i++;
+    // int size ;
+    // size = i;
+    // file.close();
+    // for(i=1;i<size;i++)
+    //     for(j=0; j<size-i; j++)
+    //     {
+    //         if (arr[j].itemcode > arr[j+1].itemcode)
+    //         {
+    //             temp = arr[j];
+    //             arr[j] = arr[j+1];
+    //             arr[j+1] = temp;
+    //         }
+    //     }
+    //     file.open("PRODUCT.txt", ios::out);
+    //     for(i=0;i<size;i++)
+    //         file.write((char *) &arr[i], sizeof(Product));
+    //     file.close();
 }
 
 void Product :: purchase()
@@ -930,7 +930,7 @@ void Account :: prepare_bill(int t_billno)
     }else{
         do
         {
-            getline(file, line);
+            getline(file, line);            
             bill= split(line,' ');
             if( stoi(bill[5])== t_billno){
                 total = stof(bill[3]) * stof(bill[4]);
@@ -981,7 +981,7 @@ void Account :: bill_list()
         do
         {
             row++;
-            getline(file,line);
+            getline(file,line);            
             bill = split(line, ' ');
             code = stoi(bill[0]);
             name = bill[1];
@@ -997,12 +997,12 @@ void Account :: bill_list()
                     total_bill = 0.0;
                     row++;
                 }
-                cout << billno << '\t' ;
+                cout << billno;
             }
             flag = 1;        
             total = quantity * price;
             total_bill += total;
-            cout << code << "\t" << name << "\t" << cost << "\t" << price << "\t" << quantity << "\t" << total << endl;
+            cout <<"\t" << code << "\t" << name << "\t" << cost << "\t" << price << "\t" << quantity << "\t" << total << endl;
             if(row>=23)
             {
                 row = 5;
