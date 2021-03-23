@@ -85,7 +85,7 @@ void Menu::main_menu()
         clrscr();
     }
 
-using namespace std;
+
 void Menu:: edit_menu()
 {
     clrscr();
@@ -636,38 +636,51 @@ void Product :: modify_record(int tcode)
         if(ch == 'N' )
             return;
         itemcode = t_code;
-        // cout << itemcode << endl << itemname;
-        // cout << itemcost;
-        // cout << itemprice;
-        //getKey();
-        fstream file ;
-        int  location;
-        string line;
-        file.open("PRODUCT.txt", ios::in | ios::out | ios::ate);
+        cout << itemcode << " " << itemname<<" " << itemcost <<" " << itemprice << endl;;
+        getKey();
+        ifstream file ;
+        int  location, i = 0;
+        string line;        
+        vector<string> temp;
+        file.open("PRODUCT.txt", ios::in);
         if(!file.is_open()){
             cout << "file open ERROR!!" << endl;
             exit(1);
         }else{
             do
             {
-                cout << "==check==" << endl;
-                getline(file,line);
+                
+                getline(file,line);               
                 if(!split(line,' ')[0].empty())
                 {
-                    location = stoi(split(line,' ')[0]);
-                    cout << "location => " << location << endl;
+                    
+                    temp.push_back(line);
+                    cout << "temp => " << temp[i] << endl; 
+                    if(itemcode == stoi(split(line,' ')[0]))
+                    {           
+                        location =  i;
+                        cout << "itemcode " << itemcode << endl;
+                        cout << "location => " << location << endl;                        
+                    }      
+                               
                 }
-                // if(itemcode == location)
-                //    location =  file.tellg();
+                i++;                
             } while (file.peek()!=EOF);       
         //location = (recno-1) * sizeof(Product);
-       
-        file.seekp(location);
-        cout << "location => " << location << endl;
-        //file << itemcode << " " << itemname << " " << itemcost << " " << itemprice << endl;       
         file.close();
+        string tempdata = to_string(itemcode)+" "+itemname+" "+to_string((int)itemcost)+" "+to_string((int)itemprice)+"\n";
+        cout << "tempdata => " << tempdata;
+        temp[location] = tempdata;
+        cout << "==check==" << endl;            
+        ofstream writeFile;
+        writeFile.open("PRODUCT.txt", ios ::out | ios::ate);
+        //writeFile.seekp(location);
+        for(size_t j{0}; j <temp.size();j++){
+            writeFile << temp[j];
+        }        
+        writeFile.close();
         sort();
-        clrscr();
+        //clrscr();
         cout << "\7Record Modified";
         getKey();
         }
