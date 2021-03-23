@@ -657,11 +657,36 @@ void Product:: modify_item()
 void Product :: sort(void)
 {
     int i = 0,j;
-    Product arr[100];
-    Product temp;
-    fstream file;
+    string arr[100];
+    //Product arr[100];
+    string temp, line;
+    //Product temp;
+    ifstream file;
     file.open("PRODUCT.txt" , ios::in);
-    file.seekg(0,ios::beg);
+    //file.seekg(0,ios::beg);
+    if(!file.is_open()){
+        cout << "file open error!!" << endl;
+        exit(1);
+    }else{
+        while(file.peek()!=EOF)
+        {
+            getline(file,arr[i]);
+            i++;            
+        }
+        int size;
+        size = i;
+        file.close();
+        for(i=1;i<size;i++)
+            for(j=0;j<size-i;j++)
+            {
+                if(stoi(arr[j].substr(0,1)) > stoi(arr[j+1].substr(0,1)))
+                {
+                    temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                }
+            }
+    }
     while(file.read((char*) &arr[i], sizeof(Product)))
         i++;
     int size ;
@@ -687,7 +712,7 @@ void Product :: purchase()
 {
     clrscr();
     Account a;
-    int t_billno, purchased=0;
+    int t_billno, purchased=0;    
     t_billno = a.last_billno();
     t_billno++;
     char ch;
@@ -707,7 +732,7 @@ void Product :: purchase()
     int yy = current_tm.tm_year + 2000;
     do
     {
-        clrscr();
+        clrscr();        
         cout << "Press <ENTER> to see the list" << endl;
         cout << "Enter Item Code of the item to be Purchase : " ;
         cin >> t_code;
@@ -789,7 +814,7 @@ void Product :: purchase()
             do
             {
                 getline(file,line);
-                cout << "line => " << line << endl;
+                // cout << "line => " << line << endl;
                 start = stoi(split(line, ' ')[0]);
                 // for(int j = 0; j<split(line, ' ').size();j++){
                 //     cout << split(line, ' ')[j] << endl;
@@ -841,14 +866,19 @@ int Account :: last_billno()
     file.open("BILL.txt", ios::in);    
     //file.seekg(0,ios::beg);
     string l_line;    
-    int t = 0;
+    int t = 0;    
     do
-    {           
-        getline(file, l_line);
-        t=stoi(l_line.substr(0,1));
+    {                  
+        getline(file, l_line);        
         
     }while(file.peek()!=EOF);
-
+    if(!l_line.substr(0,1).empty())       
+    t=stoi(l_line.substr(0,1));
+    
+    // cout << "l_line => " << l_line << endl; 
+    // cout << "t => " << t << endl;
+    // cout << "Press any key to continue...";
+    // getKey();       
     return t;
 }
 
@@ -861,7 +891,7 @@ void Account :: add_bill(int t_billno, int t_itemcode, string t_itemname, float 
     int mm = current_tm.tm_mon +1;
     int yy = current_tm.tm_year + 2000;
     ofstream file;
-    cout << "--check--" << endl;
+    // cout << "--check--" << endl;
     file.open("BILL.txt", ios::out | ios:: app) ;
     if(!file.is_open()){
         cout << "Bill file open error" << endl;
@@ -875,13 +905,13 @@ void Account :: add_bill(int t_billno, int t_itemcode, string t_itemname, float 
 void Account :: prepare_bill(int t_billno)
 {
     clrscr();
-    struct tm current_tm;
-    time_t current_time = time(nullptr);
-    localtime_r(&current_time, &current_tm);
-    int dd = current_tm.tm_mday;
-    int mm = current_tm.tm_mon +1;
-    int yy = current_tm.tm_year + 2000;
-    float total =0.0, total_bill = 0.0;
+    // struct tm current_tm;
+    // time_t current_time = time(nullptr);
+    // localtime_r(&current_time, &current_tm);
+    // int dd = current_tm.tm_mday;
+    // int mm = current_tm.tm_mon +1;
+    // int yy = current_tm.tm_year + 2000;
+     float total =0.0, total_bill = 0.0;
     vector<string> bill;
     cout <<"CUSTOMER BILL " << endl;
     cout <<"Date : " << dd <<"/" << mm << "/" << yy<< endl;
@@ -933,48 +963,96 @@ void Account :: prepare_bill(int t_billno)
 
 void Account :: bill_list()
 {
-    clrscr();
-    fstream file;
+    clrscr();     
+    ifstream file;
     file.open("BILL.txt", ios::in);
-    file.seekg(0);
+    //file.seekg(0);
     int row=5, found=0,pageno=1,prev_billno=0,flag=0;
     float total=0.0, total_bill = 0.0;
+    string line;
+    vector<string> bill;
     cout << "LIST OF BILLS" << endl;
-    cout << "Billno. Date Item Code Item name Cost Pri Qty Total" << endl;
+    cout << "Billno. ItemCode Itemname Cost\t Pri\t Qty\t Total" << endl;
     cout <<"===========================================================================" << endl;
-    while(file.read((char *) this, sizeof(Account)))
-    {
-        row++;
-        found=1;
-        if(prev_billno != billno)
+    if(!file.is_open()){
+        cout << "Bill.txt Open error" << endl;
+        exit(1);
+    }else{        
+        do
         {
-            if(flag)
-            {
-                cout << "TOTAL BILL : Rs."<<total_bill<<"/=" << endl;
-                total_bill = 0.0;
-                row++;
+            row++;
+            getline(file,line);
+            bill = split(line, ' ');
+            code = stoi(bill[0]);
+            name = bill[1];
+            cost = stoi(bill[2]);
+            quantity = stof(bill[3]);
+            price = stof(bill[4]);
+            billno = stof(bill[5]);        
+            found=1;
+            if(prev_billno != billno){
+                if(flag)
+                {
+                    cout << "TOTAL BILL : Rs."<<total_bill<<"/=" << endl;
+                    total_bill = 0.0;
+                    row++;
+                }
+                cout << billno << '\t' ;
             }
-            cout << billno <<endl;
-        }
-        flag = 1;
-        cout << dd << "/" << mm << "/" << yy << endl;
-        total = quantity * price;
-        total_bill +=total;
-        cout << code << "\t" << name << "\t" << cost << "\t" << price << "\t" << quantity << "\t" << total << endl;
-        if(row>=23)
-        {
-            row = 5;
-            cout <<"Page no. : " << pageno;
-            pageno++;
-            cout << "Press any key to continue...";
-            getKey();
-            clrscr();
-            cout << "LIST OF BILLS" << endl;
-            cout <<"Billno. Date Item Code Item name Cost Price Qty Total" << endl;
-            cout <<"===========================================================================" << endl;
-        }
-        prev_billno = billno;
-    }
+            flag = 1;        
+            total = quantity * price;
+            total_bill += total;
+            cout << code << "\t" << name << "\t" << cost << "\t" << price << "\t" << quantity << "\t" << total << endl;
+            if(row>=23)
+            {
+                row = 5;
+                cout <<"Page no. : " << pageno;
+                pageno++;
+                cout << "Press any key to continue...";
+                getKey();
+                clrscr();
+                cout << "LIST OF BILLS" << endl;
+                cout <<"Billno. Date Item Code Item name Cost Price Qty Total" << endl;
+                cout <<"===========================================================================" << endl;
+            }        
+            prev_billno = billno;    
+        } while (file.peek()!=EOF);
+        
+
+  
+    // while(file.read((char *) this, sizeof(Account)))
+    // {
+    //     row++;
+    //     found=1;
+    //     if(prev_billno != billno)
+    //     {
+    //         if(flag)
+    //         {
+    //             cout << "TOTAL BILL : Rs."<<total_bill<<"/=" << endl;
+    //             total_bill = 0.0;
+    //             row++;
+    //         }
+    //         cout << billno <<endl;
+    //     }
+    //     flag = 1;
+    //     cout << dd << "/" << mm << "/" << yy << endl;
+    //     total = quantity * price;
+    //     total_bill +=total;
+    //     cout << code << "\t" << name << "\t" << cost << "\t" << price << "\t" << quantity << "\t" << total << endl;
+    //     if(row>=23)
+    //     {
+    //         row = 5;
+    //         cout <<"Page no. : " << pageno;
+    //         pageno++;
+    //         cout << "Press any key to continue...";
+    //         getKey();
+    //         clrscr();
+    //         cout << "LIST OF BILLS" << endl;
+    //         cout <<"Billno. Date Item Code Item name Cost Price Qty Total" << endl;
+    //         cout <<"===========================================================================" << endl;
+    //     }
+    //     prev_billno = billno;
+    // }
     row++;
     cout << "TOTAL BILL : Rs." << total_bill << "/=" << endl;
     if(!found)
@@ -986,6 +1064,7 @@ void Account :: bill_list()
     getKey();
     clrscr();
     file.close();
+    }
 }
 
 vector<string> split(string str, char delimeter) {
