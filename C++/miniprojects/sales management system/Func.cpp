@@ -41,7 +41,6 @@ void clrscr(){ system("clear"); }
 //#define gotoxy(x,y) wmove(stdscr,y-1,x-1)
 
 char ch;
-using namespace std;
 void Menu::main_menu()
 {
     
@@ -70,6 +69,8 @@ void Menu::main_menu()
                 clrscr();
                 Product p ;
                 p.list_of_item() ;
+                cout <<"Press any key to continue..." ;
+                getKey(0);
             }
         else if (ch == '3')
             edit_menu() ;
@@ -109,7 +110,7 @@ void Menu:: edit_menu()
         else if (ch == '2')
         {
             Product p ;
-            p.modify_item() ;
+            p.modify_item() ;            
             break ;
         }
         else if (ch == '3')
@@ -134,7 +135,8 @@ int Product::last_code()
     do
     {           
         getline(file, l_line);
-        t=stoi(l_line.substr(0,1));
+        if(!l_line.substr(0,1).empty())
+            t=stoi(l_line.substr(0,1));
         
     }while(file.peek()!=EOF);
     file.close();
@@ -159,9 +161,7 @@ void Product :: list_of_item()
             cout << line << endl;
         }
         openFile.close();
-    }    
-    cout <<"Press any key to continue..." ;
-    getKey(0);
+    }        
     openFile.close();
     /* c언어를 사용한 file read 방식 */
     // clrscr();
@@ -208,7 +208,7 @@ void Product:: add_item()
     tcode++;
     do
     {
-        //clrscr();
+        clrscr();
         cout << "<0>=Exit" << endl;
         cout << "Item Name : " << endl;
         cout << "Item Cost : " << endl;
@@ -379,10 +379,24 @@ int Product :: item_found(int tcode)
 
 int Product::recordno(int tcode)
 {
-    fstream file ;
+    ifstream file ;
     file.open("PRODUCT.txt", ios::in) ;
-    file.seekg(0,ios::beg);
+    //file.seekg(0,ios::beg);
     int found=0;
+    if(!file.is_open()){
+        cout << "file open ERROR!!" << endl;
+        exit(1);
+    }else{
+      do
+      {
+          found++;
+          if(file.get() == tcode)
+            break;      
+      } while (file.peek()!=EOF);
+      file.close();
+      return found;
+        
+    }
     while(file.read((char *) this, sizeof(Product)))
     {
         found++;
@@ -492,6 +506,11 @@ void Product :: modify_record(int tcode)
     {
         valid = 1;
         clrscr();
+        cout << "<0>=Exit" << endl;
+        cout << "Item Code : " << endl;
+        cout << "Item Name : " << endl;
+        cout << "Item Cost : " << endl;
+        cout << "Item Price : " << endl;
         cout << "ENTER ITEM CODE TO ADD IN THE MENU" << endl;
         cout << "Item Code : " ;
         cin >> t_itemcode;
@@ -506,9 +525,9 @@ void Product :: modify_record(int tcode)
         }
     }
     do
-    {
-        cout << "Change (y/n) : " ;
-        ch = getKey();
+    {   
+        cout << "Change (y/n) : " ;     
+        ch = getKey();        
         ch = toupper(ch);
         if(ch=='0')
             return;        
@@ -518,8 +537,13 @@ void Product :: modify_record(int tcode)
     {
         valid = 1;
         clrscr();
+        cout << "<0>=Exit" << endl;
+        cout << "Item Code : " << t_code << endl;
+        cout << "Item Name : " << endl;
+        cout << "Item Cost : " << endl;
+        cout << "Item Price : " << endl;
         cout << "ENTER ITEM NAME TO ADD IN THE MENU" << endl;
-        cout << "Item Name : " ;
+        cout << "Item Name : " ;        
         cin >> itemname;
         transform(itemname.begin(), itemname.end(), itemname.begin(), ::toupper);
         if(itemname.at(0)=='0')
@@ -533,8 +557,9 @@ void Product :: modify_record(int tcode)
     }
     do
     {
-        cout << "Change (y/n) : " ;
+        
         ch = getKey();
+        cout << "Change (y/n) : " ;
         ch = toupper(ch);
         if(ch== '0')
             return;
@@ -544,6 +569,11 @@ void Product :: modify_record(int tcode)
     {
         valid = 1;
         clrscr();
+        cout << "<0>=Exit" << endl;
+        cout << "Item Code : " << t_code << endl;
+        cout << "Item Name : " << itemname <<endl;
+        cout << "Item Cost : " << endl;
+        cout << "Item Price : " << endl;        
         cout << "ENTER ITEM COST TO ADD IN THE MENU" << endl;
         cout << "Item Cost : " ;
         cin >> t_itemcost;
@@ -559,8 +589,9 @@ void Product :: modify_record(int tcode)
     }
     do
     {
-        cout <<"Change (y/n) : " ;
+        
         ch = getKey();
+        cout <<"Change (y/n) : " ;
         ch = toupper(ch);
         if(ch =='0')
             return;
@@ -570,6 +601,11 @@ void Product :: modify_record(int tcode)
     {
         valid =1;
         clrscr();
+        cout << "<0>=Exit" << endl;
+        cout << "Item Code : " << t_code << endl;
+        cout << "Item Name : " << itemname <<endl;
+        cout << "Item Cost : " << itemcost <<endl;
+        cout << "Item Price : " << endl;    
         cout << "ENTER ITEM PRICE TO ADD IN THE MENU" << endl;
         cout << "Item Price : " ;
         cin >> t_itemprice;
@@ -584,7 +620,13 @@ void Product :: modify_record(int tcode)
         }
     }
     do
-    {        
+    {   
+        clrscr();
+        cout << "<0>=Exit" << endl;
+        cout << "Item Code : " << t_code << endl;
+        cout << "Item Name : " << itemname <<endl;
+        cout << "Item Cost : " << itemcost <<endl;
+        cout << "Item Price : " << itemprice << endl;         
         cout << "Do you want to save this record (y/n) : " ;
         cin >> ch;
         ch = toupper(ch);
@@ -594,21 +636,41 @@ void Product :: modify_record(int tcode)
         if(ch == 'N' )
             return;
         itemcode = t_code;
-        cout << endl << itemname;
-        cout << itemcost;
-        cout << itemprice;
-        getKey();
+        // cout << itemcode << endl << itemname;
+        // cout << itemcost;
+        // cout << itemprice;
+        //getKey();
         fstream file ;
-        file.open("PRODUCT.txt", ios::out | ios::ate);
         int  location;
-        location = (recno-1) * sizeof(Product);
+        string line;
+        file.open("PRODUCT.txt", ios::in | ios::out | ios::ate);
+        if(!file.is_open()){
+            cout << "file open ERROR!!" << endl;
+            exit(1);
+        }else{
+            do
+            {
+                cout << "==check==" << endl;
+                getline(file,line);
+                if(!split(line,' ')[0].empty())
+                {
+                    location = stoi(split(line,' ')[0]);
+                    cout << "location => " << location << endl;
+                }
+                // if(itemcode == location)
+                //    location =  file.tellg();
+            } while (file.peek()!=EOF);       
+        //location = (recno-1) * sizeof(Product);
+       
         file.seekp(location);
-        file.write((char *) this, sizeof(Product));
+        cout << "location => " << location << endl;
+        //file << itemcode << " " << itemname << " " << itemcost << " " << itemprice << endl;       
         file.close();
         sort();
         clrscr();
         cout << "\7Record Modified";
         getKey();
+        }
 }
 
 void Product:: modify_item()
@@ -617,7 +679,8 @@ void Product:: modify_item()
     char ch;
     string t_code;
     int t, tcode;
-    cout <<"Press <ENTER> to see the list" << endl;
+    list_of_item();    
+    //cout <<"\nPress <ENTER> to see the list" << endl;
     cout <<"Enter Item Code of the item to be Modify : " ;
     cin >>t_code;
     t = stoi(t_code);
@@ -648,6 +711,7 @@ void Product:: modify_item()
         cout << "Do you want to Modify this record (y/n) : ";
         ch = getKey();
         ch = toupper(ch);
+        clrscr();
     } while (ch !='N' && ch != 'Y');
     if(ch=='N')
         return;
@@ -873,7 +937,7 @@ int Account :: last_billno()
         
     }while(file.peek()!=EOF);
     if(!l_line.substr(0,1).empty())       
-    t=stoi(l_line.substr(0,1));
+        t=stoi(l_line.substr(0,1));
     
     // cout << "l_line => " << l_line << endl; 
     // cout << "t => " << t << endl;
@@ -957,7 +1021,7 @@ void Account :: prepare_bill(int t_billno)
     //     }
     // }
     file.close();
-    cout << "TOTAL BILL : Rs." << total_bill <<" /=" ;
+    cout << "TOTAL BILL : Rs." << total_bill <<" /=" ;    
     getKey();
 }
 
@@ -1055,6 +1119,7 @@ void Account :: bill_list()
     // }
     row++;
     cout << "TOTAL BILL : Rs." << total_bill << "/=" << endl;
+    cout << "------------------------------------------------------------" << endl;
     if(!found)
     {
         cout << "\7Records not found";
