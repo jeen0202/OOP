@@ -668,13 +668,14 @@ void Product :: modify_record(int tcode)
             } while (file.peek()!=EOF);       
         //location = (recno-1) * sizeof(Product);
         file.close();
-        string tempdata = to_string(itemcode)+" "+itemname+" "+to_string((int)itemcost)+" "+to_string((int)itemprice)+"\n";
+        string tempdata = "\n"+to_string(itemcode)+" "+itemname+" "+to_string((int)itemcost)+" "+to_string((int)itemprice)+"\n";
         cout << "tempdata => " << tempdata;
         temp[location] = tempdata;
         cout << "==check==" << endl;            
         ofstream writeFile;
         writeFile.open("PRODUCT.txt", ios ::out | ios::ate);
         //writeFile.seekp(location);
+        cout << "temp size " << temp.size() << endl;
         for(size_t j{0}; j <temp.size();j++){
             writeFile << temp[j];
         }        
