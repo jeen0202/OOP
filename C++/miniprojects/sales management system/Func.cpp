@@ -276,9 +276,9 @@ void Product:: add_item()
             cout << "<0>=Exit" << endl;
             cout << "Item Name : "<< itemname << endl;
             cout << "Item Cost : " << itemcost<<endl;
-            cout << "Item Price : " <<itemprice<< endl;            
+            cout << "Item Price : " <<itemprice<< endl;
+            ch = getKey();            
             cout << "Do you want to save this record (y/n) : " ;
-            ch = getKey();
             ch = toupper(ch);
             if(ch =='0')
             return;        
@@ -321,15 +321,11 @@ void Product :: display_record(int tcode)
     int check;
     //file.seekg(0,ios::beg);
     do
-    {
-        c = file.get();
-        check = c - 48;
-        if(check == tcode)
-        {
-            getline(file,line);
-            
-        }
-    } while (c!=EOF);
+    { 
+        getline(file,line);
+            if(stoi(line.substr(0,1))==tcode)
+                cout << line << endl;        
+    } while (file.peek()!=EOF);
     
     // while( file.read((char *) this, sizeof(Product)))
     // {
@@ -341,8 +337,7 @@ void Product :: display_record(int tcode)
     //         cout << "Item Price " << itemprice ;
     //         break;
     //     }
-    // }
-    cout << line << endl;
+    // }    
     file.close();
 }
 
@@ -413,29 +408,36 @@ void Product :: delete_record(int tcode)
     file.open("PRODUCT.txt", ios::in) ;
     fstream temp ;
     temp.open("temp.txt", ios::out) ;
-    file.seekg(0,ios::beg) ;
-    while ( !file.eof() )
+    string line;
+    //file.seekg(0,ios::beg) ;
+    while ( file.peek()!=EOF)
     {
-        file.read((char *) this, sizeof(Product)) ;
+        getline(file,line);        
         if ( file.eof() )
             break ;
-        if ( itemcode != tcode )
-            temp.write((char *) this, sizeof(Product)) ;
+        if ( stoi(line.substr(0,1)) != tcode )
+            temp << line << endl;
     }
     file.close() ;
     temp.close() ;
     file.open("PRODUCT.txt", ios::out) ;
     temp.open("temp.txt", ios::in) ;
     temp.seekg(0,ios::beg) ;
-    while ( !temp.eof() )
+    while ( temp.peek()!=EOF)
     {
-        temp.read((char *) this, sizeof(Product)) ;
+        getline(temp,line);
         if ( temp.eof() )
             break ;
-        file.write((char *) this, sizeof(Product)) ;
+        file << line << endl;
     }
     file.close() ;
     temp.close() ;
+    int nResult = remove("temp.txt");
+    if(nResult==0)
+    {
+        cout << "\nTemp File Deleted" << endl;
+    } else if(nResult==-1)
+        cout << "file delete fail!!" << endl;
 }
 
 void Product:: delete_item()
@@ -445,7 +447,8 @@ void Product:: delete_item()
     string t_code;
     int t, tcode;
     cout <<"Press <Enter> to see the list" << endl;
-    cout <<"Enter Item Code of the item to be deleted : " ; cin >> t_code;
+    cout <<"Enter Item Code of the item to be deleted : " ; 
+    cin >> t_code;
     t =stoi(t_code);
     tcode = t;
     if (t_code.at(0) == '0' )
@@ -471,13 +474,14 @@ void Product:: delete_item()
     display_record(tcode);
     do
     {
-        cout <<"Do you want to delete this record (y/n) : " ; cin>>ch;
+        cout <<"Do you want to delete this record (y/n) : " ;
+        ch = getKey();
         ch = toupper(ch);
     } while (ch!='N' && ch!='Y');
     if(ch=='N')
         return;
     delete_record(tcode);
-    cout << "\7Record Deleted" ;
+    cout << "\nRecord Deleted" ;
     getKey(0);    
 }
 
@@ -636,7 +640,7 @@ void Product :: modify_record(int tcode)
         if(ch == 'N' )
             return;
         itemcode = t_code;
-        cout << itemcode << " " << itemname<<" " << itemcost <<" " << itemprice << endl;;
+        // cout << itemcode << " " << itemname<<" " << itemcost <<" " << itemprice << endl;;
         getKey();
         ifstream file ;
         int  location, i = 0;
@@ -655,12 +659,12 @@ void Product :: modify_record(int tcode)
                 {
                     
                     temp.push_back(line);
-                    cout << "temp => " << temp[i] << endl; 
+                    // cout << "temp => " << temp[i] << endl; 
                     if(itemcode == stoi(split(line,' ')[0]))
                     {           
                         location =  i;
-                        cout << "itemcode " << itemcode << endl;
-                        cout << "location => " << location << endl;                        
+                        // cout << "itemcode " << itemcode << endl;
+                        // cout << "location => " << location << endl;                        
                     }      
                                
                 }
@@ -668,16 +672,16 @@ void Product :: modify_record(int tcode)
             } while (file.peek()!=EOF);       
         //location = (recno-1) * sizeof(Product);
         file.close();
-        string tempdata = "\n"+to_string(itemcode)+" "+itemname+" "+to_string((int)itemcost)+" "+to_string((int)itemprice)+"\n";
-        cout << "tempdata => " << tempdata;
+        string tempdata = to_string(itemcode)+" "+itemname+" "+to_string((int)itemcost)+" "+to_string((int)itemprice);
+        // cout << "tempdata => " << tempdata;
         temp[location] = tempdata;
-        cout << "==check==" << endl;            
+        // cout << "==check==" << endl;            
         ofstream writeFile;
         writeFile.open("PRODUCT.txt", ios ::out | ios::ate);
         //writeFile.seekp(location);
-        cout << "temp size " << temp.size() << endl;
+        // cout << "temp size " << temp.size() << endl;
         for(size_t j{0}; j <temp.size();j++){
-            writeFile << temp[j];
+            writeFile << temp[j] << endl;
         }        
         writeFile.close();
         sort();
