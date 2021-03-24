@@ -1,6 +1,9 @@
 #ifndef SERVANT_H_INCLUDED
 #define SERVANT_H_INCLUDED
 
+#define MAXSKILL 4
+
+#include "Skill.h";
 #include <string>
 #include <vector>
 class Servant{
@@ -8,8 +11,8 @@ class Servant{
         std::string name;
         float hitPoints;
         int level;
-        std::string skills[4];
-        int skillLevels[4];
+        Skill skills[MAXSKILL];
+        int skillLevels[MAXSKILL];
     
     public:
         Servant();
@@ -17,10 +20,9 @@ class Servant{
         std::vector <int> getSkillLevels();
         std::vector <std::string> getSkills();
         std::string getName();
-        void setName(std::string name);
-        void setSkills(std::string skills,int points);
         int getHitPoints();
-       // void isAttackedByAnotherPokemonSkillPoints(int skillPoint);
+        void setName(std::string name);        
+        void isAttacked(int damage);
         
 };
 
