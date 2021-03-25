@@ -10,6 +10,8 @@ class Skill{
         float damage;
         float accuracy;
     public:
+        Skill();        
+        Skill(std::string name,float dmg, float acc, short level = 0 );
         std::string getName();
         short getLevel();
         float getDamage();
@@ -17,6 +19,7 @@ class Skill{
         void setName(std::string newName);
         void setLevel(short newLevel);
         void setDamage(float newDamage);
+        void setAccuracy(float newAccuracy);
 };
 
 #endif

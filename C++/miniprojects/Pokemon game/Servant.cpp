@@ -27,34 +27,12 @@ void Servant::isAttacked(int damage)
         hitPoints = 0;
 }
 
-vector<string> Servant::getSkills(){
-    vector<string> temp;
+vector<Skill> Servant::getSkills(){
+    vector<Skill> temp;
     for(int i =0;i<(sizeof(skills)/sizeof(string));i++)
     {
         temp.push_back(skills[i]);
     };
     return temp;
 }
-
-void Servant::setSkills(string skill, int point)
-{
-    point--;    
-    skills[point] = skill;
-}
-
-vector<int> Servant::getSkillLevels()
-{
-    vector<int> temp;
-    for(int i = 0;i<(sizeof(skillLevels)/sizeof(int));i++)
-    {
-        temp.push_back(skillLevels[i]);
-    };
-    return temp;
-}
-
-void Servant::setSkillLevel(int point, int level)
-{
-    point--;
-    skillLevels[point] = level;
-};
 

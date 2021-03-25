@@ -11,14 +11,11 @@ class Servant{
         std::string name;
         float hitPoints;
         int level;
-        Skill skills[MAXSKILL];
-        int skillLevels[MAXSKILL];
+        Skill skills[MAXSKILL];        
     
     public:
         Servant();
-
-        std::vector <int> getSkillLevels();
-        std::vector <std::string> getSkills();
+        std::vector <Skill> getSkills();
         std::string getName();
         int getHitPoints();
         void setName(std::string name);        
