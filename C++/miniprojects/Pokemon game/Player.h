@@ -15,6 +15,7 @@ class Player{
         short ServantStatus[MAXSERVANT];
     public:
         Player();
+        Player(std::string name, short level);
         std::string getName();
         int getLevel();
         std::vector<Servant> getServant();

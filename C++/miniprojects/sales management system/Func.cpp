@@ -34,13 +34,11 @@ int getKey(int is_echo =0)
     ch = getchar(); 
     tcsetattr(0, TCSANOW, &old);
     return ch;
-
 }
 void clrscr(){ system("clear"); }
 
 //#define gotoxy(x,y) wmove(stdscr,y-1,x-1)
 
-char ch;
 void Menu::main_menu()
 {
     
@@ -85,7 +83,7 @@ void Menu::main_menu()
         clrscr();
     }
 
-
+char ch;
 void Menu:: edit_menu()
 {
     clrscr();

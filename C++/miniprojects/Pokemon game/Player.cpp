@@ -10,6 +10,15 @@ Player::Player()
         ServantStatus[i] = false;
     }
 }
+Player::Player(string newName, short lv=1)
+{
+    name = newName;
+    level = lv;
+    for(int i = 0; i<MAXSERVANT;i++)
+    {
+        ServantStatus[i] = false;
+    }
+}
 
 string Player::getName(){
     return name;

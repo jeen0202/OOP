@@ -3,7 +3,7 @@
 
 #define MAXSKILL 4
 
-#include "Skill.h";
+#include "Skill.h"
 #include <string>
 #include <vector>
 class Servant{
