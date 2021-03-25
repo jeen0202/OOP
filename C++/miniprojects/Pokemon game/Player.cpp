@@ -1,5 +1,6 @@
 #include "Player.h"
 using namespace std;
+#include <iostream>
 #include <vector>
 Player::Player()
 {
@@ -28,9 +29,9 @@ vector<Servant> Player::getServant()
     }
     return temp;   
 }
-vector<bool> Player::getServantStatus()
+vector<short> Player::getServantStatus()
 {
-    vector<bool> temp;
+    vector<short> temp;
     for(int i=0; i <MAXSERVANT; i++)
     {
         temp.push_back(ServantStatus[i]);
@@ -48,16 +49,25 @@ void Player::setLevel(short newLevel)
     level = newLevel;
 }
 
-void Player::setServantStatus(int point, bool status)
+void Player::setServantStatus(int point, short status)
 {
     ServantStatus[point] = status;
 }
 
 void Player::setServant(Servant newServant)
 {
-    
+    short point = 10;
     for(int i=0;i<MAXSERVANT;i++)
     {
-        
+        if(ServantStatus[i]==0){
+            point = i;
+            break;
+        }
+    }
+    if(point > MAXSERVANT)
+    {
+        cout << "not empty!!" << endl;        
+    }else{
+        myServ[point] = newServant;
     }
 }

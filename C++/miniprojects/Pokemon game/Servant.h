@@ -19,7 +19,7 @@ class Servant{
         std::string getName();
         int getHitPoints();
         void setName(std::string name);        
-        void isAttacked(int damage);
+        void isAttacked(int damage, float acc);
         
 };
 

@@ -12,16 +12,16 @@ class Player{
         std::string name;
         short level;
         Servant myServ[MAXSERVANT];
-        bool ServantStatus[MAXSERVANT];
+        short ServantStatus[MAXSERVANT];
     public:
         Player();
         std::string getName();
         int getLevel();
         std::vector<Servant> getServant();
-        std::vector<bool> getServantStatus();
+        std::vector<short> getServantStatus();
         void setName(std::string newName);
         void setLevel(short newLevel);
-        void setServantStatus(int point, bool status);
+        void setServantStatus(int point, short status);
         void setServant(Servant newServant);
 };
 
