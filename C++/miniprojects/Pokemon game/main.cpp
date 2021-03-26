@@ -2,8 +2,10 @@
 
 using namespace std;
 
-#include "Player.h"
-#include "Func.cpp"
+#include "Player.cpp"
+#include "Servant.cpp"
+#include "Skill.cpp"
+#include "Menu.cpp"
 
 
 int main(void)

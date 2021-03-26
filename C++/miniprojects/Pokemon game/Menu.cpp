@@ -2,6 +2,9 @@
 #include <iostream>
 #include <string>
 #include "Menu.h"
+#include "Servant.cpp"
+
+#include <fstream>
 using namespace std;
 
 int getKey(int is_echo =0)
@@ -48,6 +51,7 @@ void Menu::main_menu()
         if (ch == '1')
         {
             clrscr();
+
         }
         else if (ch == '2')
         {
@@ -66,18 +70,7 @@ void Menu::main_menu()
 void Menu::serv_menu()
 {
     char ch;
-    while(1)
-    {
-        clrscr();
-        cout<<"*************************************************************"<<endl;
-        cout<<"*************************************************************"<<endl;
-        cout <<"G E T S E R V A N T" << endl;        
-        cout <<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-        cout <<"1: GET SERVANT" << endl;        
-        cout <<"2: LIST OF SERVANT" << endl;        
-        cout <<"3: GET INTO BATTLE" << endl;   
-        cout <<"0: QUIT" << endl;       
-        cout <<"Enter Your Choice : ";
-        ch = getKey();         
-    }   
+    vector<Servant> box;
+    Servant newServ;
+    
 }
