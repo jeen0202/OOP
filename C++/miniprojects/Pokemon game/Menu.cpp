@@ -70,7 +70,17 @@ void Menu::main_menu()
 void Menu::serv_menu()
 {
     char ch;
-    vector<Servant> box;
+    vector<string> box;
+    string line;
     Servant newServ;
+    ifstream file;
+    file.open("Servant.txt", ios::in);
+    do
+    {
+        getline(file,line);
+        box.push_back(line);
+    } while (file.peek()!=EOF);
+    file.close();
+    
     
 }
