@@ -1,7 +1,7 @@
 class Menu
 {
     private :
-        //void edit_menu();
+        void serv_menu();
     public :
         void main_menu();
 };
