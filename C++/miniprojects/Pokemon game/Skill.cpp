@@ -2,6 +2,8 @@
 using namespace std;
 
 
+Skill::Skill(){};
+
 Skill::Skill(string newName, float dmg, float acc, short lv)
 {
     name = newName;

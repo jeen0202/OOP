@@ -1,11 +1,24 @@
 #include <termios.h>
 #include <iostream>
 #include <string>
+#include <random>
 #include "Menu.h"
-#include "Servant.cpp"
+#include <sstream>
+//#include "Servant.cpp"
 
 #include <fstream>
 using namespace std;
+
+vector<string> split(string str, char delimeter) {
+    vector<string> internal;
+    stringstream ss(str);
+    string temp;
+    while(getline(ss,temp,delimeter)){
+        internal.push_back(temp);
+    }
+    return internal;
+}
+
 
 int getKey(int is_echo =0)
 {
@@ -51,6 +64,7 @@ void Menu::main_menu()
         if (ch == '1')
         {
             clrscr();
+            serv_menu();
 
         }
         else if (ch == '2')
@@ -81,6 +95,16 @@ void Menu::serv_menu()
         box.push_back(line);
     } while (file.peek()!=EOF);
     file.close();
-    
+    while(1)
+    {
+    random_device rd;
+    mt19937 gen(rd());
+
+    uniform_int_distribution<int> dis(0,box.size()-1);
+    cout << box.at(dis(gen))<< endl;
+    ch = getKey(); 
+    if(ch == '0')
+        break;  
+    }
     
 }
