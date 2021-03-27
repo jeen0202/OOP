@@ -10,7 +10,14 @@ string Servant::getName()
 {
     return name;
 }
-
+int Servant::getLevel()
+{
+    return level;
+}
+void Servant::setLevel(int newLevel)
+{
+    level = newLevel;
+}
 void Servant::setName(string newName)
 {
     name = newName;

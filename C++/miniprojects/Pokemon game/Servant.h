@@ -15,9 +15,11 @@ class Servant{
     
     public:
         Servant();
+        int getLevel();
         std::vector <Skill> getSkills();
         std::string getName();
         int getHitPoints();
+        void setLevel(int level);
         void setName(std::string name);        
         void isAttacked(int damage, float acc);
         

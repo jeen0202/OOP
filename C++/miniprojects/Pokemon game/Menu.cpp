@@ -85,7 +85,8 @@ void Menu::serv_menu()
 {
     char ch;
     vector<string> box;
-    string line;
+    string line,name;
+    int level;
     Servant newServ;
     ifstream file;
     file.open("Servant.txt", ios::in);
@@ -101,10 +102,17 @@ void Menu::serv_menu()
     mt19937 gen(rd());
 
     uniform_int_distribution<int> dis(0,box.size()-1);
-    cout << box.at(dis(gen))<< endl;
+    line = box.at(dis(gen));
+    cout << "Line => " << line << endl;
+    name = split(line,' ')[0];
+    level = stoi(split(line, ' ')[1]);
+    newServ.setName(name);
+    newServ.setLevel(level);
+    cout << "Servant : " << newServ.getName() << '\t' << newServ.getLevel() << endl;
     ch = getKey(); 
     if(ch == '0')
         break;  
     }
+    
     
 }
