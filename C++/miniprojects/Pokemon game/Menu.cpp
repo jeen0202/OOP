@@ -177,17 +177,16 @@ void Menu::list_of_servant()
             // cout <<"3rd Servant" << endl;
             // cout <<"4th Servant" << endl;   
             cout <<"0: QUIT" << endl;       
-            cout <<"Enter Your Choice : ";
-            ch = getKey();
-            if (ch == '1')
-            {
-                clrscr();
-                cout << "Select 1" << endl;
-            }else if(ch == '0')
-            {
-                return;
-            }
+            cout <<"Enter Your Choice : ";            
+        ch = getKey();
+        if (ch == '1')
+        {
+            clrscr();
+            cout << "Select 1" << endl;
+            if(getKey())
+                serv_menu();
+        }else if(ch == '0')
+           main_menu();
         }
-
     }
 }
