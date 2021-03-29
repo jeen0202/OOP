@@ -108,8 +108,9 @@ void Menu::serv_menu()
     uniform_int_distribution<int> dis(0,box.size()-1);
     line = box.at(dis(gen));
     //cout << "Line => " << line << endl;
-    name = split(line,' ')[0];
-    level = stoi(split(line, ' ')[1]);
+    name = line;
+    uniform_int_distribution<int> lv(1,10);
+    level = lv(gen);
     newServ.setName(name);
     newServ.setLevel(level);
     cout << "Servant : " << newServ.getName() << " Level : " << newServ.getLevel() << endl;
@@ -117,12 +118,13 @@ void Menu::serv_menu()
     ch = getKey(0);
     ch = toupper(ch);
     cout << endl;
+    line = newServ.toString();
     if(ch == 'Y')
     {
         ofstream file;
         file.open("Player.txt", ios::out | ios::app);
         //writeFile.write((char*)&pizza,sizeof(Food));
-        file.write((char*)&newServ,sizeof(Servant));
+        file << line << endl;
         file.close();
 
     }
@@ -137,8 +139,8 @@ void Menu::list_of_servant()
 {
     char ch;
     ifstream readServant;
-    vector<Servant> list;
-    Servant temp;
+    vector<string> list;
+    string temp;
     readServant.open("Player.txt", ios::in);
     if(!readServant.is_open()){
         cout << "You did't have Servant" << endl;
@@ -148,7 +150,7 @@ void Menu::list_of_servant()
     }else{
     while (readServant.peek()!=EOF)
     {
-        readServant.read((char*)&temp,sizeof(Servant));
+       getline(readServant,temp);
         list.push_back(temp);
     } 
     readServant.close();
@@ -170,7 +172,7 @@ void Menu::list_of_servant()
         }else{
             for(int i = 0;i<list.size();i++)
             {
-                cout << i+1 << ". " <<list.at(i).getName() << endl;
+                cout << i+1 << ". " <<split(list.at(i),' ')[0] << endl;
             }       
             // cout <<"1st Servant" << endl;        
             // cout <<"2nd Servant" << endl;        
@@ -184,9 +186,11 @@ void Menu::list_of_servant()
             clrscr();
             cout << "Select 1" << endl;
             if(getKey())
+                break;
                 serv_menu();
         }else if(ch == '0')
-           main_menu();
+            
+           return;
         }
     }
 }
