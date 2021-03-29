@@ -1,6 +1,8 @@
 #include "Servant.h"
 #include <array>
 #include <random>
+#include <sstream>
+
 using namespace std;
 
 Servant::Servant():hitPoints(100)
@@ -53,5 +55,12 @@ vector<Skill> Servant::getSkills()
         temp.push_back(skills[i]);
     };
     return temp;
+}
+
+string Servant::toString()
+{
+    string str;
+    str = name + " " + to_string(level) + " " + to_string(hitPoints) ;
+    return str;
 }
 

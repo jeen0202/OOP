@@ -22,6 +22,7 @@ class Servant{
         void setLevel(int level);
         void setName(std::string name);        
         void isAttacked(int damage, float acc);
+        std::string toString();
         
 };
 
