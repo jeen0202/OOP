@@ -9,8 +9,8 @@ class Servant{
         std::string name;
         float hitPoints;
         int level;
-        Skill skills[MAXSKILL];        
-    
+        //Skill skills[MAXSKILL];        
+        vector<Skill> skills;
     public:
         Servant();
         int getLevel();
@@ -20,7 +20,9 @@ class Servant{
         void setLevel(int level);
         void setName(std::string name);        
         void isAttacked(int damage, float acc);
+        void setSkills(vector<Skill> newskills);
         std::string toString();
+        
         
 };
 

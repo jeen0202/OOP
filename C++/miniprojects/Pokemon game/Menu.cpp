@@ -92,12 +92,13 @@ void Menu::serv_menu()
     uniform_int_distribution<int> diskill(1,MAXSKILL);
     uniform_int_distribution<int> skill(0,3);    
     char ch;    
-    vector<string> servBox;
-    
-    string line,name;
+    vector<string> servBox;    
+    string line,name,skillname;
     int level,maxSkill,skillcount[4];
+    float damage,acc;
     Servant newServ;
-    string newSkills[MAXSKILL];    
+    // vector<Skill> newSkills;    
+    string newSkills[MAXSKILL];       
     ifstream file;
     file.open("Servant.txt", ios::in);
     do
@@ -107,7 +108,7 @@ void Menu::serv_menu()
     } while (file.peek()!=EOF);
     file.close();
     
-    cout << "Exit(0)" << endl;
+    //cout << "Exit(0)" << endl;
     while(1)
     {
     uniform_int_distribution<int> dis(0,servBox.size()-1);
@@ -142,11 +143,23 @@ void Menu::serv_menu()
                 break;
             }
         };
-        newSkills[i] = skillBox.at(skillcount[i]);
+    //     skillname = split(skillBox.at(skillcount[i]),' ')[1];               
+    //     damage = stof(split(skillBox.at(skillcount[i]),' ')[2]);
+    //     acc = stof(split(skillBox.at(skillcount[i]),' ')[3]);
+    //     newSkills[i].setName(skillname); 
+    //     newSkills[i].setDamage(damage);
+    //     newSkills[i].setAccuracy(acc);
+    //    cout << "==Check==\n" << skillname<<damage<<acc<<endl;        
+        newSkills[i] = skillBox.at(skillcount[i]);        
     }
+    //newServ->
     cout <<"======G E T S E R V A N T=====" << endl;        
     cout << "Name : " << newServ.getName() << " Level : " << newServ.getLevel() << endl;
     cout << "==========SKILLS==========" << endl;
+    // for(int i = 0; i <newSkills.size();i++)
+    // {        
+    //         cout << newSkills[i].getName() <<" : " <<newSkills[i].getDamage() << endl;
+    // }
     for(int i = 0; i <maxSkill;i++)
     {
         if(!newSkills[i].empty())
@@ -155,7 +168,7 @@ void Menu::serv_menu()
     cout <<"==========================" << endl;
     cout << "Do you want this Servant?(Y/N)" ;
     ch = getKey(0);
-    ch = toupper(ch);
+    ch = toupper(ch);    
     clrscr();
     // cout << endl;
     line = newServ.toString();

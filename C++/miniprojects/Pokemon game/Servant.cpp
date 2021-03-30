@@ -56,6 +56,12 @@ vector<Skill> Servant::getSkills()
     };
     return temp;
 }
+void Servant::setSkills(vector<Skill> newSkills)
+{
+    for(int i = 0;i<newSkills.size();i++){        
+            skills.push_back(newSkills[i]);
+    }
+}
 
 string Servant::toString()
 {
