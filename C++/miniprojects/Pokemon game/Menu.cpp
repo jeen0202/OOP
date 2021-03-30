@@ -97,8 +97,9 @@ void Menu::serv_menu()
     int level,maxSkill,skillcount[4];
     float damage,acc;
     Servant newServ;
-    // vector<Skill> newSkills;    
-    string newSkills[MAXSKILL];       
+    vector<Skill> newSkills;
+    Skill newSkill;    
+    //string newSkills[MAXSKILL];       
     ifstream file;
     file.open("Servant.txt", ios::in);
     do
@@ -143,28 +144,32 @@ void Menu::serv_menu()
                 break;
             }
         };
-    //     skillname = split(skillBox.at(skillcount[i]),' ')[1];               
-    //     damage = stof(split(skillBox.at(skillcount[i]),' ')[2]);
-    //     acc = stof(split(skillBox.at(skillcount[i]),' ')[3]);
-    //     newSkills[i].setName(skillname); 
-    //     newSkills[i].setDamage(damage);
-    //     newSkills[i].setAccuracy(acc);
-    //    cout << "==Check==\n" << skillname<<damage<<acc<<endl;        
-        newSkills[i] = skillBox.at(skillcount[i]);        
+        skillname = split(skillBox.at(skillcount[i]),' ')[1];               
+        damage = stof(split(skillBox.at(skillcount[i]),' ')[2]);
+        acc = stof(split(skillBox.at(skillcount[i]),' ')[3]);
+        newSkill.setName(skillname);
+        newSkill.setDamage(damage);
+        newSkill.setAccuracy(acc); 
+        newSkills.emplace_back(newSkill);          
+        //  newSkills[i].setName("skillname"); 
+        //  newSkills[i].setDamage(100);
+        //  newSkills[i].setAccuracy(80);
+       cout << "==Check==\n" << skillname<<damage<<acc<<endl;        
+        // newSkills[i] = skillBox.at(skillcount[i]);        
     }
     //newServ->
     cout <<"======G E T S E R V A N T=====" << endl;        
     cout << "Name : " << newServ.getName() << " Level : " << newServ.getLevel() << endl;
     cout << "==========SKILLS==========" << endl;
-    // for(int i = 0; i <newSkills.size();i++)
-    // {        
-    //         cout << newSkills[i].getName() <<" : " <<newSkills[i].getDamage() << endl;
-    // }
-    for(int i = 0; i <maxSkill;i++)
-    {
-        if(!newSkills[i].empty())
-            cout << split(newSkills[i],' ')[1] <<" : " <<split(newSkills[i],' ')[2] << endl;
+    for(int i = 0; i <newSkills.size();i++)
+    {        
+            cout << newSkills[i].getName() <<" : " <<newSkills[i].getDamage() << endl;
     }
+    // for(int i = 0; i <maxSkill;i++)
+    // {
+    //     if(!newSkills[i].empty())
+    //         cout << split(newSkills[i],' ')[1] <<" : " <<split(newSkills[i],' ')[2] << endl;
+    // }
     cout <<"==========================" << endl;
     cout << "Do you want this Servant?(Y/N)" ;
     ch = getKey(0);
