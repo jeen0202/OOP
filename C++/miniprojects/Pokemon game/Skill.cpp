@@ -1,8 +1,15 @@
 #include "Skill.h"
+#include "math.h"
 using namespace std;
 
+float presicion(float input)
+{
+    float temp;
+    temp = round(input * 1000.0) / 1000.0;
+    return temp;
+}
 
-Skill::Skill(){};
+Skill::Skill():level(1){};
 
 Skill::Skill(string newName, float dmg, float acc, short lv)
 {
@@ -50,6 +57,7 @@ void Skill::setAccuracy(float newAccuracy)
 string Skill::toString()
 {
     string temp;
-    temp = name + " " + to_string(level) + " "+ to_string(damage) + " " + to_string(accuracy) + "\n"; 
+    
+    temp = name + " " + to_string(level) + " "+ to_string((int)damage) + " " + to_string((int)accuracy) + "\n"; 
     return temp;
 }

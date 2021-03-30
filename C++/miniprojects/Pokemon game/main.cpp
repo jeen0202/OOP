@@ -10,8 +10,6 @@ using namespace std;
 #include "Skill.cpp"
 #include "Menu.cpp"
 
-
-
 int main(void)
 {
     Menu m;

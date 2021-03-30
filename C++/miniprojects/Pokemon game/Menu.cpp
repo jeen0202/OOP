@@ -22,7 +22,6 @@ vector<string> split(string str, char delimeter) {
     return internal;
 }
 
-
 int getKey(int is_echo =0)
 {
     int ch;
@@ -153,7 +152,9 @@ void Menu::serv_menu()
             };
             skillname = split(skillBox.at(skillcount[i]),' ')[1];               
             damage = stof(split(skillBox.at(skillcount[i]),' ')[2]);
+            damage = presicion(damage);
             acc = stof(split(skillBox.at(skillcount[i]),' ')[3]);
+            acc = presicion(acc);
             newSkill.setName(skillname);
             newSkill.setDamage(damage);
             newSkill.setAccuracy(acc);         
@@ -161,17 +162,17 @@ void Menu::serv_menu()
             //  cout << "==Check==\n" << skillname<<damage<<acc<<endl;        
             // newSkills[i] = skillBox.at(skillcount[i]);        
         }
-        cout << "Final Check => " << newSkills.size() << endl;
+        //cout << "Final Check => " << newSkills.size() << endl;
         //newServ->
         newServ.setSkills(newSkills);
-        cout << "Empty check => " << newServ.getSkills().empty() << endl;
+        //cout << "Empty check => " << newServ.getSkills().size() << endl;
         cout <<"======G E T S E R V A N T=====" << endl;        
         cout << "Name : " << newServ.getName() << " Level : " << newServ.getLevel() << endl;
-        cout << "size => " << newServ.getSkills().size() << endl;
         cout << "==========SKILLS==========" << endl;
         for(int i = 0; i <newServ.getSkills().size();i++)
-        {        
-                cout << newServ.getSkills().at(i).toString() << endl;
+        {       
+                 
+                cout << newServ.getSkills().at(i).toString();
                 //cout << newSkills[i].getName() <<" : " <<newSkills[i].getDamage() << endl;
         }
         // for(int i = 0; i <maxSkill;i++)

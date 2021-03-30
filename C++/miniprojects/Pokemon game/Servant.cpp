@@ -49,12 +49,7 @@ void Servant::isAttacked(int damage, float acc)
 
 vector<Skill> Servant::getSkills()
 {
-    vector<Skill> temp;
-    for(int i =0;i<(sizeof(skills)/sizeof(string));i++)
-    {
-        temp.push_back(skills[i]);
-    };
-    return temp;
+    return skills;
 }
 void Servant::setSkills(vector<Skill> newSkills)
 {   
@@ -65,13 +60,13 @@ void Servant::setSkills(vector<Skill> newSkills)
     // skills.assign(newSkills.begin(),newSkills.end());
     for(i = 0;i<newSkills.size();i++)
     {
-            cout << "push "<<i << endl;        
+            //cout << "push "<<i << endl;        
            skills.emplace_back(newSkills.at(i));
     }
-    for(i = 0;i<skills.size();i++)
-    {
-        cout << skills.at(i).toString() << endl;
-    }
+    // for(i = 0;i<skills.size();i++)
+    // {
+    //     cout << skills.at(i).toString() ;
+    // }
 }
 
 string Servant::toString()
