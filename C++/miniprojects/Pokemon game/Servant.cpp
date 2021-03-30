@@ -57,9 +57,20 @@ vector<Skill> Servant::getSkills()
     return temp;
 }
 void Servant::setSkills(vector<Skill> newSkills)
-{
-    for(int i = 0;i<newSkills.size();i++){        
-            skills.push_back(newSkills[i]);
+{   
+    int i;
+    skills.clear();
+    //cout << newSkills.size() << endl;
+    //cout << newSkills[0].toString() << endl;
+    // skills.assign(newSkills.begin(),newSkills.end());
+    for(i = 0;i<newSkills.size();i++)
+    {
+            cout << "push "<<i << endl;        
+           skills.emplace_back(newSkills.at(i));
+    }
+    for(i = 0;i<skills.size();i++)
+    {
+        cout << skills.at(i).toString() << endl;
     }
 }
 

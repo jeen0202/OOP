@@ -140,14 +140,14 @@ void Menu::serv_menu()
         for(int i =0;i<maxSkill;i++)
         {
             skillcount[i] = skill(gen);
-            cout << "Check " << i << endl;        
+            //cout << "Check " << i << endl;        
             for(int j = 0; j<i;j++)
             {
                 if(skillcount[i] == skillcount[j])
                 {
                     i--;               
                     newSkills.pop_back();
-                    cout<<"POP " << newSkills.size()<< endl;                
+                    //cout<<"POP " << newSkills.size()<< endl;                
                     break;
                 }                      
             };
@@ -163,12 +163,16 @@ void Menu::serv_menu()
         }
         cout << "Final Check => " << newSkills.size() << endl;
         //newServ->
+        newServ.setSkills(newSkills);
+        cout << "Empty check => " << newServ.getSkills().empty() << endl;
         cout <<"======G E T S E R V A N T=====" << endl;        
         cout << "Name : " << newServ.getName() << " Level : " << newServ.getLevel() << endl;
+        cout << "size => " << newServ.getSkills().size() << endl;
         cout << "==========SKILLS==========" << endl;
-        for(int i = 0; i <newSkills.size();i++)
+        for(int i = 0; i <newServ.getSkills().size();i++)
         {        
-                cout << newSkills[i].getName() <<" : " <<newSkills[i].getDamage() << endl;
+                cout << newServ.getSkills().at(i).toString() << endl;
+                //cout << newSkills[i].getName() <<" : " <<newSkills[i].getDamage() << endl;
         }
         // for(int i = 0; i <maxSkill;i++)
         // {
@@ -189,7 +193,8 @@ void Menu::serv_menu()
             //writeFile.write((char*)&pizza,sizeof(Food));
             file << line << endl;
             file.close();
-            //file.open("ServSkill.txt")        
+            file.open("ServSkill.txt", ios::out | ios::app);
+            // file <<           
 
         }
         if(ch == '0')

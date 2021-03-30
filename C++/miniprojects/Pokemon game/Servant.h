@@ -20,7 +20,7 @@ class Servant{
         void setLevel(int level);
         void setName(std::string name);        
         void isAttacked(int damage, float acc);
-        void setSkills(vector<Skill> newskills);
+        void setSkills(vector<Skill> newSkills);
         std::string toString();
         
         

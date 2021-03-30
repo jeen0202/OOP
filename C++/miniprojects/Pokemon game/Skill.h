@@ -9,7 +9,7 @@ class Skill{
         short level;
         float damage;
         float accuracy;
-    public:
+    public:        
         Skill();        
         Skill(std::string name,float dmg, float acc, short level = 1 );
         std::string getName();

@@ -47,3 +47,9 @@ void Skill::setAccuracy(float newAccuracy)
 {
     accuracy = newAccuracy;
 }
+string Skill::toString()
+{
+    string temp;
+    temp = name + " " + to_string(level) + " "+ to_string(damage) + " " + to_string(accuracy) + "\n"; 
+    return temp;
+}
