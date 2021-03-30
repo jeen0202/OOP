@@ -11,7 +11,7 @@ class Skill{
         float accuracy;
     public:
         Skill();        
-        Skill(std::string name,float dmg, float acc, short level = 0 );
+        Skill(std::string name,float dmg, float acc, short level = 1 );
         std::string getName();
         short getLevel();
         float getDamage();

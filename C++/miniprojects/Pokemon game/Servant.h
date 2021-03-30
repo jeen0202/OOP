@@ -1,8 +1,6 @@
 #ifndef SERVANT_H_INCLUDED
 #define SERVANT_H_INCLUDED
 
-#define MAXSKILL 4
-
 #include "Skill.h"
 #include <string>
 #include <vector>
