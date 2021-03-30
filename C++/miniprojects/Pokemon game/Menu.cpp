@@ -195,8 +195,15 @@ void Menu::serv_menu()
             file << line << endl;
             file.close();
             file.open("ServSkill.txt", ios::out | ios::app);
-            // file <<           
-
+            for(int i = 0;i<newServ.getSkills().size();i++)
+            {
+                file << newServ.getSkills()[i].toString() ;
+            }
+            file << "====================" << endl;
+            file.close();
+            cout << newServ.getName() << " Catched " << endl;
+            if(getKey())
+                return;
         }
         if(ch == '0')
             return;  
