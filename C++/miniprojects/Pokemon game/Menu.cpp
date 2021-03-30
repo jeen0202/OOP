@@ -236,7 +236,10 @@ void Menu::list_of_servant()
     char ch;
     ifstream readServant;
     vector<string> list;
-    string temp;
+    vector<Skill> skillList[4];
+    string temp,skillname;
+    float damage,acc;
+    Skill tempSkill;
     readServant.open("Player.txt", ios::in);
     if(!readServant.is_open()){
         cout << "You did't have Servant" << endl;
@@ -249,8 +252,42 @@ void Menu::list_of_servant()
        getline(readServant,temp);
         list.emplace_back(temp);
     } 
-    readServant.close();
+    readServant.close();    
     }
+    readServant.open("ServSkill.txt", ios::in);
+    if(!readServant.is_open())
+    {
+        cout << "File Open ERROR!!" << endl;
+        cout << "Press Any Key to Return..." << endl;
+        getKey();
+        return;
+    }
+    for(int i = 0; i<4;i++)
+    {
+        do
+        {
+            getline(readServant,temp);
+            if(temp=="====================")
+                break;
+            skillname = split(temp,' ')[0];               
+            damage = stof(split(temp,' ')[1]);
+            damage = presicion(damage);
+            acc = stof(split(temp,' ')[3]);
+            acc = presicion(acc);
+            tempSkill.setName(skillname);
+            tempSkill.setDamage(damage);
+            tempSkill.setAccuracy(acc);         
+            skillList[i].emplace_back(tempSkill);
+        } while (readServant.peek()!=EOF);
+    }
+    for(int i = 0;i<4;i++){
+        for(int j = 0;j<skillList[i].size();j++)
+        {
+            cout << skillList[i].at(j).toString();
+        }
+        cout <<"====================" << endl;
+    }
+    getKey();
     while(1)
     {
         clrscr();
