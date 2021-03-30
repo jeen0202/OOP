@@ -186,24 +186,43 @@ void Menu::serv_menu()
         ch = toupper(ch);    
         clrscr();
         // cout << endl;
-        line = newServ.toString();
+        
         if(ch == 'Y')
         {
-            ofstream file;
-            file.open("Player.txt", ios::out | ios::app);
-            //writeFile.write((char*)&pizza,sizeof(Food));
-            file << line << endl;
-            file.close();
-            file.open("ServSkill.txt", ios::out | ios::app);
-            for(int i = 0;i<newServ.getSkills().size();i++)
+            ifstream maxCheck;
+            int check=0;
+            maxCheck.open("Player.txt",ios::in);
+            do
             {
-                file << newServ.getSkills()[i].toString() ;
-            }
-            file << "====================" << endl;
-            file.close();
-            cout << newServ.getName() << " Catched " << endl;
-            if(getKey())
+                getline(maxCheck,line);
+                check++;
+            } while (maxCheck.peek()!=EOF);
+            if(check<MAXSERVANT)
+            {
+                line = newServ.toString();
+                ofstream file;
+                file.open("Player.txt", ios::out | ios::app);
+                //writeFile.write((char*)&pizza,sizeof(Food));
+                file << line << endl;
+                file.close();
+                file.open("ServSkill.txt", ios::out | ios::app);
+                for(int i = 0;i<newServ.getSkills().size();i++)
+                {
+                    file << newServ.getSkills()[i].toString() ;
+                }
+                file << "====================" << endl;
+                file.close();
+                cout << newServ.getName() << " Catched " << endl;
+                if(getKey())
+                    return;
+            }else
+            {
+                cout << "Servant is Full!!!" << endl;
+                cout << "Press Any Key to return" << endl;
+                getKey();
                 return;
+            }
+            
         }
         if(ch == '0')
             return;  
@@ -257,17 +276,42 @@ void Menu::list_of_servant()
             // cout <<"4th Servant" << endl;   
             cout <<"0: QUIT" << endl;       
             cout <<"Enter Your Choice : ";            
-        ch = getKey();
-        if (ch == '1')
-        {
-            clrscr();
-            cout << "Select 1" << endl;
-            if(getKey())
-                break;
-                serv_menu();
-        }else if(ch == '0')
-            
-           return;
+            ch = getKey();
+            if(ch-'0'<=list.size())
+            {
+                if (ch == '1')
+                {
+                    clrscr();
+                    cout << "Select 1" << endl;
+                    if(getKey())
+                        continue;
+                        
+                }else if(ch=='2')
+                {
+                    clrscr();
+                    cout << "Select 2" << endl;
+                    if(getKey())
+                        continue;
+                        
+                }else if(ch=='3')
+                {
+                    clrscr();
+                    cout << "Select 3" << endl;
+                    if(getKey())
+                        continue;
+                        
+                }
+                else if(ch == '0')
+                    
+                return;
+            }else
+            {
+                cout << "Out of Range!!" << endl;
+                cout << "Press Any Key to Return" ;
+                if(getKey())
+                    continue;                    
+            }
         }
+        
     }
 }
