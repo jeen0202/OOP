@@ -1,5 +1,6 @@
 #include <termios.h>
 #include <iostream>
+#include <array> //arr.size()
 #include <string>
 #include <random>
 #include <sstream>
@@ -16,7 +17,7 @@ vector<string> split(string str, char delimeter) {
     stringstream ss(str);
     string temp;
     while(getline(ss,temp,delimeter)){
-        internal.push_back(temp);
+        internal.emplace_back(temp);
     }
     return internal;
 }
@@ -86,38 +87,77 @@ void Menu::main_menu()
     }
 void Menu::serv_menu()
 {
-    char ch;
-    vector<string> box;
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> diskill(1,MAXSKILL);
+    uniform_int_distribution<int> skill(0,3);    
+    char ch;    
+    vector<string> servBox;
+    
     string line,name;
-    int level;
+    int level,maxSkill,skillcount[4];
     Servant newServ;
+    string newSkills[MAXSKILL];    
     ifstream file;
     file.open("Servant.txt", ios::in);
     do
     {
         getline(file,line);
-        box.push_back(line);
+        servBox.emplace_back(line);
     } while (file.peek()!=EOF);
     file.close();
+    
     cout << "Exit(0)" << endl;
     while(1)
     {
-    random_device rd;
-    mt19937 gen(rd());
-
-    uniform_int_distribution<int> dis(0,box.size()-1);
-    line = box.at(dis(gen));
+    uniform_int_distribution<int> dis(0,servBox.size()-1);
+    line = servBox.at(dis(gen));
+    vector<string> skillBox;
     //cout << "Line => " << line << endl;
-    name = line;
+    name = line;    
     uniform_int_distribution<int> lv(1,10);
     level = lv(gen);
     newServ.setName(name);
     newServ.setLevel(level);
-    cout << "Servant : " << newServ.getName() << " Level : " << newServ.getLevel() << endl;
+    file.open("SKILL.txt", ios::in);
+    do
+    {        
+        getline(file,line);
+        if(split(line,' ')[0] == name)
+        {
+                       
+            //cout << "line => " << line << endl;
+            skillBox.emplace_back(line);
+        }
+    } while (file.peek()!=EOF);
+    file.close();
+    maxSkill = diskill(gen);
+    for(int i =0;i<maxSkill;i++)
+    {
+        skillcount[i] = skill(gen);
+        for(int j = 0; j<i;j++)
+        {
+            if(skillcount[i] == skillcount[j]){
+                i--;
+                break;
+            }
+        };
+        newSkills[i] = skillBox.at(skillcount[i]);
+    }
+    cout <<"======G E T S E R V A N T=====" << endl;        
+    cout << "Name : " << newServ.getName() << " Level : " << newServ.getLevel() << endl;
+    cout << "==========SKILLS==========" << endl;
+    for(int i = 0; i <maxSkill;i++)
+    {
+        if(!newSkills[i].empty())
+            cout << split(newSkills[i],' ')[1] <<" : " <<split(newSkills[i],' ')[2] << endl;
+    }
+    cout <<"==========================" << endl;
     cout << "Do you want this Servant?(Y/N)" ;
     ch = getKey(0);
     ch = toupper(ch);
-    cout << endl;
+    clrscr();
+    // cout << endl;
     line = newServ.toString();
     if(ch == 'Y')
     {
@@ -126,6 +166,7 @@ void Menu::serv_menu()
         //writeFile.write((char*)&pizza,sizeof(Food));
         file << line << endl;
         file.close();
+        //file.open("ServSkill.txt")        
 
     }
     if(ch == '0')
@@ -151,7 +192,7 @@ void Menu::list_of_servant()
     while (readServant.peek()!=EOF)
     {
        getline(readServant,temp);
-        list.push_back(temp);
+        list.emplace_back(temp);
     } 
     readServant.close();
     }
