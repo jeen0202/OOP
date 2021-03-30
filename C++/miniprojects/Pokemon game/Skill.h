@@ -20,6 +20,7 @@ class Skill{
         void setLevel(short newLevel);
         void setDamage(float newDamage);
         void setAccuracy(float newAccuracy);
+        std::string toString();
 };
 
 #endif

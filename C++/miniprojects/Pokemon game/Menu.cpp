@@ -92,12 +92,12 @@ void Menu::serv_menu()
     uniform_int_distribution<int> diskill(1,MAXSKILL);
     uniform_int_distribution<int> skill(0,3);    
     char ch;    
-    vector<string> servBox;    
+    vector<string> servBox;
+    vector<Skill> newSkills;    
     string line,name,skillname;
     int level,maxSkill,skillcount[4];
     float damage,acc;
-    Servant newServ;
-    vector<Skill> newSkills;
+    Servant newServ;    
     Skill newSkill;    
     //string newSkills[MAXSKILL];       
     ifstream file;
@@ -112,83 +112,88 @@ void Menu::serv_menu()
     //cout << "Exit(0)" << endl;
     while(1)
     {
-    uniform_int_distribution<int> dis(0,servBox.size()-1);
-    line = servBox.at(dis(gen));
-    vector<string> skillBox;
-    //cout << "Line => " << line << endl;
-    name = line;    
-    uniform_int_distribution<int> lv(1,10);
-    level = lv(gen);
-    newServ.setName(name);
-    newServ.setLevel(level);
-    file.open("SKILL.txt", ios::in);
-    do
-    {        
-        getline(file,line);
-        if(split(line,' ')[0] == name)
-        {
-                       
-            //cout << "line => " << line << endl;
-            skillBox.emplace_back(line);
-        }
-    } while (file.peek()!=EOF);
-    file.close();
-    maxSkill = diskill(gen);
-    for(int i =0;i<maxSkill;i++)
-    {
-        skillcount[i] = skill(gen);
-        for(int j = 0; j<i;j++)
-        {
-            if(skillcount[i] == skillcount[j]){
-                i--;
-                break;
+        uniform_int_distribution<int> dis(0,servBox.size()-1);
+        line = servBox.at(dis(gen));
+        vector<string> skillBox;
+        //cout << "Line => " << line << endl;
+        name = line;    
+        uniform_int_distribution<int> lv(1,10);
+        level = lv(gen);
+        newServ.setName(name);
+        newServ.setLevel(level);
+        file.open("SKILL.txt", ios::in);
+        do
+        {        
+            getline(file,line);
+            if(split(line,' ')[0] == name)
+            {
+                        
+                //cout << "line => " << line << endl;
+                skillBox.emplace_back(line);
             }
-        };
-        skillname = split(skillBox.at(skillcount[i]),' ')[1];               
-        damage = stof(split(skillBox.at(skillcount[i]),' ')[2]);
-        acc = stof(split(skillBox.at(skillcount[i]),' ')[3]);
-        newSkill.setName(skillname);
-        newSkill.setDamage(damage);
-        newSkill.setAccuracy(acc); 
-        newSkills.emplace_back(newSkill);          
-        //  newSkills[i].setName("skillname"); 
-        //  newSkills[i].setDamage(100);
-        //  newSkills[i].setAccuracy(80);
-       cout << "==Check==\n" << skillname<<damage<<acc<<endl;        
-        // newSkills[i] = skillBox.at(skillcount[i]);        
-    }
-    //newServ->
-    cout <<"======G E T S E R V A N T=====" << endl;        
-    cout << "Name : " << newServ.getName() << " Level : " << newServ.getLevel() << endl;
-    cout << "==========SKILLS==========" << endl;
-    for(int i = 0; i <newSkills.size();i++)
-    {        
-            cout << newSkills[i].getName() <<" : " <<newSkills[i].getDamage() << endl;
-    }
-    // for(int i = 0; i <maxSkill;i++)
-    // {
-    //     if(!newSkills[i].empty())
-    //         cout << split(newSkills[i],' ')[1] <<" : " <<split(newSkills[i],' ')[2] << endl;
-    // }
-    cout <<"==========================" << endl;
-    cout << "Do you want this Servant?(Y/N)" ;
-    ch = getKey(0);
-    ch = toupper(ch);    
-    clrscr();
-    // cout << endl;
-    line = newServ.toString();
-    if(ch == 'Y')
-    {
-        ofstream file;
-        file.open("Player.txt", ios::out | ios::app);
-        //writeFile.write((char*)&pizza,sizeof(Food));
-        file << line << endl;
+        } while (file.peek()!=EOF);
         file.close();
-        //file.open("ServSkill.txt")        
+        maxSkill = diskill(gen);
+        //cout << "maxskill" << maxSkill << endl;
+        newSkills.clear();
+        newSkills.reserve(maxSkill);
+        for(int i =0;i<maxSkill;i++)
+        {
+            skillcount[i] = skill(gen);
+            cout << "Check " << i << endl;        
+            for(int j = 0; j<i;j++)
+            {
+                if(skillcount[i] == skillcount[j])
+                {
+                    i--;               
+                    newSkills.pop_back();
+                    cout<<"POP " << newSkills.size()<< endl;                
+                    break;
+                }                      
+            };
+            skillname = split(skillBox.at(skillcount[i]),' ')[1];               
+            damage = stof(split(skillBox.at(skillcount[i]),' ')[2]);
+            acc = stof(split(skillBox.at(skillcount[i]),' ')[3]);
+            newSkill.setName(skillname);
+            newSkill.setDamage(damage);
+            newSkill.setAccuracy(acc);         
+            newSkills.emplace_back(newSkill);        
+            //  cout << "==Check==\n" << skillname<<damage<<acc<<endl;        
+            // newSkills[i] = skillBox.at(skillcount[i]);        
+        }
+        cout << "Final Check => " << newSkills.size() << endl;
+        //newServ->
+        cout <<"======G E T S E R V A N T=====" << endl;        
+        cout << "Name : " << newServ.getName() << " Level : " << newServ.getLevel() << endl;
+        cout << "==========SKILLS==========" << endl;
+        for(int i = 0; i <newSkills.size();i++)
+        {        
+                cout << newSkills[i].getName() <<" : " <<newSkills[i].getDamage() << endl;
+        }
+        // for(int i = 0; i <maxSkill;i++)
+        // {
+        //     if(!newSkills[i].empty())
+        //         cout << split(newSkills[i],' ')[1] <<" : " <<split(newSkills[i],' ')[2] << endl;
+        // }
+        cout <<"==========================" << endl;
+        cout << "Do you want this Servant?(Y/N)" ;
+        ch = getKey(0);
+        ch = toupper(ch);    
+        clrscr();
+        // cout << endl;
+        line = newServ.toString();
+        if(ch == 'Y')
+        {
+            ofstream file;
+            file.open("Player.txt", ios::out | ios::app);
+            //writeFile.write((char*)&pizza,sizeof(Food));
+            file << line << endl;
+            file.close();
+            //file.open("ServSkill.txt")        
 
-    }
-    if(ch == '0')
-        return;  
+        }
+        if(ch == '0')
+            return;  
     }
     
     
