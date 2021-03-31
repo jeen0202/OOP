@@ -8,20 +8,21 @@
 class Player{
     private:
         std::string name;
-        short level;
-        Servant myServ[MAXSERVANT];
+        //short level;
+        vector<Servant> myServ;
+        //Servant myServ[MAXSERVANT];
         short ServantStatus[MAXSERVANT];
     public:
         Player();
-        Player(std::string name, short level);
+        Player(std::string name);
         std::string getName();
-        int getLevel();
+        //int getLevel();
         std::vector<Servant> getServant();
         std::vector<short> getServantStatus();
         void setName(std::string newName);
-        void setLevel(short newLevel);
+        //void setLevel(short newLevel);
         void setServantStatus(int point, short status);
-        void setServant(Servant newServant);
+        void setServant(vector<Servant> newServant);
 };
 
 #endif

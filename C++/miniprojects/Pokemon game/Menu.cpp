@@ -78,6 +78,7 @@ void Menu::main_menu()
         else if (ch == '3')
         {
             clrscr();
+            battle_menu();
         }
         else if (ch == '0')            
             break ;
@@ -191,6 +192,7 @@ void Menu::serv_menu()
         {
             ifstream maxCheck;
             int check=0;
+            string nickname;
             maxCheck.open("Player.txt",ios::in);
             do
             {
@@ -199,7 +201,15 @@ void Menu::serv_menu()
             } while (maxCheck.peek()!=EOF);
             if(check<MAXSERVANT)
             {
-                
+              cout << "Wanna make Nickname?(Y/N)" ;
+              ch = getKey();
+              ch = toupper(ch);
+              if(ch=='Y')
+              {
+                  cout << "\nNickname : " ;
+                  cin >> nickname;
+                  newServ.setName(nickname);
+              }  
                 
                 line = newServ.toString();
                 ofstream file;
@@ -214,7 +224,7 @@ void Menu::serv_menu()
                 }
                 file << "====================" << endl;
                 file.close();
-                cout << newServ.getName() << " Catched " << endl;
+                cout <<"\n" << newServ.getName() << " Catched " << endl;
                 if(getKey())
                     return;
             }else
@@ -379,4 +389,100 @@ void Menu::list_of_servant()
         }
         
     }
+}
+
+void Menu::battle_menu()
+{
+    Player enemy("RED");
+    Player player("player");
+    Servant tempServ;
+    Skill tempSkill;
+    tempServ.setName("VOLTMOUSE");
+    tempServ.setLevel(5);
+    string temp;
+    int i;
+    vector<string> tempList;
+    vector<Skill> tempSkills;
+    vector<Servant> servList;
+
+    //Enemy 설정
+    tempSkill = Skill("MILLION_VOLT",20,90,5);
+    tempSkills.emplace_back(tempSkill);
+    tempSkill = Skill("IRON_TAIL",10,80,2);
+    tempSkills.emplace_back(tempSkill);
+    tempServ.setSkills(tempSkills);
+    servList.emplace_back(tempServ);
+    enemy.setServant(servList);
+    enemy.setServantStatus(0,1);
+    servList.clear();
+    tempSkills.clear();
+    //user 불러오기
+    ifstream readServant;
+    readServant.open("Player.txt", ios::in);
+    if(!readServant.is_open()){
+        cout << "You did't have Servant" << endl;
+        cout << "Press any key to return..." << endl;
+        getKey();
+        return;
+    }else{
+    while (readServant.peek()!=EOF)
+    {
+       getline(readServant,temp);
+        tempList.emplace_back(temp);
+    } 
+    readServant.close();    
+    }
+    readServant.open("ServSkill.txt", ios::in);
+    if(!readServant.is_open())
+    {
+        cout << "File Open ERROR!!" << endl;
+        cout << "Press Any Key to Return..." << endl;
+        getKey();
+        return;
+    }
+    for(i = 0; i<tempList.size();i++)
+    {
+        do
+        {
+           
+            getline(readServant,temp);
+            if(temp=="====================")
+                break;
+            tempSkill.setName(split(temp,' ')[0]);
+            tempSkill.setDamage(stof(split(temp,' ')[1]));
+            tempSkill.setAccuracy(stof(split(temp,' ')[3]));         
+            tempSkills.emplace_back(tempSkill);
+        } while (readServant.peek()!=EOF);
+         //cout << "check" << endl;        
+    }
+    for(i=0;i<tempList.size();i++)
+    {
+        tempServ.setName(split(tempList[i], ' ')[0]);
+        tempServ.setLevel(stoi(split(tempList[i], ' ')[1]));
+        tempServ.setSkills(tempSkills);
+        servList.emplace_back(tempServ);
+    }
+    player.setServant(servList);
+
+
+    string eName = enemy.getName();
+    string esName = enemy.getServant()[0].getName();
+    cout << "==========B A T T L E==========" << endl;
+    cout << eName << " Ask for Battle" << endl;
+    cout << eName << " Send Out " << esName << endl;
+    //Enemy의 스킬 출력
+    // cout << esName << "'s Skill " << endl;
+    // for(int i = 0;i<enemy.getServant()[0].getSkills().size();i++){
+    //     if(!enemy.getServant()[0].getSkills().empty())               
+    //             cout << enemy.getServant()[0].getSkills().at(i).toString();
+    //     }
+        cout <<"Which Servant do you want to Send?" << endl;
+        for(i=0;i<player.getServant().size();i++)
+        {
+            cout << i+1 << ". "<< player.getServant().at(i).getName() << endl;
+        }   
+        cout <<"===================="<< endl;
+        if(getKey())
+            return;   
+    
 }
