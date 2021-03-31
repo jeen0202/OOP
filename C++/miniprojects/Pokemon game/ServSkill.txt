@@ -1,22 +1,14 @@
+HURRICANE 1 30 80
 TACKLE 1 10 80
-HYDRO_PUMP 1 30 80
-AQUA_TAIL 1 15 100
-====================
-QUICK_ATTACK 1 15 100
-====================
-MILLION_VOLT 1 20 90
-IRON_TAIL 1 10 80
-====================
-HYDRO_PUMP 1 30 80
-AQUA_TAIL 1 15 100
-WATER_PULSE 1 20 90
-====================
-HYDRO_PUMP 1 30 80
-WATER_PULSE 1 20 90
-AQUA_TAIL 1 15 100
-TACKLE 1 10 80
-====================
 GUST 1 15 100
 FLY 1 20 90
+====================
+FLY 1 20 90
+GUST 1 15 100
 HURRICANE 1 30 80
+====================
+THUNDER 1 30 80
+IRON_TAIL 1 10 80
+MILLION_VOLT 1 20 90
+QUICK_ATTACK 1 15 100
 ====================

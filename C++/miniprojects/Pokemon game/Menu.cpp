@@ -262,10 +262,11 @@ void Menu::list_of_servant()
         getKey();
         return;
     }
-    for(int i = 0; i<4;i++)
+    for(int i = 0; i<list.size();i++)
     {
         do
         {
+           
             getline(readServant,temp);
             if(temp=="====================")
                 break;
@@ -279,15 +280,19 @@ void Menu::list_of_servant()
             tempSkill.setAccuracy(acc);         
             skillList[i].emplace_back(tempSkill);
         } while (readServant.peek()!=EOF);
+         cout << "check" << endl;        
     }
-    for(int i = 0;i<4;i++){
-        for(int j = 0;j<skillList[i].size();j++)
-        {
-            cout << skillList[i].at(j).toString();
-        }
-        cout <<"====================" << endl;
-    }
-    getKey();
+    
+    // for(int i = 0;i<4;i++){
+    //     if(!skillList[i].empty()){
+    //     for(int j = 0;j<skillList[i].size();j++)
+    //     {         
+    //             cout << skillList[i].at(j).toString();
+    //     }
+    //     cout <<"===================="<< endl;
+    //     }       
+    // }    
+    // getKey();
     while(1)
     {
         clrscr();
@@ -318,8 +323,15 @@ void Menu::list_of_servant()
             {
                 if (ch == '1')
                 {
-                    clrscr();
-                    cout << "Select 1" << endl;
+                    clrscr();                    
+                    cout <<"====="<<split(list.at(0),' ')[0] << "\'s SKILL"<<"=====" <<endl;
+                    cout <<  "==============================" << endl;
+                    cout << "NAME  LEVEL  DAMAGE  ACC" << endl;
+                    cout.setf(ios::right);
+                    for(int i = 0;i<skillList[0].size();i++){                        
+                        cout << skillList[0].at(i).toString();
+                    }
+                    cout <<  "==============================" << endl;
                     if(getKey())
                         continue;
                         
