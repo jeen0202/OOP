@@ -5,7 +5,7 @@
 #include <random>
 #include <sstream>
 #include <algorithm>
-
+#include <unistd.h>
 #include "Menu.h"
 //#include "Servant.cpp"
 
@@ -399,7 +399,7 @@ void Menu::battle_menu()
     Skill tempSkill;
     tempServ.setName("VOLTMOUSE");
     tempServ.setLevel(5);
-    string temp;
+    string temp,psName,eName,esName;
     int i;
     char ch;
     vector<string> tempList;
@@ -467,21 +467,21 @@ void Menu::battle_menu()
     player.setServant(servList);    
 
 
-    string eName = enemy.getName();
+    eName = enemy.getName();
     //cout << "eName : " << eName << endl;    
-    string esName = enemy.getServant()[0].getName();
+    esName = enemy.getServant()[0].getName();
     
     while(1){
         clrscr();
         cout << "==========B A T T L E==========" << endl;
-        cout << eName << " Ask for Battle" << endl;
-        cout << eName << " Send Out " << esName << endl;
+        cout << eName << " Ask for Battle" << endl;        
+        cout << eName << " Send Out " << esName << endl;        
         //Enemy의 스킬 출력
         // cout << esName << "'s Skill " << endl;
         // for(int i = 0;i<enemy.getServant()[0].getSkills().size();i++){
         //     if(!enemy.getServant()[0].getSkills().empty())               
         //             cout << enemy.getServant()[0].getSkills().at(i).toString();
-        //     }    
+        //     }
             cout <<"Which Servant do you want to Send?" << endl;        
             for(i=0;i<player.getServant().size();i++)
             {            
@@ -496,8 +496,11 @@ void Menu::battle_menu()
                 if(ch =='0')
                     return; 
                 selectedServant = player.getServant().at(ch-'0'-1);
-                cout << "Let's GO " << selectedServant.getName() <<"!!" << endl;
-                getKey();
+                psName = selectedServant.getName();
+                cout << "Let's GO " << psName <<" !!" << endl;
+                sleep(2);
+                on_battle(selectedServant,enemy.getServant()[0]);               
+
             // if(ch =='1'){
                 
             // }else if(ch =='2'){
@@ -513,4 +516,20 @@ void Menu::battle_menu()
             }   
         
     }
+}
+
+void Menu::on_battle(Servant pServ, Servant eServ)
+{
+    string psName = pServ.getName();
+    string esName = eServ.getName();
+    int i;
+    char ch;
+    clrscr();
+    for(i=0;i<pServ.getSkills().size();i++)
+    {
+        cout << i+1 << ". " << pServ.getSkills().at(i).getName() << endl;
+    }
+    cout << "Which Skill " << psName << " Use? " << endl;
+    ch = getKey();
+    
 }
