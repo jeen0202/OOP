@@ -2,7 +2,7 @@
 #include <array>
 #include <random>
 #include <sstream>
-
+#include <iostream>
 using namespace std;
 
 Servant::Servant():hitPoints(100)
@@ -30,20 +30,26 @@ int Servant::getHitPoints()
     return hitPoints;
 }
 
-void Servant::isAttacked(int damage, float acc)
+void Servant::isAttacked(Skill sk)
 {
     bool result = false;
+    float damage = sk.getDamage();
     //난수 생성
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<int> dis(0,9);
-    if(dis(gen)<=acc)
+    uniform_int_distribution<int> dis(0,100);
+    if(dis(gen)<=sk.getAccuracy())
         result = true;
 
-    if(result){    
+    if(result){
+        cout << "On Hit!!" << endl;  
+        cout << name << " Got " << damage << " Damage!!" << endl;
         hitPoints -= damage;
         if (hitPoints<0)
             hitPoints = 0;
+        cout << name << "'s Hp remains" << hitPoints << endl;    
+    }else{
+        cout << "Miss" << endl;
     }
 }
 

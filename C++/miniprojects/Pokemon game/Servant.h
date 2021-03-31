@@ -19,7 +19,7 @@ class Servant{
         int getHitPoints();
         void setLevel(int level);
         void setName(std::string name);        
-        void isAttacked(int damage, float acc);
+        void isAttacked(Skill skill);
         void setSkills(vector<Skill> newSkills);
         std::string toString();
         

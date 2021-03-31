@@ -444,16 +444,16 @@ void Menu::battle_menu()
     for(i = 0; i<tempList.size();i++)
     {
         do
-        {
-           
-            getline(readServant,temp);
-            if(temp=="====================")
-                break;
+        {   
+            cout << "check => " << temp << endl;        
+            getline(readServant,temp);            
+            // if(temp=="====================")
+            //     break;
             tempSkill.setName(split(temp,' ')[0]);
-            tempSkill.setDamage(stof(split(temp,' ')[1]));
+            tempSkill.setDamage(stof(split(temp,' ')[2]));
             tempSkill.setAccuracy(stof(split(temp,' ')[3]));         
             tempSkills.emplace_back(tempSkill);
-        } while (readServant.peek()!=EOF);
+        } while (temp=="====================");
                
     }
     for(i=0;i<tempList.size();i++)
@@ -498,7 +498,7 @@ void Menu::battle_menu()
                 selectedServant = player.getServant().at(ch-'0'-1);
                 psName = selectedServant.getName();
                 cout << "Let's GO " << psName <<" !!" << endl;
-                sleep(2);
+                sleep(1);
                 on_battle(selectedServant,enemy.getServant()[0]);               
 
             // if(ch =='1'){
@@ -520,16 +520,52 @@ void Menu::battle_menu()
 
 void Menu::on_battle(Servant pServ, Servant eServ)
 {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> eSkill(0,1);
     string psName = pServ.getName();
     string esName = eServ.getName();
-    int i;
+    int i,temp;
     char ch;
-    clrscr();
-    for(i=0;i<pServ.getSkills().size();i++)
-    {
-        cout << i+1 << ". " << pServ.getSkills().at(i).getName() << endl;
-    }
-    cout << "Which Skill " << psName << " Use? " << endl;
-    ch = getKey();
     
+    while(1)
+    {
+        clrscr();
+        cout << "Which Skill " << psName << " Use? " << endl;
+        for(i=0;i<pServ.getSkills().size();i++)
+        {
+            cout << i+1 << ". " << pServ.getSkills().at(i).getName() << endl;
+        }        
+        ch = getKey();
+        if(ch =='0')
+            return;
+        int point = ch-'0'-1;        
+        if(point< pServ.getSkills().size())
+        {
+            cout << psName << " Use " << pServ.getSkills().at(point).getName() << endl;
+            eServ.isAttacked(pServ.getSkills().at(point));
+            sleep(1); 
+            if(eServ.getHitPoints()==0){
+              cout << eServ.getName() <<" is Downed " << endl;
+              cout << "Congraturation!! \nYou win!!" << endl;
+              if(getKey())
+                break;
+          }
+        }else{
+           cout << "Out of Range!!" << endl;                    
+            if(getKey())
+                continue;   
+        }
+        temp = eSkill(gen);
+        cout << psName << " Use " << eServ.getSkills().at(temp).getName() << endl;
+        pServ.isAttacked(eServ.getSkills().at(temp));
+        if(pServ.getHitPoints()==0){
+              cout << pServ.getName() <<" is Downed " << endl;
+              if(getKey())
+                break;
+                
+        }
+        if(getKey())
+            continue;
+    }
 }

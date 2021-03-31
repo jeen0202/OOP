@@ -58,6 +58,6 @@ string Skill::toString()
 {
     string temp;
     
-    temp = name + " " + to_string(level) + "  "+ to_string((int)damage) + "  " + to_string((int)accuracy) + "\n"; 
+    temp = name + " " + to_string(level) + " "+ to_string((int)damage) + " " + to_string((int)accuracy) + "\n"; 
     return temp;
 }
