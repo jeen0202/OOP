@@ -444,33 +444,27 @@ void Menu::battle_menu()
     for(i = 0; i<tempList.size();i++)
     {
         do
-        {   
-            cout << "check  "<<i<<" "<< temp << endl;        
-            getline(readServant,temp);            
+        {  
+            getline(readServant,temp);
+            // cout << "check  "<<i<<" "<< temp << endl;             
             if(temp=="====================")
                 break;
             tempSkill.setName(split(temp,' ')[0]);
             tempSkill.setDamage(stof(split(temp,' ')[2]));
             tempSkill.setAccuracy(stof(split(temp,' ')[3]));         
             tempSkills.emplace_back(tempSkill);
-        } while (temp!="===================="||readServant.peek()!=EOF);
-               
-    }
-    for(i=0;i<tempList.size();i++)
-    {
+            
+        } while (temp!="===================="||readServant.peek()!=EOF); 
         tempServ.setName(split(tempList[i], ' ')[0]);
         tempServ.setLevel(stoi(split(tempList[i], ' ')[1]));
         tempServ.setSkills(tempSkills);
-        servList.emplace_back(tempServ);
-          
-    }
-    player.setServant(servList);    
-
-
+        tempSkills.clear();
+        servList.emplace_back(tempServ);                      
+    }    
+    player.setServant(servList); 
     eName = enemy.getName();
     //cout << "eName : " << eName << endl;    
     esName = enemy.getServant()[0].getName();
-    getKey();
     while(1){
         clrscr();
         cout << "==========B A T T L E==========" << endl;
@@ -532,20 +526,25 @@ void Menu::on_battle(Servant pServ, Servant eServ)
     while(1)
     {
         clrscr();
+        cout << "==========B A T T L E==========" << endl;
         cout << "Which Skill " << psName << " Use? " << endl;
         for(i=0;i<pServ.getSkills().size();i++)
         {
             cout << i+1 << ". " << pServ.getSkills().at(i).getName() << endl;
-        }        
+        }
+        cout <<"===================="<< endl;        
         ch = getKey();
         if(ch =='0')
             return;
-        int point = ch-'0'-1;        
+        int point = ch-'0'-1;
+        clrscr();        
         if(point< pServ.getSkills().size())
         {
+            cout << "==========B A T T L E==========" << endl;
             cout << psName << " Use " << pServ.getSkills().at(point).getName() << endl;
             eServ.isAttacked(pServ.getSkills().at(point));
-            sleep(1); 
+            cout <<"===================="<< endl;
+            sleep(2); 
             if(eServ.getHitPoints()==0){
               cout << eServ.getName() <<" is Downed " << endl;
               cout << "Congraturation!! \nYou win!!" << endl;
@@ -558,13 +557,16 @@ void Menu::on_battle(Servant pServ, Servant eServ)
                 continue;   
         }
         temp = eSkill(gen);
-        cout << psName << " Use " << eServ.getSkills().at(temp).getName() << endl;
+        clrscr();
+        cout << "==========B A T T L E==========" << endl;
+        cout << esName << " Use " << eServ.getSkills().at(temp).getName() << endl;
         pServ.isAttacked(eServ.getSkills().at(temp));
+        cout <<"===================="<< endl;
         if(pServ.getHitPoints()==0){
               cout << pServ.getName() <<" is Downed " << endl;
               if(getKey())
                 break;
-
+                main_menu();
         }
         if(getKey())
             continue;
