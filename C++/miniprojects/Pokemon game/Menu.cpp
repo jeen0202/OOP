@@ -199,6 +199,8 @@ void Menu::serv_menu()
             } while (maxCheck.peek()!=EOF);
             if(check<MAXSERVANT)
             {
+                
+                
                 line = newServ.toString();
                 ofstream file;
                 file.open("Player.txt", ios::out | ios::app);
@@ -338,14 +340,28 @@ void Menu::list_of_servant()
                 }else if(ch=='2')
                 {
                     clrscr();
-                    cout << "Select 2" << endl;
+                    cout <<"====="<<split(list.at(1),' ')[0] << "\'s SKILL"<<"=====" <<endl;
+                    cout <<  "==============================" << endl;
+                    cout << "NAME  LEVEL  DAMAGE  ACC" << endl;
+                    cout.setf(ios::right);
+                    for(int i = 0;i<skillList[1].size();i++){                        
+                        cout << skillList[1].at(i).toString();
+                    }
+                    cout <<  "==============================" << endl;
                     if(getKey())
                         continue;
                         
                 }else if(ch=='3')
                 {
                     clrscr();
-                    cout << "Select 3" << endl;
+                    cout <<"====="<<split(list.at(2),' ')[0] << "\'s SKILL"<<"=====" <<endl;
+                    cout <<  "==============================" << endl;
+                    cout << "NAME  LEVEL  DAMAGE  ACC" << endl;
+                    cout.setf(ios::right);
+                    for(int i = 0;i<skillList[2].size();i++){                        
+                        cout << skillList[2].at(i).toString();
+                    }
+                    cout <<  "==============================" << endl;
                     if(getKey())
                         continue;
                         
