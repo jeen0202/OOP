@@ -445,15 +445,15 @@ void Menu::battle_menu()
     {
         do
         {   
-            cout << "check => " << temp << endl;        
+            cout << "check  "<<i<<" "<< temp << endl;        
             getline(readServant,temp);            
-            // if(temp=="====================")
-            //     break;
+            if(temp=="====================")
+                break;
             tempSkill.setName(split(temp,' ')[0]);
             tempSkill.setDamage(stof(split(temp,' ')[2]));
             tempSkill.setAccuracy(stof(split(temp,' ')[3]));         
             tempSkills.emplace_back(tempSkill);
-        } while (temp=="====================");
+        } while (temp!="===================="||readServant.peek()!=EOF);
                
     }
     for(i=0;i<tempList.size();i++)
@@ -470,7 +470,7 @@ void Menu::battle_menu()
     eName = enemy.getName();
     //cout << "eName : " << eName << endl;    
     esName = enemy.getServant()[0].getName();
-    
+    getKey();
     while(1){
         clrscr();
         cout << "==========B A T T L E==========" << endl;
@@ -490,12 +490,13 @@ void Menu::battle_menu()
             cout <<"===================="<< endl;
             
             ch= getKey();
-           
-            if(ch-'0' <= player.getServant().size())
+            int point = ch-'0';
+            cout << "point => " << point<< endl;
+            if(point <= player.getServant().size())
             {
                 if(ch =='0')
                     return; 
-                selectedServant = player.getServant().at(ch-'0'-1);
+                selectedServant = player.getServant().at(point-1);
                 psName = selectedServant.getName();
                 cout << "Let's GO " << psName <<" !!" << endl;
                 sleep(1);
@@ -563,7 +564,7 @@ void Menu::on_battle(Servant pServ, Servant eServ)
               cout << pServ.getName() <<" is Downed " << endl;
               if(getKey())
                 break;
-                
+
         }
         if(getKey())
             continue;
