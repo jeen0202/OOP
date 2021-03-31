@@ -30,12 +30,13 @@ string Player::getName(){
 
 vector<Servant> Player::getServant()
 {
-    vector<Servant> temp;
-    for(int i =0; i<MAXSERVANT ; i++)
-    {
-        temp.push_back(myServ[i]);
-    }
-    return temp;   
+    // vector<Servant> temp;
+    // for(int i =0; i<MAXSERVANT ; i++)
+    // {
+    //     temp.push_back(myServ[i]);
+    // }
+    // return temp;
+    return myServ;   
 }
 vector<short> Player::getServantStatus()
 {

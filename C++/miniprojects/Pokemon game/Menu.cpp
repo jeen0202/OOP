@@ -395,12 +395,13 @@ void Menu::battle_menu()
 {
     Player enemy("RED");
     Player player("player");
-    Servant tempServ;
+    Servant tempServ,selectedServant;
     Skill tempSkill;
     tempServ.setName("VOLTMOUSE");
     tempServ.setLevel(5);
     string temp;
     int i;
+    char ch;
     vector<string> tempList;
     vector<Skill> tempSkills;
     vector<Servant> servList;
@@ -413,7 +414,7 @@ void Menu::battle_menu()
     tempServ.setSkills(tempSkills);
     servList.emplace_back(tempServ);
     enemy.setServant(servList);
-    enemy.setServantStatus(0,1);
+    //enemy.setServantStatus(0,1);
     servList.clear();
     tempSkills.clear();
     //user 불러오기
@@ -453,7 +454,7 @@ void Menu::battle_menu()
             tempSkill.setAccuracy(stof(split(temp,' ')[3]));         
             tempSkills.emplace_back(tempSkill);
         } while (readServant.peek()!=EOF);
-         //cout << "check" << endl;        
+               
     }
     for(i=0;i<tempList.size();i++)
     {
@@ -461,28 +462,55 @@ void Menu::battle_menu()
         tempServ.setLevel(stoi(split(tempList[i], ' ')[1]));
         tempServ.setSkills(tempSkills);
         servList.emplace_back(tempServ);
+          
     }
-    player.setServant(servList);
+    player.setServant(servList);    
 
 
     string eName = enemy.getName();
+    //cout << "eName : " << eName << endl;    
     string esName = enemy.getServant()[0].getName();
-    cout << "==========B A T T L E==========" << endl;
-    cout << eName << " Ask for Battle" << endl;
-    cout << eName << " Send Out " << esName << endl;
-    //Enemy의 스킬 출력
-    // cout << esName << "'s Skill " << endl;
-    // for(int i = 0;i<enemy.getServant()[0].getSkills().size();i++){
-    //     if(!enemy.getServant()[0].getSkills().empty())               
-    //             cout << enemy.getServant()[0].getSkills().at(i).toString();
-    //     }
-        cout <<"Which Servant do you want to Send?" << endl;
-        for(i=0;i<player.getServant().size();i++)
-        {
-            cout << i+1 << ". "<< player.getServant().at(i).getName() << endl;
-        }   
-        cout <<"===================="<< endl;
-        if(getKey())
-            return;   
     
+    while(1){
+        clrscr();
+        cout << "==========B A T T L E==========" << endl;
+        cout << eName << " Ask for Battle" << endl;
+        cout << eName << " Send Out " << esName << endl;
+        //Enemy의 스킬 출력
+        // cout << esName << "'s Skill " << endl;
+        // for(int i = 0;i<enemy.getServant()[0].getSkills().size();i++){
+        //     if(!enemy.getServant()[0].getSkills().empty())               
+        //             cout << enemy.getServant()[0].getSkills().at(i).toString();
+        //     }    
+            cout <<"Which Servant do you want to Send?" << endl;        
+            for(i=0;i<player.getServant().size();i++)
+            {            
+                cout << i+1 << ". "<< player.getServant().at(i).getName() << endl;
+            }   
+            cout <<"===================="<< endl;
+            
+            ch= getKey();
+           
+            if(ch-'0' <= player.getServant().size())
+            {
+                if(ch =='0')
+                    return; 
+                selectedServant = player.getServant().at(ch-'0'-1);
+                cout << "Let's GO " << selectedServant.getName() <<"!!" << endl;
+                getKey();
+            // if(ch =='1'){
+                
+            // }else if(ch =='2'){
+
+            // }else if(ch =='3'){
+
+            // }
+            
+                }else{
+                cout << "Out of Range!!" << endl;                    
+                    if(getKey())
+                        continue;  
+            }   
+        
+    }
 }
