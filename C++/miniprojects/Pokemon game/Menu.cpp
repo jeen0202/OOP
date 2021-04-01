@@ -638,9 +638,9 @@ bool Menu::on_battle(Servant pServ, Servant eServ)
             cout <<"==============================="<< endl;
             sleep(1); 
         }
-        // if(getKey())
-        //     continue;
+
     }
+    return true;
 }
 
 bool Menu::on_AutoBattle(Servant pServ, Servant eServ)
@@ -705,7 +705,7 @@ bool Menu::on_AutoBattle(Servant pServ, Servant eServ)
             cout <<"==============================="<< endl;
             sleep(1); 
         }
-        // if(getKey())
-        //     continue;
+
     }
+    return true;
 }
