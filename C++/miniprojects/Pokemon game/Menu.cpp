@@ -402,12 +402,13 @@ void Menu::battle_menu()
     string temp,psName,eName,esName;
     int i;
     char ch;
+    bool is_win;
     vector<string> tempList;
     vector<Skill> tempSkills;
     vector<Servant> servList;
 
     //Enemy 설정
-    tempSkill = Skill("MILLION_VOLT",20,90,5);
+    tempSkill = Skill("MILLION_VOLT",50,90,5);
     tempSkills.emplace_back(tempSkill);
     tempSkill = Skill("IRON_TAIL",10,80,2);
     tempSkills.emplace_back(tempSkill);
@@ -467,6 +468,15 @@ void Menu::battle_menu()
     esName = enemy.getServant()[0].getName();
     while(1){
         clrscr();
+        if(!enemy.getServantStatus().at(0))
+        {
+            cout << "===========================" << endl;
+            cout << "C O N G R A T U R A T I O N" << endl;
+            cout << "     Y O U W I N ! !" << endl;
+            cout << "===========================" << endl;
+            if(getKey())
+                break;
+        }
         cout << "==========B A T T L E==========" << endl;
         cout << eName << " Ask for Battle" << endl;        
         cout << eName << " Send Out " << esName << endl;        
@@ -481,7 +491,7 @@ void Menu::battle_menu()
             {            
                 cout << i+1 << ". "<< player.getServant().at(i).getName() << endl;
             }   
-            cout <<"===================="<< endl;
+            cout <<"==============================="<< endl;
             
             ch= getKey();
             int point = ch-'0';
@@ -492,18 +502,23 @@ void Menu::battle_menu()
                     return; 
                 selectedServant = player.getServant().at(point-1);
                 psName = selectedServant.getName();
-                cout << "Let's GO " << psName <<" !!" << endl;
-                sleep(1);
-                on_battle(selectedServant,enemy.getServant()[0]);               
-
-            // if(ch =='1'){
-                
-            // }else if(ch =='2'){
-
-            // }else if(ch =='3'){
-
-            // }
-            
+                if(!player.getServantStatus().at(point-1))
+                {
+                    cout << psName << " Cannot Avalable" << endl;
+                    sleep(1);
+                    continue;
+                }else{
+                    clrscr();
+                    cout << "==========B A T T L E==========" << endl;
+                    cout << "Let's GO " << psName <<" !!" << endl;
+                    cout <<"================================"<< endl;
+                    sleep(1);                
+                    is_win = on_battle(selectedServant,enemy.getServant()[0]); 
+                    player.setServantStatus(point-1,is_win);
+                    enemy.setServantStatus(0,!is_win);
+                    cout << "Result => " << player.getServantStatus().at(point-1) << " " <<enemy.getServantStatus().at(0) << endl;
+                    // getKey();
+                }                
                 }else{
                 cout << "Out of Range!!" << endl;                    
                     if(getKey())
@@ -513,7 +528,7 @@ void Menu::battle_menu()
     }
 }
 
-void Menu::on_battle(Servant pServ, Servant eServ)
+bool Menu::on_battle(Servant pServ, Servant eServ)
 {
     random_device rd;
     mt19937 gen(rd());
@@ -532,10 +547,10 @@ void Menu::on_battle(Servant pServ, Servant eServ)
         {
             cout << i+1 << ". " << pServ.getSkills().at(i).getName() << endl;
         }
-        cout <<"===================="<< endl;        
+        cout <<"==============================="<< endl;        
         ch = getKey();
         if(ch =='0')
-            return;
+            break;
         int point = ch-'0'-1;
         clrscr();        
         if(point< pServ.getSkills().size())
@@ -543,13 +558,15 @@ void Menu::on_battle(Servant pServ, Servant eServ)
             cout << "==========B A T T L E==========" << endl;
             cout << psName << " Use " << pServ.getSkills().at(point).getName() << endl;
             eServ.isAttacked(pServ.getSkills().at(point));
-            cout <<"===================="<< endl;
-            sleep(2); 
             if(eServ.getHitPoints()==0){
-              cout << eServ.getName() <<" is Downed " << endl;
-              cout << "Congraturation!! \nYou win!!" << endl;
-              if(getKey())
-                break;
+                sleep(1);
+                cout << eServ.getName() <<" is Downed " << endl;
+                cout <<"==============================="<< endl;
+                sleep(1);            
+                return true;
+          }else{
+            cout <<"==============================="<< endl;
+            sleep(1);
           }
         }else{
            cout << "Out of Range!!" << endl;                    
@@ -560,15 +577,19 @@ void Menu::on_battle(Servant pServ, Servant eServ)
         clrscr();
         cout << "==========B A T T L E==========" << endl;
         cout << esName << " Use " << eServ.getSkills().at(temp).getName() << endl;
-        pServ.isAttacked(eServ.getSkills().at(temp));
-        cout <<"===================="<< endl;
+        pServ.isAttacked(eServ.getSkills().at(temp));               
         if(pServ.getHitPoints()==0){
-              cout << pServ.getName() <<" is Downed " << endl;
-              if(getKey())
-                break;
-                main_menu();
+            sleep(1); 
+            cout << pServ.getName() <<" is Downed " << endl;
+            cout <<"==============================="<< endl;   
+            sleep(1);
+            return false;            
+        }else
+        {
+            cout <<"==============================="<< endl;
+            sleep(1); 
         }
-        if(getKey())
-            continue;
+        // if(getKey())
+        //     continue;
     }
 }

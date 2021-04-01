@@ -38,9 +38,9 @@ vector<Servant> Player::getServant()
     // return temp;
     return myServ;   
 }
-vector<short> Player::getServantStatus()
+vector<bool> Player::getServantStatus()
 {
-    vector<short> temp;
+    vector<bool> temp;
     for(int i=0; i <MAXSERVANT; i++)
     {
         temp.push_back(ServantStatus[i]);
