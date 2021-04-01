@@ -58,13 +58,13 @@ void Menu::main_menu()
         clrscr();
         cout<<"*************************************************************"<<endl;
         cout<<"*************************************************************"<<endl;
-        cout <<"W E L C O M E T O S E R V A N T W O R L D" << endl;        
+        cout <<"S E R V A N T W O R L D" << endl;        
         cout <<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;       
-        cout <<"1: GET SERVANT" << endl;        
-        cout <<"2: LIST OF SERVANT" << endl;        
-        cout <<"3: GET INTO BATTLE" << endl;   
-        cout <<"0: QUIT" << endl;       
-        cout <<"Enter Your Choice : ";
+        cout <<"1: Servant 잡기" << endl;        
+        cout <<"2: 내 Servant" << endl;        
+        cout <<"3: 도전하기" << endl;   
+        cout <<"0: 종료" << endl;       
+        cout <<"선택 : ";
         ch = getKey();
         if (ch == '1')
         {
@@ -170,9 +170,9 @@ void Menu::serv_menu()
         //newServ->
         newServ.setSkills(newSkills);
         //cout << "Empty check => " << newServ.getSkills().size() << endl;
-        cout <<"======G E T S E R V A N T=====" << endl;        
-        cout << "Name : " << newServ.getName() << " Level : " << newServ.getLevel() << endl;
-        cout << "==========SKILLS==========" << endl;
+        cout <<"======S E R V A N T 잡기=====" << endl;        
+        cout << "이름 : " << newServ.getName() << " Level : " << newServ.getLevel() << endl;
+        cout << "==========기 술==========" << endl;
         for(int i = 0; i <newServ.getSkills().size();i++)
         {       
                  
@@ -185,7 +185,7 @@ void Menu::serv_menu()
         //         cout << split(newSkills[i],' ')[1] <<" : " <<split(newSkills[i],' ')[2] << endl;
         // }
         cout <<"==========================" << endl;
-        cout << "Do you want this Servant?(Y/N)" ;
+        cout << "이 Servant를 잡으시겠습니까?(Y/N)" ;
         ch = getKey(0);
         ch = toupper(ch);    
         clrscr();
@@ -204,12 +204,12 @@ void Menu::serv_menu()
             } while (maxCheck.peek()!=EOF);
             if(check<MAXSERVANT)
             {
-              cout << "Wanna make Nickname?(Y/N)" ;
+              cout << "애칭을 붙일까요?(Y/N)" ;
               ch = getKey();
               ch = toupper(ch);
               if(ch=='Y')
               {
-                  cout << "\nNickname : " ;
+                  cout << "\n애칭 : " ;
                   cin >> nickname;
                   newServ.setName(nickname);
               }  
@@ -227,12 +227,12 @@ void Menu::serv_menu()
                 }
                 file << "====================" << endl;
                 file.close();
-                cout <<"\n" << newServ.getName() << " Catched " << endl;
+                cout <<"\n" << newServ.getName() << "을 잡았습니다 " << endl;
                 if(getKey())
                     return;
             }else
             {
-                cout << "Servant is Full!!!" << endl;
+                cout << "더이상 잡을 수 없습니다!!!" << endl;
                 cout << "Press Any Key to return" << endl;
                 getKey();
                 return;
