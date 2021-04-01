@@ -11,7 +11,7 @@
 #include <fstream>
 
 using namespace std;
-float lastbattle = 100;
+float lastbattle = 200;
 Player enemy("RED");
 Player player("player"); 
 vector<string> split(string str, char delimeter) {
@@ -402,16 +402,16 @@ void Menu::battle_menu()
     vector<Skill> tempSkills;
     vector<Servant> servList;
     //tempServ = enemy.getServant().at(0);  
-    tempServ.setName("VOLTMOUSE");
-    tempServ.setLevel(5);
+    tempServ.setName("THUNDERPIG");
+    tempServ.setLevel(5);    
     string temp,psName,eName,esName;
     int i;
     char ch;        
     bool is_win;
     //Enemy 설정
-    tempSkill = Skill("MILLION_VOLT",50,90,5);
+    tempSkill = Skill("MILLION_VOLT",40,80,5);
     tempSkills.emplace_back(tempSkill);
-    tempSkill = Skill("IRON_TAIL",40,80,2);
+    tempSkill = Skill("THUNDER_TAIL",20,90,2);
     tempSkills.emplace_back(tempSkill);
     tempServ.setSkills(tempSkills);
     servList.emplace_back(tempServ);
@@ -460,7 +460,7 @@ void Menu::battle_menu()
         } while (temp!="===================="||readServant.peek()!=EOF); 
         tempServ.setName(split(tempList[i], ' ')[0]);
         tempServ.setLevel(stoi(split(tempList[i], ' ')[1]));
-        tempServ.setSkills(tempSkills);
+        tempServ.setSkills(tempSkills);        
         tempSkills.clear();
         servList.emplace_back(tempServ);                      
     }    
@@ -484,9 +484,14 @@ void Menu::battle_menu()
             cout << "===========================" << endl;
             cout << "Your Servant Are All Down" << endl;
             cout << "You Cannot Fight Anymore!!" << endl;
-            cout << "===========================" << endl;
+            cout << "===========================" << endl;            
             if(getKey())
+            {
+                remove("Player.txt");
+                remove("ServSkill.txt");
                 return;
+            }
+               
         }
         if(!enemy.getServantStatus().at(0))
         {
@@ -532,8 +537,8 @@ void Menu::battle_menu()
                     cout << "==========B A T T L E==========" << endl;
                     cout << "Let's GO " << psName <<" !!" << endl;
                     cout <<"================================"<< endl;
-                    enemy.getServant()[0].setHitPoints(lastbattle); 
-                    cout << "HitPoint " << enemy.getServant()[0].getHitPoints() << endl;   
+                    //enemy.getServant()[0].setHitPoints(lastbattle); 
+                    //cout << "HitPoint " << enemy.getServant()[0].getHitPoints() << endl;   
                     sleep(1);
                                                                  
                     is_win = on_battle(selectedServant,enemy.getServant()[0]); 
