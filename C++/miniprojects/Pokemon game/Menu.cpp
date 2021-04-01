@@ -407,11 +407,11 @@ void Menu::battle_menu()
     string temp,psName,eName,esName;
     int i;
     char ch;        
-    bool is_win;
+    bool is_win;0
     //Enemy 설정
     tempSkill = Skill("MILLION_VOLT",40,80,5);
     tempSkills.emplace_back(tempSkill);
-    tempSkill = Skill("THUNDER_TAIL",20,90,2);
+    tempSkill = Skill("THUNDER_TAIL",30,90,2);
     tempSkills.emplace_back(tempSkill);
     tempServ.setSkills(tempSkills);
     servList.emplace_back(tempServ);
