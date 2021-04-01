@@ -12,6 +12,10 @@
 #include <fstream>
 using namespace std;
 
+
+
+
+
 vector<string> split(string str, char delimeter) {
     vector<string> internal;
     stringstream ss(str);
@@ -46,12 +50,13 @@ int getKey(int is_echo =0)
 
 void clrscr(){ system("clear"); }
 
+
 void Menu::main_menu()
-{
-    
+{    
     char ch;
     while(1)
     {
+
         clrscr();
         cout<<"*************************************************************"<<endl;
         cout<<"*************************************************************"<<endl;
@@ -393,20 +398,20 @@ void Menu::list_of_servant()
 
 void Menu::battle_menu()
 {
-    Player enemy("RED");
-    Player player("player");
+    
     Servant tempServ,selectedServant;
     Skill tempSkill;
+    vector<string> tempList;
+    vector<Skill> tempSkills;
+    vector<Servant> servList;
+    Player enemy("RED");
+    Player player("player");    
     tempServ.setName("VOLTMOUSE");
     tempServ.setLevel(5);
     string temp,psName,eName,esName;
     int i;
-    char ch;
+    char ch;        
     bool is_win;
-    vector<string> tempList;
-    vector<Skill> tempSkills;
-    vector<Servant> servList;
-
     //Enemy 설정
     tempSkill = Skill("MILLION_VOLT",50,90,5);
     tempSkills.emplace_back(tempSkill);
@@ -442,10 +447,11 @@ void Menu::battle_menu()
         getKey();
         return;
     }
+
     for(i = 0; i<tempList.size();i++)
     {
         do
-        {  
+        {          
             getline(readServant,temp);
             // cout << "check  "<<i<<" "<< temp << endl;             
             if(temp=="====================")
@@ -463,11 +469,30 @@ void Menu::battle_menu()
         servList.emplace_back(tempServ);                      
     }    
     player.setServant(servList); 
+
     eName = enemy.getName();
-    //cout << "eName : " << eName << endl;    
-    esName = enemy.getServant()[0].getName();
+    cout << "Check" << endl; 
+    cout << "eName : " << eName << endl;    
+    esName = enemy.getServant().at(0).getName();
+                        
     while(1){
         clrscr();
+
+        bool can_fight = false;
+
+        for(i = 0;i<player.getServant().size();i++)
+        {
+            if(player.getServantStatus().at(i))
+                can_fight=true;
+        }
+        if(!can_fight){
+            cout << "===========================" << endl;
+            cout << "Your Servant Are All Down" << endl;
+            cout << "You Cannot Fight Anymore!!" << endl;
+            cout << "===========================" << endl;
+            if(getKey())
+                return;
+        }
         if(!enemy.getServantStatus().at(0))
         {
             cout << "===========================" << endl;
@@ -504,7 +529,7 @@ void Menu::battle_menu()
                 psName = selectedServant.getName();
                 if(!player.getServantStatus().at(point-1))
                 {
-                    cout << psName << " Cannot Avalable" << endl;
+                    cout << psName << " Cannot Available" << endl;
                     sleep(1);
                     continue;
                 }else{
@@ -536,8 +561,7 @@ bool Menu::on_battle(Servant pServ, Servant eServ)
     string psName = pServ.getName();
     string esName = eServ.getName();
     int i,temp;
-    char ch;
-    
+    char ch;       
     while(1)
     {
         clrscr();
