@@ -8,14 +8,12 @@
 #include <unistd.h>
 #include "Menu.h"
 //#include "Servant.cpp"
-
 #include <fstream>
+
 using namespace std;
-
-
-
-
-
+float lastbattle = 100;
+Player enemy("RED");
+Player player("player"); 
 vector<string> split(string str, char delimeter) {
     vector<string> internal;
     stringstream ss(str);
@@ -397,15 +395,13 @@ void Menu::list_of_servant()
 }
 
 void Menu::battle_menu()
-{
-    
+{    
     Servant tempServ,selectedServant;
     Skill tempSkill;
     vector<string> tempList;
     vector<Skill> tempSkills;
     vector<Servant> servList;
-    Player enemy("RED");
-    Player player("player");    
+    //tempServ = enemy.getServant().at(0);  
     tempServ.setName("VOLTMOUSE");
     tempServ.setLevel(5);
     string temp,psName,eName,esName;
@@ -415,7 +411,7 @@ void Menu::battle_menu()
     //Enemy 설정
     tempSkill = Skill("MILLION_VOLT",50,90,5);
     tempSkills.emplace_back(tempSkill);
-    tempSkill = Skill("IRON_TAIL",10,80,2);
+    tempSkill = Skill("IRON_TAIL",40,80,2);
     tempSkills.emplace_back(tempSkill);
     tempServ.setSkills(tempSkills);
     servList.emplace_back(tempServ);
@@ -477,9 +473,8 @@ void Menu::battle_menu()
                         
     while(1){
         clrscr();
-
-        bool can_fight = false;
-
+        //cout << "lastbattle " << lastbattle << endl;
+        bool can_fight = false;        
         for(i = 0;i<player.getServant().size();i++)
         {
             if(player.getServantStatus().at(i))
@@ -537,7 +532,10 @@ void Menu::battle_menu()
                     cout << "==========B A T T L E==========" << endl;
                     cout << "Let's GO " << psName <<" !!" << endl;
                     cout <<"================================"<< endl;
-                    sleep(1);                
+                    enemy.getServant()[0].setHitPoints(lastbattle); 
+                    cout << "HitPoint " << enemy.getServant()[0].getHitPoints() << endl;   
+                    sleep(1);
+                                                                 
                     is_win = on_battle(selectedServant,enemy.getServant()[0]); 
                     player.setServantStatus(point-1,is_win);
                     enemy.setServantStatus(0,!is_win);
@@ -558,6 +556,7 @@ bool Menu::on_battle(Servant pServ, Servant eServ)
     random_device rd;
     mt19937 gen(rd());
     uniform_int_distribution<int> eSkill(0,1);
+    eServ.setHitPoints(lastbattle);
     string psName = pServ.getName();
     string esName = eServ.getName();
     int i,temp;
@@ -603,6 +602,9 @@ bool Menu::on_battle(Servant pServ, Servant eServ)
         cout << esName << " Use " << eServ.getSkills().at(temp).getName() << endl;
         pServ.isAttacked(eServ.getSkills().at(temp));               
         if(pServ.getHitPoints()==0){
+           // cout << "HitPoint => " <<eServ.getHitPoints() << endl;
+            lastbattle = eServ.getHitPoints();
+           // cout << "lastbattle " << lastbattle << endl;
             sleep(1); 
             cout << pServ.getName() <<" is Downed " << endl;
             cout <<"==============================="<< endl;   

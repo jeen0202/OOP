@@ -81,4 +81,7 @@ string Servant::toString()
     str = name + " " + to_string(level) + " " + to_string(hitPoints) ;
     return str;
 }
-
+void Servant::setHitPoints(float newbattle)
+{
+    hitPoints = newbattle;
+}

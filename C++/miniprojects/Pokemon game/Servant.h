@@ -21,6 +21,7 @@ class Servant{
         void setName(std::string name);        
         void isAttacked(Skill skill);
         void setSkills(vector<Skill> newSkills);
+        void setHitPoints(float lastbattle);
         std::string toString();
         
         
