@@ -257,7 +257,7 @@ void Menu::list_of_servant()
     Skill tempSkill;
     readServant.open("Player.txt", ios::in);
     if(!readServant.is_open()){
-        cout << "You did't have Servant" << endl;
+        cout << "Servant를 가지고 있지 않습니다." << endl;
         cout << "Press any key to return..." << endl;
         getKey();
         return;
@@ -313,10 +313,10 @@ void Menu::list_of_servant()
         clrscr();
         cout<<"*************************************************************"<<endl;
         cout<<"*************************************************************"<<endl;
-        cout <<"\t M Y S E R V A N T" << endl;        
+        cout <<"\t Servant 목 록" << endl;        
         cout <<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         if(list.empty()){
-            cout << "You did't have Servant" << endl;
+            cout << "Servant를 가지고 있지 않습니다." << endl;
             cout << "Press any key to return..." << endl;
             if(getKey())
             {
@@ -331,17 +331,17 @@ void Menu::list_of_servant()
             // cout <<"2nd Servant" << endl;        
             // cout <<"3rd Servant" << endl;
             // cout <<"4th Servant" << endl;   
-            cout <<"0: QUIT" << endl;       
-            cout <<"Enter Your Choice : ";            
+            cout <<"0: 나가기" << endl;       
+            cout <<"선택 : ";            
             ch = getKey();
             if(ch-'0'<=list.size())
             {
                 if (ch == '1')
                 {
                     clrscr();                    
-                    cout <<"====="<<split(list.at(0),' ')[0] << "\'s SKILL"<<"=====" <<endl;
+                    cout <<"====="<<split(list.at(0),' ')[0] << "의 기술목록"<<"=====" <<endl;
                     cout <<  "==============================" << endl;
-                    cout << "NAME  LEVEL  DAMAGE  ACC" << endl;
+                    cout << "이름  LEVEL  피해  정확도" << endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[0].size();i++){                        
                         cout << skillList[0].at(i).toString();
@@ -353,9 +353,9 @@ void Menu::list_of_servant()
                 }else if(ch=='2')
                 {
                     clrscr();
-                    cout <<"====="<<split(list.at(1),' ')[0] << "\'s SKILL"<<"=====" <<endl;
+                    cout <<"====="<<split(list.at(1),' ')[0] << "의 기술목록"<<"=====" <<endl;
                     cout <<  "==============================" << endl;
-                    cout << "NAME  LEVEL  DAMAGE  ACC" << endl;
+                    cout << "이름  LEVEL  피해  정확도" << endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[1].size();i++){                        
                         cout << skillList[1].at(i).toString();
@@ -367,9 +367,9 @@ void Menu::list_of_servant()
                 }else if(ch=='3')
                 {
                     clrscr();
-                    cout <<"====="<<split(list.at(2),' ')[0] << "\'s SKILL"<<"=====" <<endl;
+                    cout <<"====="<<split(list.at(2),' ')[0] << "의 기술"<<"=====" <<endl;
                     cout <<  "==============================" << endl;
-                    cout << "NAME  LEVEL  DAMAGE  ACC" << endl;
+                    cout << "이름  LEVEL  피해  정확도" << endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[2].size();i++){                        
                         cout << skillList[2].at(i).toString();
@@ -384,7 +384,7 @@ void Menu::list_of_servant()
                 return;
             }else
             {
-                cout << "Out of Range!!" << endl;
+                cout << "잘못된 선택입니다!!" << endl;
                 cout << "Press Any Key to Return" ;
                 if(getKey())
                     continue;                    
@@ -423,7 +423,7 @@ void Menu::battle_menu()
     ifstream readServant;
     readServant.open("Player.txt", ios::in);
     if(!readServant.is_open()){
-        cout << "You did't have Servant" << endl;
+        cout << "Servant가 없습니다." << endl;
         cout << "Press any key to return..." << endl;
         getKey();
         return;
@@ -467,8 +467,8 @@ void Menu::battle_menu()
     player.setServant(servList); 
 
     eName = enemy.getName();
-    cout << "Check" << endl; 
-    cout << "eName : " << eName << endl;    
+    //cout << "Check" << endl; 
+    //cout << "eName : " << eName << endl;    
     esName = enemy.getServant().at(0).getName();
                         
     while(1){
@@ -484,8 +484,8 @@ void Menu::battle_menu()
         }
         if(!can_fight){
             cout << "===========================" << endl;
-            cout << "Your Servant Are All Down" << endl;
-            cout << "You Cannot Fight Anymore!!" << endl;
+            cout << "Servant가 모두 기절했습니다." << endl;
+            cout << "       도전 실패" << endl;
             cout << "===========================" << endl;            
             if(getKey())
             {
@@ -499,22 +499,22 @@ void Menu::battle_menu()
         {
             lastbattle = 150;
             cout << "===========================" << endl;
-            cout << "C O N G R A T U R A T I O N" << endl;
-            cout << "     Y O U W I N ! !" << endl;
+            cout << "       축 하 합 니 다" << endl;
+            cout << "       도 전 성 공 !!" << endl;
             cout << "===========================" << endl;
             if(getKey())
                 break;
         }
         cout << "==========B A T T L E==========" << endl;
-        cout << eName << " Ask for Battle" << endl;        
-        cout << eName << " Send Out " << esName << endl;        
+        cout << eName << " 에게 도전합니다." << endl;        
+        cout << eName << "가 " << esName <<" 를 내보냅니다." <<endl;        
         //Enemy의 스킬 출력
         // cout << esName << "'s Skill " << endl;
         // for(int i = 0;i<enemy.getServant()[0].getSkills().size();i++){
         //     if(!enemy.getServant()[0].getSkills().empty())               
         //             cout << enemy.getServant()[0].getSkills().at(i).toString();
         //     }
-            cout <<"Which Servant do you want to Send?" << endl;        
+            cout <<"어떤 Servant를 내보낼까요??" << endl;        
             for(i=0;i<player.getServant().size();i++)
             {            
                 cout << i+1 << ". "<< player.getServant().at(i).getName() << endl;
@@ -532,14 +532,14 @@ void Menu::battle_menu()
                 psName = selectedServant.getName();
                 if(!player.getServantStatus().at(point-1))
                 {
-                    cout << psName << " Cannot Available" << endl;
+                    cout << psName << "내보낼 수 없는 Servant입니다." << endl;
                     sleep(1);
                     continue;
                 }else{
                     clrscr();
                     while(ch!='Y'&&ch!='N'){
                     cout << "==========B A T T L E==========" << endl;
-                    cout << "Do you want to Play auto Mode?(Y/N)" << endl;
+                    cout << "자동전투를 진행하시겠습니까?(Y/N)" << endl;
                     cout <<"================================"<< endl;
                     ch = getKey();
                     ch = toupper(ch);
@@ -550,7 +550,7 @@ void Menu::battle_menu()
                     }
                     clrscr();    
                     cout << "==========B A T T L E==========" << endl;
-                    cout << "Let's GO " << psName <<" !!" << endl;
+                    cout << "가라 " << psName <<" !!" << endl;
                     cout <<"================================"<< endl;
                     //enemy.getServant()[0].setHitPoints(lastbattle); 
                     //cout << "HitPoint " << enemy.getServant()[0].getHitPoints() << endl;   
@@ -565,7 +565,7 @@ void Menu::battle_menu()
                     // getKey();
                     }                
                 }else{
-                cout << "Out of Range!!" << endl;                    
+                cout << "잘못 된 입력입니다!!" << endl;                    
                     if(getKey())
                         continue;
                 }  
@@ -588,7 +588,7 @@ bool Menu::on_battle(Servant pServ, Servant eServ)
     {
         clrscr();
         cout << "==========B A T T L E==========" << endl;
-        cout << "Which Skill " << psName << " Use? " << endl;
+        cout << psName << "에게 어떤기술을 쓰게할까요? " << endl;
         for(i=0;i<pServ.getSkills().size();i++)
         {
             cout << i+1 << ". " << pServ.getSkills().at(i).getName() << endl;
@@ -602,11 +602,11 @@ bool Menu::on_battle(Servant pServ, Servant eServ)
         if(point< pServ.getSkills().size())
         {
             cout << "==========B A T T L E==========" << endl;
-            cout << psName << " Use " << pServ.getSkills().at(point).getName() << endl;
+            cout << psName << " 의 " << pServ.getSkills().at(point).getName() << endl;
             eServ.isAttacked(pServ.getSkills().at(point));
             if(eServ.getHitPoints()==0){
                 sleep(1);
-                cout << eServ.getName() <<" is Downed " << endl;
+                cout << eServ.getName() <<" 가 기절했습니다." << endl;
                 cout <<"==============================="<< endl;
                 sleep(1);            
                 return true;
@@ -615,21 +615,21 @@ bool Menu::on_battle(Servant pServ, Servant eServ)
             sleep(1);
           }
         }else{
-           cout << "Out of Range!!" << endl;                    
+           cout << "잘못된 입력입니다." << endl;                    
             if(getKey())
                 continue;   
         }
         temp = eSkill(gen);
         clrscr();
         cout << "==========B A T T L E==========" << endl;
-        cout << esName << " Use " << eServ.getSkills().at(temp).getName() << endl;
+        cout << esName << " 의 " << eServ.getSkills().at(temp).getName() << endl;
         pServ.isAttacked(eServ.getSkills().at(temp));               
         if(pServ.getHitPoints()==0){
            // cout << "HitPoint => " <<eServ.getHitPoints() << endl;
             lastbattle = eServ.getHitPoints();
            // cout << "lastbattle " << lastbattle << endl;
             sleep(1); 
-            cout << pServ.getName() <<" is Downed " << endl;
+            cout << pServ.getName() <<" 가 기절했습니다. " << endl;
             cout <<"==============================="<< endl;   
             sleep(1);
             return false;            
@@ -673,11 +673,11 @@ bool Menu::on_AutoBattle(Servant pServ, Servant eServ)
         // if(point< pServ.getSkills().size())
 
             cout << "==========B A T T L E==========" << endl;
-            cout << psName << " Use " << pServ.getSkills().at(point).getName() << endl;
+            cout << psName << " 의 " << pServ.getSkills().at(point).getName() << endl;
             eServ.isAttacked(pServ.getSkills().at(point));
             if(eServ.getHitPoints()==0){
                 sleep(1);
-                cout << eServ.getName() <<" is Downed " << endl;
+                cout << eServ.getName() <<" 가 기절했습니다. " << endl;
                 cout <<"==============================="<< endl;
                 sleep(1);            
                 return true;
@@ -689,14 +689,14 @@ bool Menu::on_AutoBattle(Servant pServ, Servant eServ)
         temp = eSkill(gen);
         clrscr();
         cout << "==========B A T T L E==========" << endl;
-        cout << esName << " Use " << eServ.getSkills().at(temp).getName() << endl;
+        cout << esName << " 의 " << eServ.getSkills().at(temp).getName() << endl;
         pServ.isAttacked(eServ.getSkills().at(temp));               
         if(pServ.getHitPoints()==0){
            // cout << "HitPoint => " <<eServ.getHitPoints() << endl;
             lastbattle = eServ.getHitPoints();
            // cout << "lastbattle " << lastbattle << endl;
             sleep(1); 
-            cout << pServ.getName() <<" is Downed " << endl;
+            cout << pServ.getName() <<" 가 기절했습니다. " << endl;
             cout <<"==============================="<< endl;   
             sleep(1);
             return false;            

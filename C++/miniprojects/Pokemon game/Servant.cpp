@@ -42,14 +42,14 @@ void Servant::isAttacked(Skill sk)
         result = true;
 
     if(result){
-        cout << "On Hit!!" << endl;  
-        cout << name << " Got " << damage << " Damage!!" << endl;
+        cout << "명중" << endl;  
+        cout << name << " 가 받은피해 : " << damage << endl;
         hitPoints -= damage;
         if (hitPoints<0)
             hitPoints = 0;
-        cout << name << "'s Hp remains" << hitPoints << endl;    
+        cout << name << "의 잔여 체력 : " << hitPoints << endl;    
     }else{
-        cout << "Miss" << endl;
+        cout << "빗나감" << endl;
     }
 }
 
