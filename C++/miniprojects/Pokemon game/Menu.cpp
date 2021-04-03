@@ -402,16 +402,16 @@ void Menu::battle_menu()
     vector<Skill> tempSkills;
     vector<Servant> servList;
     //tempServ = enemy.getServant().at(0);  
-    tempServ.setName("THUNDERPIG");
+    tempServ.setName("썬다람쥐");
     tempServ.setLevel(5);    
     string temp,psName,eName,esName;
     int i;
     char ch;        
     bool is_win;
     //Enemy 설정
-    tempSkill = Skill("MILLION_VOLT",40,80,5);
+    tempSkill = Skill("100만볼트",40,80,5);
     tempSkills.emplace_back(tempSkill);
-    tempSkill = Skill("THUNDER_TAIL",30,90,2);
+    tempSkill = Skill("번개박치기",30,90,2);
     tempSkills.emplace_back(tempSkill);
     tempServ.setSkills(tempSkills);
     servList.emplace_back(tempServ);
@@ -523,7 +523,7 @@ void Menu::battle_menu()
             
             ch= getKey();
             int point = ch-'0';
-            cout << "point => " << point<< endl;
+            //cout << "point => " << point<< endl;
             if(point <= player.getServant().size())
             {
                 if(ch =='0')
@@ -532,7 +532,7 @@ void Menu::battle_menu()
                 psName = selectedServant.getName();
                 if(!player.getServantStatus().at(point-1))
                 {
-                    cout << psName << "내보낼 수 없는 Servant입니다." << endl;
+                    cout << "내보낼 수 없는 Servant입니다." << endl;
                     sleep(1);
                     continue;
                 }else{
@@ -561,7 +561,7 @@ void Menu::battle_menu()
                         is_win = on_AutoBattle(selectedServant,enemy.getServant()[0]);   
                     player.setServantStatus(point-1,is_win);
                     enemy.setServantStatus(0,!is_win);
-                    cout << "Result => " << player.getServantStatus().at(point-1) << " " <<enemy.getServantStatus().at(0) << endl;
+                    //cout << "Result => " << player.getServantStatus().at(point-1) << " " <<enemy.getServantStatus().at(0) << endl;
                     // getKey();
                     }                
                 }else{
