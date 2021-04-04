@@ -288,7 +288,7 @@ void Menu::list_of_servant()
             skillname = split(temp,' ')[0];               
             damage = stof(split(temp,' ')[1]);
             damage = presicion(damage);
-            acc = stof(split(temp,' ')[3]);
+            acc = stof(split(temp,' ')[2]);
             acc = presicion(acc);
             tempSkill.setName(skillname);
             tempSkill.setDamage(damage);
@@ -341,7 +341,7 @@ void Menu::list_of_servant()
                     clrscr();                    
                     cout <<"====="<<split(list.at(0),' ')[0] << "의 기술목록"<<"=====" <<endl;
                     cout <<  "==============================" << endl;
-                    cout << "이름  LEVEL  피해  정확도" << endl;
+                    cout << "이름  피해  정확도" << endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[0].size();i++){                        
                         cout << skillList[0].at(i).toString();
@@ -355,7 +355,7 @@ void Menu::list_of_servant()
                     clrscr();
                     cout <<"====="<<split(list.at(1),' ')[0] << "의 기술목록"<<"=====" <<endl;
                     cout <<  "==============================" << endl;
-                    cout << "이름  LEVEL  피해  정확도" << endl;
+                    cout << "이름  피해  정확도" << endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[1].size();i++){                        
                         cout << skillList[1].at(i).toString();
@@ -369,7 +369,7 @@ void Menu::list_of_servant()
                     clrscr();
                     cout <<"====="<<split(list.at(2),' ')[0] << "의 기술"<<"=====" <<endl;
                     cout <<  "==============================" << endl;
-                    cout << "이름  LEVEL  피해  정확도" << endl;
+                    cout << "이름  피해  정확도" << endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[2].size();i++){                        
                         cout << skillList[2].at(i).toString();
