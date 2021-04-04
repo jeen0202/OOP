@@ -116,10 +116,11 @@ void Menu::serv_menu()
     while(1)
     {
         uniform_int_distribution<int> dis(0,servBox.size()-1);
-        line = servBox.at(dis(gen));
+        //line = servBox.at(dis(gen));
         vector<string> skillBox;
         //cout << "Line => " << line << endl;
-        name = line;    
+        name = servBox.at(dis(gen));
+        //cout << "name " << name << endl;    
         uniform_int_distribution<int> lv(1,10);
         level = lv(gen);
         newServ.setName(name);
@@ -139,35 +140,42 @@ void Menu::serv_menu()
         maxSkill = diskill(gen);
         //cout << "maxskill" << maxSkill << endl;
         newSkills.clear();
+        int i,j =0;
         newSkills.reserve(maxSkill);
-        for(int i =0;i<maxSkill;i++)
+        //cout << "maxSkill=> " << maxSkill << endl;
+        for(i =0;i<maxSkill;i++)
         {
             skillcount[i] = skill(gen);
+            
             //cout << "Check " << i << endl;        
-            for(int j = 0; j<i;j++)
+            for(j = 0; j<i;j++)
             {
-                if(skillcount[i] == skillcount[j])
+                //cout << "check " << j << endl;
+                if(skillcount[j] == skillcount[i])
                 {
                     i--;               
                     newSkills.pop_back();
                     //cout<<"POP " << newSkills.size()<< endl;                
-                    break;
+                    break;                    
                 }                      
             };
-            skillname = split(skillBox.at(skillcount[i]),' ')[1];               
+            //cout << "Check " << skillcount[i] << endl;
+            //cout << "skillBox" << skillBox.size() << endl;
+            skillname = split(skillBox.at(skillcount[i]),' ')[1];                        
             damage = stof(split(skillBox.at(skillcount[i]),' ')[2]);
             damage = presicion(damage);
             acc = stof(split(skillBox.at(skillcount[i]),' ')[3]);
             acc = presicion(acc);
             newSkill.setName(skillname);
             newSkill.setDamage(damage);
-            newSkill.setAccuracy(acc);         
-            newSkills.emplace_back(newSkill);        
-            //  cout << "==Check==\n" << skillname<<damage<<acc<<endl;        
+            newSkill.setAccuracy(acc);                    
+            newSkills.emplace_back(newSkill);                   
+            //cout << "==Check==\n" << skillname<<damage<<acc<<endl;        
             // newSkills[i] = skillBox.at(skillcount[i]);        
         }
+
         //cout << "Final Check => " << newSkills.size() << endl;
-        //newServ->
+        
         newServ.setSkills(newSkills);
         //cout << "Empty check => " << newServ.getSkills().size() << endl;
         cout <<"======S E R V A N T 잡기=====" << endl;        
@@ -288,7 +296,7 @@ void Menu::list_of_servant()
             skillname = split(temp,' ')[0];               
             damage = stof(split(temp,' ')[1]);
             damage = presicion(damage);
-            acc = stof(split(temp,' ')[3]);
+            acc = stof(split(temp,' ')[2]);
             acc = presicion(acc);
             tempSkill.setName(skillname);
             tempSkill.setDamage(damage);
@@ -341,7 +349,7 @@ void Menu::list_of_servant()
                     clrscr();                    
                     cout <<"====="<<split(list.at(0),' ')[0] << "의 기술목록"<<"=====" <<endl;
                     cout <<  "==============================" << endl;
-                    cout << "이름  LEVEL  피해  정확도" << endl;
+                    cout << "이름  피해  정확도" << endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[0].size();i++){                        
                         cout << skillList[0].at(i).toString();
@@ -355,7 +363,7 @@ void Menu::list_of_servant()
                     clrscr();
                     cout <<"====="<<split(list.at(1),' ')[0] << "의 기술목록"<<"=====" <<endl;
                     cout <<  "==============================" << endl;
-                    cout << "이름  LEVEL  피해  정확도" << endl;
+                    cout << "이름  피해  정확도" << endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[1].size();i++){                        
                         cout << skillList[1].at(i).toString();
@@ -369,7 +377,7 @@ void Menu::list_of_servant()
                     clrscr();
                     cout <<"====="<<split(list.at(2),' ')[0] << "의 기술"<<"=====" <<endl;
                     cout <<  "==============================" << endl;
-                    cout << "이름  LEVEL  피해  정확도" << endl;
+                    cout << "이름  피해  정확도" << endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[2].size();i++){                        
                         cout << skillList[2].at(i).toString();
