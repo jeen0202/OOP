@@ -116,10 +116,11 @@ void Menu::serv_menu()
     while(1)
     {
         uniform_int_distribution<int> dis(0,servBox.size()-1);
-        line = servBox.at(dis(gen));
+        //line = servBox.at(dis(gen));
         vector<string> skillBox;
         //cout << "Line => " << line << endl;
-        name = line;    
+        name = servBox.at(dis(gen));
+        //cout << "name " << name << endl;    
         uniform_int_distribution<int> lv(1,10);
         level = lv(gen);
         newServ.setName(name);
@@ -139,38 +140,42 @@ void Menu::serv_menu()
         maxSkill = diskill(gen);
         //cout << "maxskill" << maxSkill << endl;
         newSkills.clear();
-        //newSkills.reserve(maxSkill);        
-        for(int i =0;i<maxSkill;i++)
+        int i,j =0;
+        newSkills.reserve(maxSkill);
+        //cout << "maxSkill=> " << maxSkill << endl;
+        for(i =0;i<maxSkill;i++)
         {
             skillcount[i] = skill(gen);
             
-            cout << "Check " << i << endl;        
-            for(int j = 0; j<i;j++)
+            //cout << "Check " << i << endl;        
+            for(j = 0; j<i;j++)
             {
-                cout << "check " << j << endl;
-                if(skillcount[i] == skillcount[j])
+                //cout << "check " << j << endl;
+                if(skillcount[j] == skillcount[i])
                 {
                     i--;               
                     newSkills.pop_back();
                     //cout<<"POP " << newSkills.size()<< endl;                
-                    break;
-                   
+                    break;                    
                 }                      
             };
-            skillname = split(skillBox.at(skillcount[i]),' ')[1];               
+            //cout << "Check " << skillcount[i] << endl;
+            //cout << "skillBox" << skillBox.size() << endl;
+            skillname = split(skillBox.at(skillcount[i]),' ')[1];                        
             damage = stof(split(skillBox.at(skillcount[i]),' ')[2]);
             damage = presicion(damage);
             acc = stof(split(skillBox.at(skillcount[i]),' ')[3]);
             acc = presicion(acc);
             newSkill.setName(skillname);
             newSkill.setDamage(damage);
-            newSkill.setAccuracy(acc);         
-            newSkills.emplace_back(newSkill);        
-            //  cout << "==Check==\n" << skillname<<damage<<acc<<endl;        
+            newSkill.setAccuracy(acc);                    
+            newSkills.emplace_back(newSkill);                   
+            //cout << "==Check==\n" << skillname<<damage<<acc<<endl;        
             // newSkills[i] = skillBox.at(skillcount[i]);        
         }
+
         //cout << "Final Check => " << newSkills.size() << endl;
-        //newServ->
+        
         newServ.setSkills(newSkills);
         //cout << "Empty check => " << newServ.getSkills().size() << endl;
         cout <<"======S E R V A N T 잡기=====" << endl;        
