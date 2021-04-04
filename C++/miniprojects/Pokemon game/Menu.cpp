@@ -139,19 +139,22 @@ void Menu::serv_menu()
         maxSkill = diskill(gen);
         //cout << "maxskill" << maxSkill << endl;
         newSkills.clear();
-        newSkills.reserve(maxSkill);
+        //newSkills.reserve(maxSkill);        
         for(int i =0;i<maxSkill;i++)
         {
             skillcount[i] = skill(gen);
-            //cout << "Check " << i << endl;        
+            
+            cout << "Check " << i << endl;        
             for(int j = 0; j<i;j++)
             {
+                cout << "check " << j << endl;
                 if(skillcount[i] == skillcount[j])
                 {
                     i--;               
                     newSkills.pop_back();
                     //cout<<"POP " << newSkills.size()<< endl;                
                     break;
+                   
                 }                      
             };
             skillname = split(skillBox.at(skillcount[i]),' ')[1];               
