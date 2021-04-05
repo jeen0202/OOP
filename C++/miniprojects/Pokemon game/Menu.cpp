@@ -611,7 +611,7 @@ bool Menu::on_battle(Servant pServ, Servant eServ)
         {
             cout << "==========B A T T L E==========" << endl;
             cout << psName << " 의 " << pServ.getSkills().at(point).getName() << endl;
-            eServ.isAttacked(pServ.getSkills().at(point));
+            eServ.isAttacked(pServ,pServ.getSkills().at(point));
             if(eServ.getHitPoints()==0){
                 sleep(1);
                 cout << eServ.getName() <<" 가 기절했습니다." << endl;
@@ -631,7 +631,7 @@ bool Menu::on_battle(Servant pServ, Servant eServ)
         clrscr();
         cout << "==========B A T T L E==========" << endl;
         cout << esName << " 의 " << eServ.getSkills().at(temp).getName() << endl;
-        pServ.isAttacked(eServ.getSkills().at(temp));               
+        pServ.isAttacked(eServ,eServ.getSkills().at(temp));               
         if(pServ.getHitPoints()==0){
            // cout << "HitPoint => " <<eServ.getHitPoints() << endl;
             lastbattle = eServ.getHitPoints();
@@ -682,7 +682,7 @@ bool Menu::on_AutoBattle(Servant pServ, Servant eServ)
 
             cout << "==========B A T T L E==========" << endl;
             cout << psName << " 의 " << pServ.getSkills().at(point).getName() << endl;
-            eServ.isAttacked(pServ.getSkills().at(point));
+            eServ.isAttacked(pServ,pServ.getSkills().at(point));
             if(eServ.getHitPoints()==0){
                 sleep(1);
                 cout << eServ.getName() <<" 가 기절했습니다. " << endl;
@@ -698,7 +698,7 @@ bool Menu::on_AutoBattle(Servant pServ, Servant eServ)
         clrscr();
         cout << "==========B A T T L E==========" << endl;
         cout << esName << " 의 " << eServ.getSkills().at(temp).getName() << endl;
-        pServ.isAttacked(eServ.getSkills().at(temp));               
+        pServ.isAttacked(eServ,eServ.getSkills().at(temp));               
         if(pServ.getHitPoints()==0){
            // cout << "HitPoint => " <<eServ.getHitPoints() << endl;
             lastbattle = eServ.getHitPoints();
