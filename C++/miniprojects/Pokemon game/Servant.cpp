@@ -30,10 +30,13 @@ int Servant::getHitPoints()
     return hitPoints;
 }
 
-void Servant::isAttacked(Skill sk)
+void Servant::isAttacked(Servant serv, Skill sk)
 {
     bool result = false;
     float damage = sk.getDamage();
+    int level,adj;
+    level = serv.getLevel();
+    
     //난수 생성
     random_device rd;
     mt19937 gen(rd());
