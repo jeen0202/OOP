@@ -261,6 +261,7 @@ void Menu::list_of_servant()
     vector<string> list;
     vector<Skill> skillList[4];
     string temp,skillname;
+    int level;
     float damage,acc;
     Skill tempSkill;
     readServant.open("Player.txt", ios::in);
@@ -346,9 +347,10 @@ void Menu::list_of_servant()
             {
                 if (ch == '1')
                 {
-                    clrscr();                    
-                    cout <<"====="<<split(list.at(0),' ')[0] << "의 기술목록"<<"=====" <<endl;
-                    cout <<  "==============================" << endl;
+                    clrscr();
+                    cout <<  "==============================" << endl;    
+                    cout << "이름 : " << split(list.at(0),' ')[0] << " Level : " << split(list.at(0),' ')[1] << endl;               
+                    cout <<"==========" << "기술목록"<<"==========" <<endl;
                     cout << "이름  피해  정확도" << endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[0].size();i++){                        
@@ -361,9 +363,9 @@ void Menu::list_of_servant()
                 }else if(ch=='2')
                 {
                     clrscr();
-                    cout <<"====="<<split(list.at(1),' ')[0] << "의 기술목록"<<"=====" <<endl;
-                    cout <<  "==============================" << endl;
-                    cout << "이름  피해  정확도" << endl;
+                    cout <<  "==============================" << endl;    
+                    cout << "이름 : " << split(list.at(1),' ')[0] << " Level : " << split(list.at(1),' ')[1] << endl;               
+                    cout <<"==========" << "기술목록"<<"==========" <<endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[1].size();i++){                        
                         cout << skillList[1].at(i).toString();
@@ -375,8 +377,9 @@ void Menu::list_of_servant()
                 }else if(ch=='3')
                 {
                     clrscr();
-                    cout <<"====="<<split(list.at(2),' ')[0] << "의 기술"<<"=====" <<endl;
-                    cout <<  "==============================" << endl;
+                    cout <<  "==============================" << endl;    
+                    cout << "이름 : " << split(list.at(2),' ')[0] << " Level : " << split(list.at(2),' ')[1] << endl;               
+                    cout <<"==========" << "기술목록"<<"==========" <<endl;
                     cout << "이름  피해  정확도" << endl;
                     cout.setf(ios::right);
                     for(int i = 0;i<skillList[2].size();i++){                        
@@ -494,7 +497,8 @@ void Menu::battle_menu()
             cout << "===========================" << endl;
             cout << "Servant가 모두 기절했습니다." << endl;
             cout << "       도전 실패" << endl;
-            cout << "===========================" << endl;            
+            cout << "===========================" << endl;
+            lastbattle = 200;            
             if(getKey())
             {
                 remove("Player.txt");
@@ -505,7 +509,7 @@ void Menu::battle_menu()
         }
         if(!enemy.getServantStatus().at(0))
         {
-            lastbattle = 150;
+            lastbattle = 200;
             cout << "===========================" << endl;
             cout << "       축 하 합 니 다" << endl;
             cout << "       도 전 성 공 !!" << endl;

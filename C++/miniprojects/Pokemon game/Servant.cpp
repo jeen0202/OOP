@@ -35,9 +35,13 @@ void Servant::isAttacked(Servant serv, Skill sk)
     bool result = false;
     float damage = sk.getDamage();
     int eLevel = serv.getLevel();
-    float adj = ((float)eLevel-(float)level)/10;    
-    cout << level << " " << eLevel << " " << adj << endl;
-    damage += (damage*adj);
+    
+    //1차 => 너무 높은 가중치
+    //float adj = ((float)eLevel-(float)level)/10;    
+    //cout << level << " " << eLevel << " " << adj << endl;
+    //damage += (damage*adj);
+    int adj = eLevel - level;
+    damage += adj;
     //난수 생성
     random_device rd;
     mt19937 gen(rd());
