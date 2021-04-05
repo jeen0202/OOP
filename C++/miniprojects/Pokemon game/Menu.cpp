@@ -461,8 +461,8 @@ void Menu::battle_menu()
             if(temp=="====================")
                 break;
             tempSkill.setName(split(temp,' ')[0]);
-            tempSkill.setDamage(stof(split(temp,' ')[2]));
-            tempSkill.setAccuracy(stof(split(temp,' ')[3]));         
+            tempSkill.setDamage(stof(split(temp,' ')[1]));
+            tempSkill.setAccuracy(stof(split(temp,' ')[2]));         
             tempSkills.emplace_back(tempSkill);
             
         } while (temp!="===================="||readServant.peek()!=EOF); 
