@@ -11,6 +11,7 @@
 //#include "mysql_connection.h"
 //#pragma comment(lib, "libmySQL.lib")
 
+//Mysql 연동을 위한 정보 정의
 #define DB_HOST "127.0.0.1"
 #define DB_USER "root"
 #define DB_PASS "111111"
@@ -24,13 +25,8 @@ int main(int argc, char**argv)
     cout << endl;
     cout << "Running 'SELECT *from author'..." << endl;
 
-	// mysql::MySQL_Driver *driver;
-	// Connection *conn;
-    // sql::Statement *stmt;    
-	// driver = mysql::get_mysql_driver_instance();    
-	// conn = driver->connect(DB_HOST,DB_USER,DB_PASS);
-    try{
-    // sql::Driver *driver;
+    //err 파악을 위해 try-catch문으로 작성  
+    try{    
     sql::mysql::MySQL_Driver *driver;
     sql::Connection *conn;
     sql::Statement *stmt;
@@ -39,24 +35,22 @@ int main(int argc, char**argv)
     driver = sql::mysql::get_mysql_driver_instance();
     conn = driver->connect(DB_HOST,DB_USER,DB_PASS);
 
+    //statement 작성 및 실행
     stmt = conn->createStatement();
     stmt->execute("USE tutorials");
-    res = stmt->executeQuery("SELECT * from author");
+    res = stmt->executeQuery(SELECT_ALL);
     while(res->next())
     {
         cout << "\t... MYSQL replies: ";
         cout << res->getInt("id") << " " << res->getString("name") << " " << res->getString("profile") << endl;
         
     }
-    // stmt->execute("USE tutorials");
-    // stmt->execute("DROP TABLE IF EXISTS test");
-    // stmt->execute("CREATE TABLE test(id INT, label CHAR(1))")
-    
+    //DB 사용 이후 pointer 해제    
     delete res;
 	delete conn;
     delete stmt;
     } catch (sql::SQLException &e)
-    {
+    {   //예외처리
         cout << "# ERR : SQLException in " << __FILE__;
         cout << "(" << __FUNCTION__ <<") on line " << __LINE__ << endl;
         cout << "# ERR: " << e.what();
