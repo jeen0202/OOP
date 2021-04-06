@@ -1,6 +1,6 @@
 #include <iostream>
-#include <mysql.h>
-
+//#include <mysql.h>
+#include "mysql_driver.h"
 #pragma comment(lib, "libmySQL.lib")
 
 #define DB_HOST "127.0.0.1"
@@ -10,7 +10,7 @@
 
 int main(int argc, char**argv)
 {
-    printf("MYSQL client version :%s\n ",mysql_get_client_info());
+/*    printf("MYSQL client version :%s\n ",mysql_get_client_info());
 
     MYSQL *connection=NULL, conn;
     MYSQL_RES *sql_result;
@@ -41,6 +41,12 @@ int main(int argc, char**argv)
     mysql_free_result(sql_result);
 
     mysql_close(connection);
+*/
+	sql::mysql::MySQL_Driver *driver;
+	sql::Connection *conn;
+	driver = sql::mysql::get_mysql_driver_instance();
+	conn = driver->connect(DB_HOST,DB_USER,DB_PASS);
 
-    return 0;
+	delete conn;
+    	return 0;
 }
