@@ -1,52 +1,68 @@
 #include <iostream>
+#include <stdlib.h>
 //#include <mysql.h>
 #include "mysql_driver.h"
-#pragma comment(lib, "libmySQL.lib")
+#include "mysql_connection.h"
+#include "mysql_error.h"
+#include <cppconn/driver.h>
+#include <cppconn/exception.h>
+#include <cppconn/resultset.h>
+#include <cppconn/statement.h>
+//#include "mysql_connection.h"
+//#pragma comment(lib, "libmySQL.lib")
 
 #define DB_HOST "127.0.0.1"
 #define DB_USER "root"
 #define DB_PASS "111111"
 #define DB_NAME "tutorials"
 
+using namespace std;
+
+#define SELECT_ALL "SELECT * FROM AUTHOR"
 int main(int argc, char**argv)
 {
-/*    printf("MYSQL client version :%s\n ",mysql_get_client_info());
+    cout << endl;
+    cout << "Running 'SELECT *from author'..." << endl;
 
-    MYSQL *connection=NULL, conn;
-    MYSQL_RES *sql_result;
-    MYSQL_ROW sql_row;
-    int query_stat;
+	// mysql::MySQL_Driver *driver;
+	// Connection *conn;
+    // sql::Statement *stmt;    
+	// driver = mysql::get_mysql_driver_instance();    
+	// conn = driver->connect(DB_HOST,DB_USER,DB_PASS);
+    try{
+    // sql::Driver *driver;
+    sql::mysql::MySQL_Driver *driver;
+    sql::Connection *conn;
+    sql::Statement *stmt;
+    sql::ResultSet *res;
+    // connection create
+    driver = sql::mysql::get_mysql_driver_instance();
+    conn = driver->connect(DB_HOST,DB_USER,DB_PASS);
 
-    mysql_init(&conn);
-
-    connection = mysql_real_connect(&conn, DB_HOST,DB_USER,DB_PASS,DB_NAME,3306,(char*)NULL,0);
-    if(connection==NULL)
+    stmt = conn->createStatement();
+    stmt->execute("USE tutorials");
+    res = stmt->executeQuery("SELECT * from author");
+    while(res->next())
     {
-        fprintf(stderr, "Mysql connection error :%s",mysql_error(&conn));
-        return 1;
+        cout << "\t... MYSQL replies: ";
+        cout << res->getInt("id") << " " << res->getString("name") << " " << res->getString("profile") << endl;
+        
     }
-    char *querry = "SELECT * FROM author";
-    auery_stat=mysql_query(connection,query);
-    if(query_stat !=0)
-    {
-        fprintf(stderr, "Mysql query error : %s", mysql_error(&conn));
-        return 1;
-    }
-
-    sql_result = mysql_store_result(connection);
-    while((sql_row=mysql_fetch_row(sql_result))!=NULL)
-    {
-        printf("%2s %2s %s\n", sql_row[0],sql_row(1],sql_row[2]);        
-    }
-    mysql_free_result(sql_result);
-
-    mysql_close(connection);
-*/
-	sql::mysql::MySQL_Driver *driver;
-	sql::Connection *conn;
-	driver = sql::mysql::get_mysql_driver_instance();
-	conn = driver->connect(DB_HOST,DB_USER,DB_PASS);
-
+    // stmt->execute("USE tutorials");
+    // stmt->execute("DROP TABLE IF EXISTS test");
+    // stmt->execute("CREATE TABLE test(id INT, label CHAR(1))")
+    
+    delete res;
 	delete conn;
+    delete stmt;
+    } catch (sql::SQLException &e)
+    {
+        cout << "# ERR : SQLException in " << __FILE__;
+        cout << "(" << __FUNCTION__ <<") on line " << __LINE__ << endl;
+        cout << "# ERR: " << e.what();
+        cout << " (MySQL error code : " << e.getErrorCode();
+        cout << ", SQLState : " << e.getSQLState() << " )" << endl;
+    }
+        cout << endl;
     	return 0;
 }
