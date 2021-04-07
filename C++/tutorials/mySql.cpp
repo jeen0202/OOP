@@ -20,6 +20,8 @@
 using namespace std;
 
 #define SELECT_ALL "SELECT * FROM AUTHOR"
+#define RESET "DELETE TABLE if exist conn_test"
+#define CREATE "CREATE TABLE if not exists conn_test(id(int), name(varchar(20))"
 int main(int argc, char**argv)
 {
     cout << endl;
@@ -38,6 +40,9 @@ int main(int argc, char**argv)
     //statement 작성 및 실행
     stmt = conn->createStatement();
     stmt->execute("USE tutorials");
+    //table 초기화
+    int pmt = stmt->execute(RESET);
+    pmt = stmt->execute(CREATE);
     res = stmt->executeQuery(SELECT_ALL);
     while(res->next())
     {
