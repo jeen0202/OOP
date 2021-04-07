@@ -19,9 +19,9 @@
 
 using namespace std;
 
-#define SELECT_ALL "SELECT * FROM AUTHOR"
-#define RESET "DELETE TABLE if exist conn_test"
-#define CREATE "CREATE TABLE if not exists conn_test(id(int), name(varchar(20))"
+#define SELECT_ALL "SELECT * FROM author"
+#define RESET "DROP TABLE IF EXISTS conn_test"
+#define CREATE "CREATE TABLE IF NOT EXISTS conn_test(id int, name varchar(20))"
 int main(int argc, char**argv)
 {
     cout << endl;
