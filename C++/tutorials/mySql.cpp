@@ -8,7 +8,7 @@
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
-#include <cppconn/
+//#include <cppconn/preparestatement.h>
 //#include "mysql_connection.h"
 //#pragma comment(lib, "libmySQL.lib")
 
