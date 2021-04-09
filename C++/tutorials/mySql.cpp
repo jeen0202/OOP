@@ -8,6 +8,7 @@
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
+#include <cppconn/prepared_statement.h>
 //#include <cppconn/preparestatement.h>
 //#include "mysql_connection.h"
 //#pragma comment(lib, "libmySQL.lib")
@@ -64,7 +65,7 @@ int main(int argc, char**argv)
     psmt->setString(1,name);
     psmt->setString(2,address);
     psmt->setString(3,phone);
-    psmt->excute();
+    psmt->execute();
     //DB 사용 이후 pointer 해제    
     delete res;
 	delete conn;
