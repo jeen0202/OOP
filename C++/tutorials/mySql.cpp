@@ -66,6 +66,28 @@ int main(int argc, char**argv)
     psmt->setString(2,address);
     psmt->setString(3,phone);
     psmt->execute();
+    cout << "Running 'SELECT *from contact_list' after insert..." << endl;
+    res = stmt->executeQuery(SELECT_ALL);
+    while(res->next())
+    {
+        cout << "\t... MYSQL replies: ";
+        cout << res->getInt("id") << " " << res->getString("name") << " " << res->getString("address")  
+        << " " << res->getString("phone") << endl;
+        
+    }
+    //Delete 기능
+    psmt = conn->prepareStatement("Delete from contact_list where name=?");
+    psmt->setString(1,name);
+    psmt->execute();
+    cout << "Running 'SELECT *from contact_list' after delete " << endl;
+    res = stmt->executeQuery(SELECT_ALL);
+    while(res->next())
+    {
+        cout << "\t... MYSQL replies: ";
+        cout << res->getInt("id") << " " << res->getString("name") << " " << res->getString("address")  
+        << " " << res->getString("phone") << endl;
+        
+    }
     //DB 사용 이후 pointer 해제    
     delete res;
 	delete conn;
