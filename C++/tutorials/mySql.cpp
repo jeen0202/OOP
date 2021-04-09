@@ -75,6 +75,19 @@ int main(int argc, char**argv)
         << " " << res->getString("phone") << endl;
         
     }
+    //Update 기능
+    psmt = conn->prepareStatement("Update contact_list SET name='updated' where name=?");
+    psmt->setString(1,name);
+    psmt->execute();
+    cout << "Running 'SELECT *from contact_list' after Update..." << endl;
+    res = stmt->executeQuery(SELECT_ALL);
+        while(res->next())
+    {
+        cout << "\t... MYSQL replies: ";
+        cout << res->getInt("id") << " " << res->getString("name") << " " << res->getString("address")  
+        << " " << res->getString("phone") << endl;
+        
+    }
     //Delete 기능
     psmt = conn->prepareStatement("Delete from contact_list where name=?");
     psmt->setString(1,name);
