@@ -32,12 +32,13 @@ public:
 db_connect::db_connect(/* args */)
 {
     driver = sql::mysql::get_mysql_driver_instance();
-    conn = driver->connect(DB_HOST,DB_USER,DB_PASS);
-    std::string use = "Use "DB_NAME;
-    stmt->execute(use);
+    conn = driver->connect(DB_HOST,DB_USER,DB_PASS);    
+    stmt = conn->createStatement(); 
+    stmt->execute("Use "DB_NAME);
 }
 void db_connect::showList()
 {
+    
     res = stmt->executeQuery("Select * FROM contact_list");
     std::cout << "ID\t이름\t주소\t전화번호" << std::endl;
     while(res->next())
@@ -51,7 +52,7 @@ db_connect::~db_connect()
     delete res;
 	delete conn;
     delete stmt;
-    delete psmt;
+    //delete psmt;
 }
 
 #endif
