@@ -7,4 +7,7 @@ int main()
     db.showList();
     int id = db.searchID("관리자");
     cout << "result : " << id << endl;
+    db.addMember("test","test","test");
+    cout << "New table" << endl;
+    db.showList();
 }

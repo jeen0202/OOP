@@ -27,6 +27,7 @@ public:
     db_connect(/* args */);
     void showList();
     int searchID(std::string name);
+    void addMember(std::string name, std::string address,std::string phone);
     ~db_connect();
 };
 
@@ -59,7 +60,8 @@ int db_connect::searchID(std::string name)
         {
             result = res->getInt("id");
             std::cout << "\t... Seleted data: \n";
-            std::cout << result << " " << res->getString("name") << " " << res->getString("address")  
+            std:: cout << "이름\t\t주소\t\t전화번호\n";
+            std::cout << res->getString("name") << " " << res->getString("address")  
             << " " << res->getString("phone") << std::endl;
         }       
     }catch(sql::SQLException &e)
@@ -70,7 +72,30 @@ int db_connect::searchID(std::string name)
         std::cout << " (MySQL error code : " << e.getErrorCode();
         std::cout << ", SQLState : " << e.getSQLState() << " )" << std::endl;
     }
-     return result;
+     return result;     
+}
+void db_connect::addMember(std::string name, std::string address,std::string phone)
+{
+    try{
+        psmt = conn->prepareStatement("INSERT INTO contact_list(name,address,phone) value(?,?,?)");
+        psmt->setString(1,name);
+        psmt->setString(2,address);
+        psmt->setString(3,phone);
+        if(!psmt->execute())    
+            std::cout << "데이터 추가 완료\n";   
+        else
+            std::cout << "데이터 추가 실패\n";         
+    }catch(sql::SQLException &e)
+    {
+        std::cout << "# ERR : SQLException in " << __FILE__;
+        std::cout << "(" << __FUNCTION__ <<") on line " << __LINE__ << std::endl;
+        std::cout << "# ERR: " << e.what();
+        std::cout << " (MySQL error code : " << e.getErrorCode();
+        std::cout << ", SQLState : " << e.getSQLState() << " )" << std::endl;
+    }
+    
+    
+
 }
 db_connect::~db_connect()
 {
