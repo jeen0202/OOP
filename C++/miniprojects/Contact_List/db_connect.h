@@ -26,6 +26,7 @@ private:
 public:
     db_connect(/* args */);
     void showList();
+    int searchID(std::string name);
     ~db_connect();
 };
 
@@ -46,6 +47,30 @@ void db_connect::showList()
         std::cout << res->getInt("id") << "\t" << res->getString("name") << "\t" << res->getString("address")  
         << " " << res->getString("phone") << std::endl;
     }
+}
+int db_connect::searchID(std::string name)
+{
+    int result;
+    try{
+        psmt = conn->prepareStatement("Select * from contact_list WHERE name=?");
+        psmt->setString(1,name);
+        res = psmt->executeQuery();
+        if(res->next())
+        {
+            result = res->getInt("id");
+            std::cout << "\t... Seleted data: \n";
+            std::cout << result << " " << res->getString("name") << " " << res->getString("address")  
+            << " " << res->getString("phone") << std::endl;
+        }       
+    }catch(sql::SQLException &e)
+    {
+        std::cout << "# ERR : SQLException in " << __FILE__;
+        std::cout << "(" << __FUNCTION__ <<") on line " << __LINE__ << std::endl;
+        std::cout << "# ERR: " << e.what();
+        std::cout << " (MySQL error code : " << e.getErrorCode();
+        std::cout << ", SQLState : " << e.getSQLState() << " )" << std::endl;
+    }
+     return result;
 }
 db_connect::~db_connect()
 {
