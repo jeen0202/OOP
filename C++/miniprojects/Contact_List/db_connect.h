@@ -29,6 +29,8 @@ public:
     int searchID(std::string name);
     void addMember(std::string name, std::string address,std::string phone);
     void deleteMember(int id);
+    void updateAddress(int id, std::string address);
+    void updatePhone(int id, std::string phone);
     ~db_connect();
 };
 
@@ -104,6 +106,42 @@ void db_connect::deleteMember(int id)
             std::cout <<"데이터 삭제 완료\n";
         else
             std::cout <<"데이터 삭제 실패\n";    
+    }catch(sql::SQLException &e){
+        std::cout << "# ERR : SQLException in " << __FILE__;
+        std::cout << "(" << __FUNCTION__ <<") on line " << __LINE__ << std::endl;
+        std::cout << "# ERR: " << e.what();
+        std::cout << " (MySQL error code : " << e.getErrorCode();
+        std::cout << ", SQLState : " << e.getSQLState() << " )" << std::endl;        
+    }
+}
+void db_connect::updateAddress(int id, std::string address)
+{
+    try{
+        psmt = conn->prepareStatement("UPDATE contact_list SET address=? WHERE id=?");
+        psmt->setString(1,address);
+        psmt->setInt(2,id);
+        if(!psmt->execute())
+            std::cout <<"주소 수정 완료\n";
+        else
+            std::cout <<"주소 수정 실패\n";    
+    }catch(sql::SQLException &e){
+        std::cout << "# ERR : SQLException in " << __FILE__;
+        std::cout << "(" << __FUNCTION__ <<") on line " << __LINE__ << std::endl;
+        std::cout << "# ERR: " << e.what();
+        std::cout << " (MySQL error code : " << e.getErrorCode();
+        std::cout << ", SQLState : " << e.getSQLState() << " )" << std::endl;        
+    }
+}
+void db_connect::updatePhone(int id, std::string phone)
+{
+    try{
+        psmt = conn->prepareStatement("UPDATE contact_list SET phone=? WHERE id=?");
+        psmt->setString(1,phone);
+        psmt->setInt(2,id);
+        if(!psmt->execute())
+            std::cout <<"연락처 수정 완료\n";
+        else
+            std::cout <<"연락처 수정 실패\n";    
     }catch(sql::SQLException &e){
         std::cout << "# ERR : SQLException in " << __FILE__;
         std::cout << "(" << __FUNCTION__ <<") on line " << __LINE__ << std::endl;

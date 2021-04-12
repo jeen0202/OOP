@@ -7,11 +7,15 @@ int main()
     int id;
     db.showList();
     db.addMember("test","test","test");
-    cout << "A F T E R A D D" << endl;
+    cout << "\tAFTER ADD" << endl;
     db.showList();
     id = db.searchID("test");
-    cout << "result : " << id << endl;
+    cout << "\tresult : " << id << endl;    
+    db.updateAddress(id,"광주광역시");
+    db.updatePhone(id,"01073775773");
+    cout << "\tAFTER UPDATE\n";
+    db.showList();
     db.deleteMember(id);
-    cout << "A F T E R D E L T E\n";
+    cout << "\tAFTER DELETE\n";
     db.showList();
 }
