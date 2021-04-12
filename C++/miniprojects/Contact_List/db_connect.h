@@ -28,6 +28,7 @@ public:
     void showList();
     int searchID(std::string name);
     void addMember(std::string name, std::string address,std::string phone);
+    void deleteMember(int id);
     ~db_connect();
 };
 
@@ -93,9 +94,23 @@ void db_connect::addMember(std::string name, std::string address,std::string pho
         std::cout << " (MySQL error code : " << e.getErrorCode();
         std::cout << ", SQLState : " << e.getSQLState() << " )" << std::endl;
     }
-    
-    
-
+}
+void db_connect::deleteMember(int id)
+{
+    try{
+        psmt = conn->prepareStatement("DELETE FROM contact_list WHERE id = ?");
+        psmt->setInt(1,id);
+        if(!psmt->execute())
+            std::cout <<"데이터 삭제 완료\n";
+        else
+            std::cout <<"데이터 삭제 실패\n";    
+    }catch(sql::SQLException &e){
+        std::cout << "# ERR : SQLException in " << __FILE__;
+        std::cout << "(" << __FUNCTION__ <<") on line " << __LINE__ << std::endl;
+        std::cout << "# ERR: " << e.what();
+        std::cout << " (MySQL error code : " << e.getErrorCode();
+        std::cout << ", SQLState : " << e.getSQLState() << " )" << std::endl;        
+    }
 }
 db_connect::~db_connect()
 {
