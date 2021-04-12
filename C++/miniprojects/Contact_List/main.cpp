@@ -4,10 +4,14 @@ using namespace std;
 int main()
 {
     db_connect db;
+    int id;
     db.showList();
-    int id = db.searchID("관리자");
-    cout << "result : " << id << endl;
     db.addMember("test","test","test");
-    cout << "New table" << endl;
+    cout << "A F T E R A D D" << endl;
+    db.showList();
+    id = db.searchID("test");
+    cout << "result : " << id << endl;
+    db.deleteMember(id);
+    cout << "A F T E R D E L T E\n";
     db.showList();
 }
