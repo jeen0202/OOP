@@ -158,4 +158,13 @@ db_connect::~db_connect()
     //delete psmt;
 }
 
+class Menu
+{
+    public :
+        void main_menu();
+};
+void Menu::main_menu()
+{
+    
+}
 #endif
