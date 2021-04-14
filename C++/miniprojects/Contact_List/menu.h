@@ -77,19 +77,25 @@ void Menu::main_menu()
             }
         else if (ch == '2')
             {
-                clrscr();
-                cout << "조회 할 사원의 이름을 입력해 주세요 >> ";
-                cin >> seletedName;
-                clrscr();
-                seletedId = db.searchID(seletedName);
-                cout << "계속 검색하시겠습니까?? (Y/N) : ";
-                ch = toupper(getKey());                
-                while(ch !='Y' || ch!='N'){
-                    if(ch == 'Y')
-                        seletedId = db.searchID(seletedName);
-                    else if(ch == 'N')
-                        break;    
-                }
+                do
+                {
+                    clrscr();
+                    cout << "조회 할 사원의 이름을 입력해 주세요 >> ";
+                    cin >> seletedName;
+                    clrscr();
+                    seletedId = db.searchID(seletedName);
+                    cout << "계속 검색하시겠습니까?? (Y/N) : ";                                      
+                    while(ch !='Y' || ch!='N'){                    
+                        ch = getKey();
+                        ch = toupper(ch);
+                        if(ch == 'Y')
+                            break;                    
+                        else if(ch == 'N')
+                            break;
+                        else if(ch =='0')
+                            return ;    
+                    }
+                }while(ch =='Y');                
             }
         else if (ch == '3')
             {
