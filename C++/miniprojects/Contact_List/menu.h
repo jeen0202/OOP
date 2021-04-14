@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <termios.h>
+#include "db_connect.h"
 using namespace std;
 int getKey(int is_echo = 0)
 {
@@ -51,6 +52,9 @@ class Menu
 void Menu::main_menu()
 {
     char ch;
+    db_connect db;
+    int seletedId;
+    string seletedName;
     while(1)
     {
         clrscr();
@@ -67,12 +71,25 @@ void Menu::main_menu()
         ch = getKey();
         if (ch == '1')
             {
-               
+                clrscr();
+                db.showList();
+                getKey();
             }
         else if (ch == '2')
             {
-              
-               
+                clrscr();
+                cout << "조회 할 사원의 이름을 입력해 주세요 >> ";
+                cin >> seletedName;
+                clrscr();
+                seletedId = db.searchID(seletedName);
+                cout << "계속 검색하시겠습니까?? (Y/N) : ";
+                ch = toupper(getKey());                
+                while(ch !='Y' || ch!='N'){
+                    if(ch == 'Y')
+                        seletedId = db.searchID(seletedName);
+                    else if(ch == 'N')
+                        break;    
+                }
             }
         else if (ch == '3')
             {
