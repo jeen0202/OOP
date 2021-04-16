@@ -56,19 +56,7 @@ void Menu::main_menu()
     int seletedId;
     string seletedName;
     while(1)
-    {
-        clrscr();
-        cout<<"***********************************"<<endl;
-        cout<<"***********************************"<<endl;
-        cout <<"사 내 비 상 연 락 망 " << endl;        
-        cout <<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;       
-        cout <<"1: 전 체 보 기" << endl;        
-        cout <<"2: 사 원 조 회" << endl;        
-        cout <<"3: 정 보 수 정" << endl;        
-        cout <<"4: 정 보 삭 제" << endl;       
-        cout <<"0: 나가기" << endl;       
-        cout <<"선택 : ";
-        ch = getKey();
+    {        
         if (ch == '1')
             {
                 clrscr();
@@ -147,10 +135,43 @@ void Menu::main_menu()
             }
         else if (ch == '4')
             {
-               
+               //삭제               
+               clrscr();
+               cout << "삭제할 사원의 이름을 입력해 주세요 >> ";
+               cin >> seletedName;
+               seletedId = db.searchID(seletedName);
+               cout << "사원번호 "<< seletedId <<". " <<seletedName << "을 삭제하시겠습니까?(Y/N) ";
+               while(ch!='Y'||ch!='N')
+               {
+                    ch=getKey();
+                    ch=toupper(ch);
+                    if(ch=='Y')
+                    {
+                        db.deleteMember(seletedId);
+                        break;
+                    }
+                    else if(ch=='N')
+                    {
+                        ch = '4';
+                        break;  
+                    }
+                
+                }             
             }
         else if (ch == '0')            
             break ;
+        clrscr();
+        cout<<"***********************************"<<endl;
+        cout<<"***********************************"<<endl;
+        cout <<"사 내 비 상 연 락 망 " << endl;        
+        cout <<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;       
+        cout <<"1: 전 체 보 기" << endl;        
+        cout <<"2: 사 원 조 회" << endl;        
+        cout <<"3: 정 보 수 정" << endl;        
+        cout <<"4: 정 보 삭 제" << endl;       
+        cout <<"0: 나가기" << endl;       
+        cout <<"선택 : ";
+        ch = getKey();    
         }
         clrscr();
 }
