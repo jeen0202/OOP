@@ -168,7 +168,8 @@ void Menu::main_menu()
         cout <<"1: 전 체 보 기" << endl;        
         cout <<"2: 사 원 조 회" << endl;        
         cout <<"3: 정 보 수 정" << endl;        
-        cout <<"4: 정 보 삭 제" << endl;       
+        cout <<"4: 정 보 삭 제" << endl;
+        cout <<"5: 사 원 추 가" << endl;       
         cout <<"0: 나가기" << endl;       
         cout <<"선택 : ";
         ch = getKey();    
