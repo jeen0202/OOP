@@ -54,7 +54,7 @@ void Menu::main_menu()
     char ch;
     db_connect db;
     int seletedId;
-    string seletedName;
+    string selectedName, selectedAddress, selectedPhone;
     while(1)
     {        
         if (ch == '1')
@@ -69,9 +69,9 @@ void Menu::main_menu()
                 {
                     clrscr();
                     cout << "조회 할 사원의 이름을 입력해 주세요 >> ";
-                    cin >> seletedName;
+                    cin >> selectedName;
                     clrscr();
-                    seletedId = db.searchID(seletedName);
+                    seletedId = db.searchID(selectedName);
                     cout << "계속 검색하시겠습니까?? (Y/N) : ";                                      
                     while(ch !='Y' || ch!='N'){                    
                         ch = getKey();
@@ -91,9 +91,9 @@ void Menu::main_menu()
                 string newAddress;
                 string newPhone;
                 cout << "변경할 사원의 이름을 입력해 주세요 >> ";
-                cin >> seletedName;
+                cin >> selectedName;
                 clrscr();
-                seletedId = db.searchID(seletedName);
+                seletedId = db.searchID(selectedName);
                 cout << "변경할 내용을 선택해 주세요 (1.주소/2.번호/3.모두변경/0.취소)";
                 while(ch!='1'||ch!='2'||ch!='3') 
                 {
@@ -138,9 +138,9 @@ void Menu::main_menu()
                //삭제               
                clrscr();
                cout << "삭제할 사원의 이름을 입력해 주세요 >> ";
-               cin >> seletedName;
-               seletedId = db.searchID(seletedName);
-               cout << "사원번호 "<< seletedId <<". " <<seletedName << "을 삭제하시겠습니까?(Y/N) ";
+               cin >> selectedName;
+               seletedId = db.searchID(selectedName);
+               cout << "사원번호 "<< seletedId <<". " <<selectedName << "을 삭제하시겠습니까?(Y/N) ";
                while(ch!='Y'||ch!='N')
                {
                     ch=getKey();
@@ -158,6 +158,31 @@ void Menu::main_menu()
                 
                 }             
             }
+        else if(ch=='5')
+        {            
+            clrscr();
+            cout << "새로운 등록할 사원의 이름을 입력해 주세요 >> ";
+            cin >> selectedName;
+            cout << "해당 사원의 주소를 입력해 주세요 >> ";
+            getline(cin,selectedAddress);
+            cout << "해당 사원의 연락처를 입력해 주세요 >> ";
+            cin >> selectedPhone;
+            clrscr();
+            cout << "이름\t주소\t전화번호" << std::endl;
+            cout << selectedName << "\t" << selectedAddress << " " << selectedPhone << endl;
+            cout << "사원을 추가하시겠습니까? (Y/N) ";            
+            while(ch!='Y'||ch!='N')
+            {
+                ch = toupper(getKey());
+                if(ch=='Y'){
+                    db.addMember(selectedName,selectedAddress,selectedPhone);                    
+                    break;
+                }else if(ch=='N'){                    
+                    break;
+                }
+            }
+            
+        }    
         else if (ch == '0')            
             break ;
         clrscr();
