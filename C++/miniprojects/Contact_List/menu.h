@@ -162,11 +162,11 @@ void Menu::main_menu()
         {            
             clrscr();
             cout << "새로운 등록할 사원의 이름을 입력해 주세요 >> ";
-            cin >> selectedName;
+            getline(cin,selectedName);
             cout << "해당 사원의 주소를 입력해 주세요 >> ";
             getline(cin,selectedAddress);
             cout << "해당 사원의 연락처를 입력해 주세요 >> ";
-            cin >> selectedPhone;
+            getline(cin,selectedPhone);
             clrscr();
             cout << "이름\t주소\t전화번호" << std::endl;
             cout << selectedName << "\t" << selectedAddress << " " << selectedPhone << endl;
