@@ -98,7 +98,7 @@ void Menu::main_menu()
                    if(seletedId>0)
                    {
                         cout << "변경할 내용을 선택해 주세요 (1.주소/2.번호/3.모두변경/0.취소)";
-                        while(ch!='1'||ch!='2'||ch!='3') 
+                        while(ch!='1'||ch!='2'||ch!='3'||ch!='0') 
                         {
                             ch = getKey();
                             if(ch=='1')
@@ -106,10 +106,15 @@ void Menu::main_menu()
                             else if(ch=='2')
                                 break;
                             else if(ch=='3')
+                                break;
+                            else if(ch=='0')
                                 break;        
                         }
                         switch(ch)
                         {
+                            case '0':
+                                clrscr();                                                            
+                                break;
                             case '1':
                                 clrscr();
                                 cout << "변경할 주소를 입력해 주세요 >> ";
@@ -131,21 +136,24 @@ void Menu::main_menu()
                                 db.updateAddress(seletedId,newAddress);
                                 db.updatePhone(seletedId,newPhone);
                                 break;
-                            case '0':
-                                return; 
                         }  
                     }
-                        cout << "정보변경을 재실행 하시겠습니까??(Y/N) " ;
-                        do{
+                        cout << "정보변경을 재실행 하시겠습니까?(Y/N) " ;
+                        while(ch!='Y'||ch!='N')
+                        {
                             ch = getKey();
-                            ch = toupper(getKey());
+                            ch = toupper(ch);
                             if(ch =='Y')
                                 break;
-                            else if(ch=='N')
+                            else if(ch=='N'){                                
                                 main_menu();
-                            else if(ch=='0')
+                            }
+                            else if(ch=='0'){
+                                clrscr();
                                 return;
-                        }while(ch!= 'Y'||ch!='N');                       
+                            }
+                                
+                        }                       
                 }
                 
             }
