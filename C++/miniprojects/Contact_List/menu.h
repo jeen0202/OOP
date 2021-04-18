@@ -61,6 +61,8 @@ void Menu::main_menu()
             {
                 clrscr();
                 db.showList();
+                cout<<"\n*******************************************************"<<endl;                
+                cout<<"메인 메뉴로 나가려면 아무키나 입력해주세요. ";
                 getKey();
             }
         else if (ch == '2')
@@ -72,6 +74,7 @@ void Menu::main_menu()
                     cin >> selectedName;
                     clrscr();
                     seletedId = db.searchID(selectedName);
+                    cout<<"\n*******************************************************"<<endl;
                     cout << "계속 검색하시겠습니까?? (Y/N) : ";                                      
                     while(ch !='Y' || ch!='N'){                    
                         ch = getKey();
