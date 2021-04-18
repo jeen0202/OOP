@@ -72,6 +72,9 @@ int db_connect::searchID(std::string name)
             std:: cout << "이름\t\t주소\t\t전화번호\n";
             std::cout << res->getString("name") << " " << res->getString("address")  
             << " " << res->getString("phone") << std::endl;
+        }else{
+            std::cout << "존재하지 않는 사원입니다!!\n" ;
+            return -1;
         }       
     }catch(sql::SQLException &e)
     {

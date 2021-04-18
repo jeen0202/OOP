@@ -87,51 +87,67 @@ void Menu::main_menu()
             }
         else if (ch == '3')
             {
-                clrscr();
-                string newAddress;
-                string newPhone;
-                cout << "변경할 사원의 이름을 입력해 주세요 >> ";
-                cin >> selectedName;
-                clrscr();
-                seletedId = db.searchID(selectedName);
-                cout << "변경할 내용을 선택해 주세요 (1.주소/2.번호/3.모두변경/0.취소)";
-                while(ch!='1'||ch!='2'||ch!='3') 
-                {
-                    ch = getKey();
-                    if(ch=='1')
-                        break;
-                    else if(ch=='2')
-                        break;
-                    else if(ch=='3')
-                        break;        
+                while(1){
+                    clrscr();
+                    string newAddress;
+                    string newPhone;
+                    cout << "변경할 사원의 이름을 입력해 주세요 >> ";
+                    cin >> selectedName;
+                    clrscr();
+                    seletedId = db.searchID(selectedName);
+                   if(seletedId>0)
+                   {
+                        cout << "변경할 내용을 선택해 주세요 (1.주소/2.번호/3.모두변경/0.취소)";
+                        while(ch!='1'||ch!='2'||ch!='3') 
+                        {
+                            ch = getKey();
+                            if(ch=='1')
+                                break;
+                            else if(ch=='2')
+                                break;
+                            else if(ch=='3')
+                                break;        
+                        }
+                        switch(ch)
+                        {
+                            case '1':
+                                clrscr();
+                                cout << "변경할 주소를 입력해 주세요 >> ";
+                                getline(cin,newAddress);
+                                db.updateAddress(seletedId,newAddress);
+                                break;
+                            case '2':
+                                clrscr();
+                                cout << "변경할 전화번호를 입력해 주세요 >> ";
+                                cin >> newPhone;
+                                db.updatePhone(seletedId,newPhone);
+                                break;
+                            case '3':
+                                clrscr();
+                                cout << "변경할 주소를 입력해 주세요 >> ";
+                                getline(cin,newAddress);
+                                cout << "변경할 전화번호를 입력해 주세요 >> ";
+                                getline(cin,newPhone);
+                                db.updateAddress(seletedId,newAddress);
+                                db.updatePhone(seletedId,newPhone);
+                                break;
+                            case '0':
+                                return; 
+                        }  
+                    }
+                        cout << "정보변경을 재실행 하시겠습니까??(Y/N) " ;
+                        do{
+                            ch = getKey();
+                            ch = toupper(getKey());
+                            if(ch =='Y')
+                                break;
+                            else if(ch=='N')
+                                main_menu();
+                            else if(ch=='0')
+                                return;
+                        }while(ch!= 'Y'||ch!='N');                       
                 }
-                switch(ch)
-                {
-                    case '1':
-                        clrscr();
-                        cout << "변경할 주소를 입력해 주세요 >> ";
-                        getline(cin,newAddress);
-                        db.updateAddress(seletedId,newAddress);
-                        break;
-                    case '2':
-                        clrscr();
-                        cout << "변경할 전화번호를 입력해 주세요 >> ";
-                        cin >> newPhone;
-                        db.updatePhone(seletedId,newPhone);
-                        break;
-                    case '3':
-                        clrscr();
-                        cout << "변경할 주소를 입력해 주세요 >> ";
-                        getline(cin,newAddress);
-                        cout << "변경할 전화번호를 입력해 주세요 >> ";
-                        getline(cin,newPhone);
-                        db.updateAddress(seletedId,newAddress);
-                        db.updatePhone(seletedId,newPhone);
-                        break;
-                    case '0':
-                        return;         
-                    
-                }   
+                
             }
         else if (ch == '4')
             {
