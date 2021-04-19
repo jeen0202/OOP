@@ -159,28 +159,6 @@ void db_connect::updatePhone(int id, std::string phone)
         std::cout << ", SQLState : " << e.getSQLState() << " )" << std::endl;        
     }
 }
-
-// bool db_connect::addMember(std::string newName, std::string newAddress, std::string newPhone)
-// {
-//     bool result;
-//     try{
-//         psmt = conn->prepareStatement("INSERT INTO contact_list(name,address,phone) value(?,?,?)");
-//         psmt->setString(1,newName);
-//         psmt->setString(2,newAddress);
-//         psmt->setString(3,newPhone);
-//         if(!psmt->execute())
-//             result = true;
-//     }catch(sql::SQLException &e){
-//         std::cout << "# ERR : SQLException in " << __FILE__;
-//         std::cout << "(" << __FUNCTION__ <<") on line " << __LINE__ << std::endl;
-//         std::cout << "# ERR: " << e.what();
-//         std::cout << " (MySQL error code : " << e.getErrorCode();
-//         std::cout << ", SQLState : " << e.getSQLState() << " )" << std::endl;
-//         result = false;  
-//     }
-//     return result;
-// }
-
 db_connect::~db_connect()
 {
     delete res;
@@ -188,7 +166,5 @@ db_connect::~db_connect()
     delete stmt;
     //delete psmt;
 }
-
-
 
 #endif
