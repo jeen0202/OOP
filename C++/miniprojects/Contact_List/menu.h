@@ -29,16 +29,19 @@ int getKey(int is_echo = 0)
     return ch;
 }
 void clrscr(){ system("clear"); }
-
 class Menu
 {
     public :
         void main_menu();
+        short cont();
 };
+
+
 
 void Menu::main_menu()
 {
     char ch;
+    short cho;
     db_connect db;
     int seletedId;
     string selectedName, selectedAddress, selectedPhone;
@@ -63,21 +66,12 @@ void Menu::main_menu()
                     seletedId = db.searchID(selectedName);
                     cout<<"\n*******************************************************"<<endl;
                     cout << "계속 검색하시겠습니까?? (Y/N) : ";                                      
-                    while(ch !='Y' || ch!='N'){                    
-                        ch = getKey();
-                        ch = toupper(ch);
-                        if(ch == 'Y')
-                            break;                    
-                        else if(ch == 'N')
-                            break;
-                        else if(ch =='0')
-                            return ;    
-                    }
-                }while(ch =='Y');                
+                    cho = cont();
+                }while(cho>0);                
             }
         else if (ch == '3')
             {
-                while(1){
+                do{
                     clrscr();
                     string newAddress;
                     string newPhone;
@@ -129,34 +123,21 @@ void Menu::main_menu()
                         }  
                     }
                         cout << "정보변경을 재실행 하시겠습니까?(Y/N) " ;
-                        while(ch!='Y'||ch!='N')
-                        {
-                            ch = getKey();
-                            ch = toupper(ch);
-                            if(ch =='Y')
-                                break;
-                            else if(ch=='N'){                                
-                                main_menu();
-                            }
-                            else if(ch=='0'){
-                                clrscr();
-                                return;
-                            }
-                                
-                        }                       
-                }
+                        cho = cont();                
+                }while(cho>0);
                 
             }
         else if (ch == '4')
             {
-               //삭제               
-               clrscr();
-               cout << "삭제할 사원의 이름을 입력해 주세요 >> ";
-               cin >> selectedName;
-               seletedId = db.searchID(selectedName);
-               cout << "사원번호 "<< seletedId <<". " <<selectedName << "을 삭제하시겠습니까?(Y/N) ";
-               while(ch!='Y'||ch!='N')
-               {
+               //삭제
+               do{                             
+                clrscr();
+                cout << "삭제할 사원의 이름을 입력해 주세요 >> ";
+                cin >> selectedName;
+                seletedId = db.searchID(selectedName);
+                cout << "사원번호 "<< seletedId <<". " <<selectedName << "을 삭제하시겠습니까?(Y/N) ";
+                while(ch!='Y'||ch!='N')
+                {
                     ch=getKey();
                     ch=toupper(ch);
                     if(ch=='Y')
@@ -165,41 +146,51 @@ void Menu::main_menu()
                         break;
                     }
                     else if(ch=='N')
-                    {
-                        ch = '4';
+                    {                            
                         break;  
-                    }
-                
-                }             
-            }
-        else if(ch=='5')
-        {            
-            clrscr();
-            cout << "새로운 등록할 사원의 이름을 입력해 주세요 >> ";
-            getline(cin,selectedName);
-            cout << "해당 사원의 주소를 입력해 주세요 >> ";
-            getline(cin,selectedAddress);
-            cout << "해당 사원의 연락처를 입력해 주세요 >> ";
-            getline(cin,selectedPhone);
-            clrscr();
-            cout << "이름\t주소\t전화번호" << std::endl;
-            cout << selectedName << "\t" << selectedAddress << " " << selectedPhone << endl;
-            cout << "사원을 추가하시겠습니까? (Y/N) ";            
-            while(ch!='Y'||ch!='N')
-            {
-                ch = toupper(getKey());
-                if(ch=='Y'){
-                    db.addMember(selectedName,selectedAddress,selectedPhone);                    
-                    break;
-                }else if(ch=='N'){                    
-                    break;
+                    }                    
                 }
+                cout << "추가 삭제작업을 진행하시겠습니까?(Y/N) ";
+                cho = cont();  
+               }while(cho>0);           
             }
-            
+        else if (ch == '5')
+        {
+            do
+            {
+                clrscr();
+                cout << "새로운 등록할 사원의 이름을 입력해 주세요 >> ";
+                getline(cin,selectedName);
+                cout << "해당 사원의 주소를 입력해 주세요 >> ";
+                getline(cin,selectedAddress);
+                cout << "해당 사원의 연락처를 입력해 주세요 >> ";
+                getline(cin,selectedPhone);
+                clrscr();
+                cout << "이름\t주소\t전화번호" << std::endl;
+                cout << selectedName << "\t" << selectedAddress << " " << selectedPhone << endl;
+                cout << "사원을 추가하시겠습니까? (Y/N) ";            
+                while(ch!='Y'||ch!='N')
+                {
+                    ch = toupper(getKey());
+                    if(ch=='Y'){
+                        db.addMember(selectedName,selectedAddress,selectedPhone);                    
+                        break;
+                    }else if(ch=='N'){                    
+                        break;
+                    }
+                }
+                cout <<"사원을 추가로 등록하시겠습니까?(Y/N) ";
+                cho = cont();
+            }while(cho>0);
         }    
-        else if (ch == '0')            
-            break ;
+        else if (ch == '0')
+        {
+            clrscr();
+            break;
+        }           
         clrscr();
+        if(cho<0)
+            break;
         cout<<"***********************************"<<endl;
         cout<<"***********************************"<<endl;
         cout <<"사 내 비 상 연 락 망 " << endl;        
@@ -212,8 +203,23 @@ void Menu::main_menu()
         cout <<"0: 나가기" << endl;       
         cout <<"선택 : ";
         ch = getKey();    
-        }
+    }    
         clrscr();
 }
 
+short Menu::cont()
+{
+    char ch;    
+    while(ch !='Y' || ch!='N'){                    
+        ch = getKey();
+        ch = toupper(ch);        
+        if(ch == 'Y')
+            return true;                
+        else if(ch == 'N')
+            return false;
+        else if(ch =='0')
+            return -1;      
+    }
+    return 0; 
+}
 #endif
