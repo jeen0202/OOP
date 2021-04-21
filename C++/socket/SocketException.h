@@ -4,12 +4,11 @@
 
 #include <string>
 
-class SocketExecption
+class SocketException
 {
     public:
-    SocketExecption(std::string s) : m_s (s) {};
-    ~SocketExecption() {};
-
+    SocketException(std::string s) : m_s (s) {};
+    ~SocketException (){};
     std::string description() {return m_s;}
     private:
     std:: string m_s;
