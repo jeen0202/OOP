@@ -29,8 +29,8 @@ class Socket
     bool connect (const std::string host, const int port);
 
     //데이터 전송
-    bool send(const std::string) const;
-    int recv (std::string&) const;
+    bool send(const std::string s) const;
+    int recv (std::string& s) const;
 
     void set_non_blocking(const bool);
     bool is_valid() const {return m_sock != -1;}
