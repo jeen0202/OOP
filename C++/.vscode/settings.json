@@ -54,6 +54,7 @@
         "ratio": "cpp",
         "thread": "cpp",
         "cinttypes": "cpp",
-        "socket.h": "c"
+        "socket.h": "c",
+        "types.h": "c"
     }
 }
