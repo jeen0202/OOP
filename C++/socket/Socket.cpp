@@ -1,5 +1,5 @@
 #include "Socket.h"
-#include "String.h"
+#include "string.h"
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -22,7 +22,7 @@ bool Socket::create()
         return false;
 
     int on = 1;
-    if(setsockopt(m_sock,SOL_SOCKET, SO_REUSEADDR, (const char*) &on, siezof(on))== -1)
+    if(setsockopt(m_sock,SOL_SOCKET, SO_REUSEADDR, (const char*) &on, sizeof(on))== -1)
         return false;    
 
     return true;    
@@ -62,7 +62,7 @@ bool Socket::listen() const
 bool Socket::accept(Socket& new_socket) const
 {
     int addr_length = sizeof(m_addr);
-    new_socket.m_sock = ::accept(m_sock, (sockaddr *)*m_addr, (socklen_t *)&addr_length);
+    new_socket.m_sock = ::accept(m_sock, (sockaddr *)&m_addr, (socklen_t *)&addr_length);
 
     if(new_socket.m_sock <=0)
         return false;

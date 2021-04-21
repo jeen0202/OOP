@@ -8,6 +8,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <string>
 #include <arpa/inet.h>
 
 const int MAXHOSTNAME = 200;
@@ -38,6 +39,6 @@ class Socket
     private:
     int m_sock;
     sockaddr_in m_addr;
-}
+};
 
 #endif
