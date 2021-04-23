@@ -22,6 +22,8 @@ int main(int argc, int argv[])
                 {
                     std::string data;
                     new_sock >> data;
+                    if(data=="Test")
+                        data = "Test complete!!";
                     new_sock << data;
                 }
             }

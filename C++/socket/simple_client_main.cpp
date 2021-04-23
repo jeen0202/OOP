@@ -11,7 +11,7 @@ int main(int argc, int argv[])
 
         std::string reply;
         try{
-            client_socket << "Test message. ";
+            client_socket << "Test";
             client_socket >> reply;
         }catch(SocketException&) {}
         
