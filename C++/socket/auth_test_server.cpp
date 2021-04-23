@@ -23,8 +23,10 @@ int main(int argc, int argv[])
                     std::string data;
                     //Client에서 보내는 메시지 수신
                     new_sock >> data;
-                    if(data=="Test")
-                        data = "Test complete!!";
+                    if(data=="1324")
+                        data = "Success";
+                    else
+                        data = "Fail";    
                     //Client에 응답메시지 전송
                     new_sock << data;
                 }
