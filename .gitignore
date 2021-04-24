@@ -9,3 +9,5 @@ C++/socket/simple_client_main.o
 C++/socket/simple_client
 C++/socket/ServerSocket.o
 C++/socket/ClientSocket.o
+C++/socket/auth_server
+C++/socket/auth_client
