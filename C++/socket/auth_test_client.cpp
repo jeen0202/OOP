@@ -1,19 +1,23 @@
 #include "ClientSocket.h"
 #include "SocketException.h"
+#include "Message.h"
 #include <iostream>
 #include <string>
 
 int main(int argc, int argv[])
 {
-
+    Message msg;
+    std::string inputPass,inputId,reply;
     try
     {
-        ClientSocket client_socket ("localhost", 30000);
-        std::string reply;
+        ClientSocket client_socket ("localhost", 30000);        
         while(1)
-        {
+        {   
+            std:: cout << "Input ID >> ";
+            std:: cin >> inputId;
             std:: cout << "Input Password >> ";
-            std:: cin >> reply;
+            std:: cin >> inputPass;
+            msg = Message(inputId,inputPass);
             try{
                 
                     //Client에서 Server에 Message 전송                
