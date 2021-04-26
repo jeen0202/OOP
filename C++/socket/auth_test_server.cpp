@@ -4,12 +4,13 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include "Dbconn.h"
 
 std::vector<std::string> split(std::string str, char delimiter);
 int main(int argc, int argv[])
 {
     std::cout << "running....\n";
-
+    Dbconn conn;
     try
     {
         //Socket 생성
@@ -31,24 +32,31 @@ int main(int argc, int argv[])
                     result = split(data,':');
                     id = result[0];
                     pass = result[1];
-                    cId = "sejing";
-                    cPass = "hijacking";
-                    std::cout << "id : " << id << " pass : " <<pass <<std::endl;
-                    if(id.compare(cId)==0)
+                    if(conn.auth(id,pass))
                     {
-                        if(pass.compare(cPass)==0)
-                            data = "Success";
-                        else
-                            data = "Fail, Wrong Password";
-                    }else
-                    {
-                        data = "Fail! Wrong ID";
+                        data = "Success";
+                    }else{
+                        data = "Fail";
                     }
+                    // cId = "sejing";
+                    // cPass = "hijacking";
+                    //std::cout << "id : " << id << " pass : " <<pass <<std::endl;
+                    // if(id.compare(cId)==0)
+                    // {
+                    //     if(pass.compare(cPass)==0)
+                    //         data = "Success";
+                    //     else
+                    //         data = "Fail, Wrong Password";
+                    // }else
+                    // {
+                    //     data = "Fail! Wrong ID";
+                    // }
                     // if(data=="1324")
                     //     data = "Success";
                     // else
                     //     data = "Fail";    
                     //Client에 응답메시지 전송
+
                     new_sock << data;
                 }
             }
