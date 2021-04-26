@@ -57,15 +57,24 @@ bool Dbconn::auth(std:: string inputId, std::string inputPass)
     res = psmt->executeQuery();
     if(res->next())
     {
+        cout << "검색 완료" << endl;
         resId = res->getString("username");
         resPass = res->getString("password");
+        cout <<"검색된 아이디 : " << resId << " 비밀번호 : " << resPass << endl;
     }else{
         result = false;
     }
     if(resPass.compare(inputPass)==0)
+    {
+        cout << "인증 성공" << endl;
         result = true;
+    }
     else
+    {
+        cout << "인증 실패 " << endl;
         result = false;
+    }
+
     return result;    
 }
 Dbconn::~Dbconn()
