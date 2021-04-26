@@ -16,7 +16,7 @@ public:
     std::string getPass();
     void setId(std::string);
     void setPass(std::string);
-    void toString();
+    std::string toString();
     ~Message();
 };
 
@@ -48,8 +48,12 @@ void Message::setPass(std::string newPass)
     this->pass = newPass;
 }
 
-void Message::toString(){
-    std::cout << "ID : " << this->userid << std::endl;
-    std:: cout << "PASS : " << this->pass << std::endl;
- }
+std::string Message::toString(){
+    std::string result;
+    result += this->userid;
+    result += ":";
+    result += this->pass;
+    //std::cout << "result : " << result << std::endl;
+    return result;
+}
 #endif

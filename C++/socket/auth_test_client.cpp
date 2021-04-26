@@ -6,8 +6,10 @@
 
 int main(int argc, int argv[])
 {
+    //메시지 전송을 위한 객체선언
     Message msg;
-    std::string inputPass,inputId,reply;
+    std::string inputPass,inputId;
+    std::string reply;
     try
     {
         ClientSocket client_socket ("localhost", 30000);        
@@ -17,18 +19,18 @@ int main(int argc, int argv[])
             std:: cin >> inputId;
             std:: cout << "Input Password >> ";
             std:: cin >> inputPass;
-            msg = Message(inputId,inputPass);
+            msg.setId(inputId);
+            msg.setPass(inputPass);
+            reply = msg.toString();
+
+            // std:: cout << "Input Password >> ";
+            // std:: cin >> reply;
             try{
                 
                     //Client에서 Server에 Message 전송                
                     client_socket << reply;
                     //Server에서 보내는 응답 수신
                     client_socket >> reply;
-                    // if(reply=="Success"){
-                    //     reply = "Login Success!";                    
-                    // }else{
-                    //     reply = "Fail";
-                    // }
                 
             }catch(SocketException&) {}        
             std::cout << "Login " << reply <<"\n";;  
