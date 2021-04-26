@@ -18,6 +18,7 @@
 #define DB_USER "root"
 #define DB_PASS "111111"
 #define DB_NAME "oop"
+#define TABLE_NAME "member"
 
 using namespace std;
 
@@ -47,10 +48,26 @@ Dbconn::Dbconn()
     stmt->execute("USE "DB_NAME);
 };
 
-// bool Dbconn::auth(std:: string inputId, std::string inputPass)
-// {
-//     res= stmt->executeQ
-// }
+bool Dbconn::auth(std:: string inputId, std::string inputPass)
+{
+    bool result;
+    std::string resId,resPass;
+    psmt = conn->prepareStatement("Select * from member where id = ?");
+    psmt->setString(1,inputId);
+    res = psmt->executeQuery();
+    if(res->next())
+    {
+        resId = res->getString("username");
+        resPass = res->getString("password");
+    }else{
+        result = false;
+    }
+    if(resPass.compare(inputPass)==0)
+        result = true;
+    else
+        result = false;
+    return result;    
+}
 Dbconn::~Dbconn()
 {
     delete res;
@@ -58,97 +75,5 @@ Dbconn::~Dbconn()
     delete stmt;
     delete psmt;
 }
-// int main(int argc, char**argv)
-// {
-//     cout << endl;
-//     cout << "Running 'SELECT *from contact_list'..." << endl;
-
-//     //err 파악을 위해 try-catch문으로 작성  
-//     try{    
-//     sql::mysql::MySQL_Driver *driver;
-//     sql::Connection *conn;
-//     sql::Statement *stmt;
-//     sql::PreparedStatement *psmt;
-//     sql::ResultSet *res;
-//     // connection create
-//     driver = sql::mysql::get_mysql_driver_instance();
-//     conn = driver->connect(DB_HOST,DB_USER,DB_PASS);
-
-//     //statement 작성 및 실행
-//     stmt = conn->createStatement();    
-//     stmt->execute("USE "DB_NAME);
-//     //table 초기화
-//     // int pmt = stmt->execute(RESET);
-//     // pmt = stmt->execute(CREATE);
-//     //Read 기능
-//     res = stmt->executeQuery(SELECT_ALL);
-//     while(res->next())
-//     {
-//         cout << "\t... MYSQL replies: ";
-//         cout << res->getInt("id") << " " << res->getString("name") << " " << res->getString("address")  
-//         << " " << res->getString("phone") << endl;
-        
-//     }
-//     //Create 기능
-//     string name,address,phone;
-//     name = "test";
-//     address = "목포시 기업지원센터";
-//     phone = "01073775773";
-//     psmt = conn->prepareStatement("INSERT INTO contact_list(name,address,phone) value(?,?,?)");
-//     psmt->setString(1,name);
-//     psmt->setString(2,address);
-//     psmt->setString(3,phone);
-//     psmt->execute();
-//     cout << "Running 'SELECT *from contact_list' after insert..." << endl;
-//     res = stmt->executeQuery(SELECT_ALL);
-//     while(res->next())
-//     {
-//         cout << "\t... MYSQL replies: ";
-//         cout << res->getInt("id") << " " << res->getString("name") << " " << res->getString("address")  
-//         << " " << res->getString("phone") << endl;
-        
-//     }
-//     //Update 기능
-//     psmt = conn->prepareStatement("Update contact_list SET name='updated' where name=?");
-//     psmt->setString(1,name);
-//     psmt->execute();
-//     cout << "Running 'SELECT *from contact_list' after Update..." << endl;
-//     res = stmt->executeQuery(SELECT_ALL);
-//         while(res->next())
-//     {
-//         cout << "\t... MYSQL replies: ";
-//         cout << res->getInt("id") << " " << res->getString("name") << " " << res->getString("address")  
-//         << " " << res->getString("phone") << endl;
-        
-//     }
-//     //Delete 기능
-//     psmt = conn->prepareStatement("Delete from contact_list where name=?");
-//     psmt->setString(1,name);
-//     psmt->execute();
-//     cout << "Running 'SELECT *from contact_list' after delete " << endl;
-//     res = stmt->executeQuery(SELECT_ALL);
-//     while(res->next())
-//     {
-//         cout << "\t... MYSQL replies: ";
-//         cout << res->getInt("id") << " " << res->getString("name") << " " << res->getString("address")  
-//         << " " << res->getString("phone") << endl;
-        
-//     }
-//     //DB 사용 이후 pointer 해제    
-//     delete res;
-// 	delete conn;
-//     delete stmt;
-//     delete psmt;
-//     } catch (sql::SQLException &e)
-//     {   //예외처리
-//         cout << "# ERR : SQLException in " << __FILE__;
-//         cout << "(" << __FUNCTION__ <<") on line " << __LINE__ << endl;
-//         cout << "# ERR: " << e.what();
-//         cout << " (MySQL error code : " << e.getErrorCode();
-//         cout << ", SQLState : " << e.getSQLState() << " )" << endl;
-//     }
-//         cout << endl;
-//     	return 0;
-// }
 
 #endif
